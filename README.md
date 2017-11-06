@@ -2,6 +2,6 @@
 
 # Development
 
-## Set up with docker
+Run `$ script/init`
 
 # Deployment

@@ -1,5 +1,4 @@
 FROM golang:alpine
 
-RUN mkdir /app
-ENV GOPATH /app
-WORKDIR /app
+RUN apt-get update && apt-get install -y git
+EXPOSE 8281

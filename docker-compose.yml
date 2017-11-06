@@ -5,12 +5,13 @@ services:
       context: ./gameserver
       dockerfile: Dockerfile
     ports:
-      - "5000:8281"
+      - "8281:8281"
     volumes:
-      - "./gameserver:/app"
-    command: ["go", "run", "main.go"]
+      - "./gameserver:/go/src/app"
+      - "go:/go"
     tty: true
     stdin_open: true
+    command: go build | ./gameserver
   webpack:
     build:
       context: ./client
@@ -30,3 +31,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ".:/var/opt"
+  data:
+    image: "busybox"
+    volumes:
+      - "go:/go"
+volumes:
+  go:
+    driver: local

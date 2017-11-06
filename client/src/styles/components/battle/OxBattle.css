@@ -11,13 +11,47 @@
 .ox-battle h2 {
   font-size: 30px;
   color: #fff;
-  text-align: center;
+  display: inline;
+}
+
+.ox-battle .contents-title {
+  width: 100%;
   padding: 5px 0;
   background-color: #78909C;
-  border-bottom: 1px solid #B0BEC5;
+  text-align: center;
 }
-.ox-battle .info-icon {
+
+.ox-battle .tooltip {
+  display: inline;
+  position: relative;
+  cursor: pointer;
+}
+
+.ox-battle .tooltip-icon {
+  margin-left: 5px;
   vertical-align: -2.5px;
+  color: #fff;
+}
+
+.ox-battle .tooltip-text {
+  visibility: hidden;
+  background-color: #37474F;
+  color: #fff;
+  padding: 10px 10px;
+  border-radius: 6px;
+  text-align: left;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  width: 400px;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -300px;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+
 }
 .ox-battle .table-button {
   margin-bottom: 0;

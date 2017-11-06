@@ -1,0 +1,81 @@
+/*トップページのcss*/
+
+/*トップページ一般共通*/
+
+.top-page .container {
+  padding-top: 300px;
+  padding-bottom: 50px;
+}
+.top-page .section-title h2 {
+  font-family: 'Jura', sans-serif;
+  font-size: 72px;
+}
+.top-page .sub-title {
+  font-family: 'Jura', sans-serif;
+  font-size: 28px;
+}
+.top-page .section-container {
+  font-size: 18px;
+  font-family: "Noto Sans Japanese";
+  font-weight: 200;
+  margin-top: 125px;
+}
+.top-page .red-dot {
+  color: #D3246C;
+}
+
+/*ヒーローセクション*/
+.top-page .hero-section {
+  padding-top: 150px;
+  padding-bottom: 50px;
+  background-color: #006687;
+  color: #ECEFF1;
+}
+
+/*イントロセクション*/
+.top-page .intro-section {
+  padding-top: 125px;
+  color: #006687;
+}
+
+
+/*メカニズムセクション*/
+.top-page .mechanism-section {
+  padding-top: 75px;
+  padding-bottom: 100px;
+  color: #006687;
+}
+.top-page .mechanism-section .button {
+  color: #006687;
+  border: 1px solid #006687;
+  font-family: 'Jura', sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  padding: 20px 75px;
+  height: 54px;
+  line-height: 15px;
+}
+
+
+/*チュートリアルセクション*/
+
+.top-page .tutorial-section {
+  padding-top: 75px;
+  color: #ECEFF1;
+  background-color: #006687;
+}
+
+/*ゲーム一覧セクション*/
+.top-page .games-section {
+  padding-top: 75px;
+  padding-bottom: 100px;
+  color: #ECEFF1;
+  background-color: #006687;
+}
+
+/*スケジュールセクション*/
+.top-page .schedule-section {
+  padding-top: 75px;
+  padding-bottom: 100px;
+  color: #006687
+}

@@ -1,0 +1,13 @@
+.games-index {
+  padding-top: 60px;
+  margin-top: 75px;
+}
+
+.games-index .game-title {
+  margin-top: 25px;
+  font-size: 24px;
+}
+
+.games-index .column .button:first-of-type {
+  margin-right: 12px;
+}

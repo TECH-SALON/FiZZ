@@ -1,0 +1,26 @@
+/*フッター部分*/
+
+.footer {
+  background-color: #B0BEC5;
+  height: 45px;
+  margin-top: 45px;
+}
+
+.footer .menu-footer {
+  padding-top: 9px
+}
+.footer .menu-footer ul {
+  list-style: none;
+}
+
+.footer .menu-footer li {
+  font-size: 15px;
+  color: #607D8B;
+  float: right;
+  text-align: center;
+  padding-right: 36px;
+}
+
+.footer .menu-footer li:first-child {
+  padding-right: 0px;
+}

@@ -1,0 +1,39 @@
+#app {
+  font-family: 'Roboto', "Noto Sans Japanese", sans-serif;
+}
+
+#app .container {
+  max-width: 1080px;
+}
+
+/*MaterialUIのcss調整*/
+.dialog-content {
+  padding: 20px;
+}
+.dialog-content .bot-selecter {
+  display: block;
+}
+.dialog-title {
+  font-size: 32px;
+}
+
+/* Larger than mobile */
+@media (min-width: 400px) {
+  #app .container {
+    width: 88%;
+  }
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {
+
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}

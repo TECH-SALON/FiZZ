@@ -80,12 +80,12 @@ export default class OxBattle extends Component {
     //   return (a.result.win > b.result.win ? -1 : 1);
     // });
     return(
-      <div className="reversi-battle">
+      <div className="ox-battle">
         <div className="row">
           <div className="eight columns">
             <div className="contents-box">
               <div className="bots-list">
-                <h2>Bots List <i className="material-icons info-icon">info_outline</i></h2>
+                <h2>Bots List<i className="material-icons tooltip-icon">info_outline</i></h2>
                 <div className="table-container">
                   <table>
                     <thead>
@@ -133,7 +133,7 @@ export default class OxBattle extends Component {
           </div>
           <div className="four columns">
             <div className="contents-box">
-              <h2>Register <i className="material-icons info-icon">info_outline</i></h2>
+              <h2>Register <i className="material-icons tooltip-icon">info_outline</i></h2>
               <div className="register-form-area">
                 <form onSubmit={this.addSelectedBot}>
                   <p className="form-title"><i className="material-icons select-icon">mouse</i>Select your Bot</p>
@@ -154,7 +154,7 @@ export default class OxBattle extends Component {
         </div>
         <div className="contents-box">
           <div className="my-result">
-            <h2>My Result <i className="material-icons info-icon">info_outline</i></h2>
+            <h2>My Result <i className="material-icons tooltip-icon">info_outline</i></h2>
             <div className="table-container">
               <table>
                 <thead>
@@ -187,7 +187,7 @@ export default class OxBattle extends Component {
         </div>
         <div className="contents-box">
           <div className="reversi-ranking">
-            <h2>Ox Ranking <i className="material-icons info-icon">info_outline</i></h2>
+            <h2>Ox Ranking <i className="material-icons tooltip-icon">info_outline</i></h2>
             <div className="table-container">
               <table>
                 <thead>
@@ -220,7 +220,7 @@ export default class OxBattle extends Component {
         </div>
         <div className="contents-box">
           <div className="reversi-chat">
-            <h2>Chat <i className="material-icons info-icon">info_outline</i></h2>
+            <h2>Chat <i className="material-icons tooltip-icon">info_outline</i></h2>
             <p>Coming soon...</p>
           </div>
         </div>

@@ -42,6 +42,7 @@ module.exports = {
     contentBase: './dist',
     inline: true,
     port: 8080,
+    host: '0.0.0.0',
     historyApiFallback: true,
     stats: {
       version: false,

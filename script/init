@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+docker-compose build
+docker-compose run --rm webpack yarn install
+docker-compose up -d

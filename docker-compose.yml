@@ -1,0 +1,32 @@
+version: '3'
+services:
+  go:
+    build:
+      context: ./gameserver
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8281"
+    volumes:
+      - "./gameserver:/app"
+    command: ["go", "run", "main.go"]
+    tty: true
+    stdin_open: true
+  webpack:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./client:/app"
+    command: ["yarn", "start"]
+    tty: false
+    stdin_open: false
+  aws-sam-local:
+    image: cnadiminti/aws-sam-local
+    command: local start-api --docker-volume-basedir "$PWD" --host 0.0.0.0
+    ports:
+      - '3000:3000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ".:/var/opt"

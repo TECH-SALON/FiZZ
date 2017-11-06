@@ -85,7 +85,13 @@ export default class OxBattle extends Component {
           <div className="eight columns">
             <div className="contents-box">
               <div className="bots-list">
-                <h2>Bots List<i className="material-icons tooltip-icon">info_outline</i></h2>
+                <div className="contents-title">
+                  <h2>Bots List</h2>
+                  <div className="tooltip">
+                    <i className="material-icons tooltip-icon">info_outline</i>
+                    <span className="tooltip-text">対戦待ちのBotの一覧です。対戦をしたBotを選んで対戦申し込みをしましょう。</span>
+                  </div>
+                </div>
                 <div className="table-container">
                   <table>
                     <thead>
@@ -133,7 +139,13 @@ export default class OxBattle extends Component {
           </div>
           <div className="four columns">
             <div className="contents-box">
-              <h2>Register <i className="material-icons tooltip-icon">info_outline</i></h2>
+              <div className="contents-title">
+                <h2>Register</h2>
+                <div className="tooltip">
+                  <i className="material-icons tooltip-icon">info_outline</i>
+                  <span className="tooltip-text">Botの登録フォームです。ここで登録したBotは左の対戦待ちリストに追加されます。</span>
+                </div>
+              </div>
               <div className="register-form-area">
                 <form onSubmit={this.addSelectedBot}>
                   <p className="form-title"><i className="material-icons select-icon">mouse</i>Select your Bot</p>
@@ -154,7 +166,13 @@ export default class OxBattle extends Component {
         </div>
         <div className="contents-box">
           <div className="my-result">
-            <h2>My Result <i className="material-icons tooltip-icon">info_outline</i></h2>
+            <div className="contents-title">
+              <h2>My Result</h2>
+              <div className="tooltip">
+                <i className="material-icons tooltip-icon">info_outline</i>
+                <span className="tooltip-text">ここにあなたのBotの対戦結果が一覧表示されます。</span>
+              </div>
+            </div>
             <div className="table-container">
               <table>
                 <thead>
@@ -187,7 +205,13 @@ export default class OxBattle extends Component {
         </div>
         <div className="contents-box">
           <div className="reversi-ranking">
-            <h2>Ox Ranking <i className="material-icons tooltip-icon">info_outline</i></h2>
+            <div className="contents-title">
+              <h2>Ox Ranking</h2>
+              <div className="tooltip">
+                <i className="material-icons tooltip-icon">info_outline</i>
+                <span className="tooltip-text">ここにはOXゲームのBotのランキングが表示されます。</span>
+              </div>
+            </div>
             <div className="table-container">
               <table>
                 <thead>
@@ -220,7 +244,13 @@ export default class OxBattle extends Component {
         </div>
         <div className="contents-box">
           <div className="reversi-chat">
-            <h2>Chat <i className="material-icons tooltip-icon">info_outline</i></h2>
+            <div className="contents-title">
+              <h2>Chat</h2>
+              <div className="tooltip">
+                <i className="material-icons tooltip-icon">info_outline</i>
+                <span className="tooltip-text">こちらではOXゲームに参加しているユーザー間での交流を楽しめます。</span>
+              </div>
+            </div>
             <p>Coming soon...</p>
           </div>
         </div>

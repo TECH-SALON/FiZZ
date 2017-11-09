@@ -4,17 +4,26 @@ init:
 	docker-compose up -d
 run:
 	docker-compose run --rm ${ARG}
+restart:
+	docker-compose stop && docker-compose start
+up:
+	docker-compose up -d
 
 GO = docker-compose run --rm go
 
+gopp:
+	$(GO) ./app
 goun:
-	$(GO) go build && /go/src/app
+	$(GO) go build && ./app
 gold:
 	$(GO) go build
 gosh:
 	$(GO) bash
 goet:
 	$(GO) go get ${ARG}
+goom:
+	docker-compose run --rm -d go go build && ./app
+
 
 JS = docker-compose run --rm webpack
 

@@ -1,13 +1,17 @@
 // 自分の登録したBotの一覧を表示するテーブル
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 
-export default class MyBotsTable extends Component {
+export default class BotsTable extends Component {
+  static propType = {
+    bots: PropTypes.object.isRequired
+  }
   render() {
     return(
       <div className="my-bots-table">
-        <p className="contents-title">MyBotsTable</p>
+        <p className="contents-title">BotsTable</p>
         <div className="bots-table">
           <table className="u-full-width">
             <thead>
@@ -25,7 +29,6 @@ export default class MyBotsTable extends Component {
                 return(
                   <tr key={item.botName}>
                     <td>{item.botName}</td>
-                    <td>{item.imageName}</td>
                     <td>{item.gameName}</td>
                     <td>{result}</td>
                   </tr>

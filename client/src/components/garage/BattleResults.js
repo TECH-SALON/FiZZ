@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-export default class MyBattleResults extends Component {
+export default class BattleResults extends Component {
 
   // DBから取得した時間データはUNIXタイムスタンプ形式であるため、日本時間にフォーマット化する
   // （参照） http://yut.hatenablog.com/entry/20111015/1318633937

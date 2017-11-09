@@ -44,8 +44,9 @@ const matchSummariesToList = (summaries) => {
   return items
 }
 
-const matchSummaryToMap = (match) => IMap({
-  id: match.id,
+const matchSummaryToMap = (summary) => IMap({
+  id: summary.id,
+  result: summary.result
 });
 
 const getBots(state, bots) => {

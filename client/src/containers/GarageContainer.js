@@ -11,19 +11,20 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    author: state.getIn(['bots', 'author']),
     bots: state.getIn(['bots', 'items']),
-    matchSummaries: state.getIn(['bots', 'matchSummaries'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
-      dispatch()
+      dispatch(getBots())
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))
     },
+    onStandBot: (id) => {
+      dispatch(standBot(id))
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Garage)

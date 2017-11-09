@@ -7,18 +7,16 @@ import PropTypes from 'prop-types';
 
 
 import BotRegisterForm from './BotRegisterForm';
-import BotPracticeForm from './BotPracticeForm';
-import MyBotsTable from './MyBotsTable';
+import BotsTable from './BotsTable';
 import PracticeResults from './PracticeResults';
-import MyBattleResults from './MyBattleResults';
+import BattleResults from './BattleResults';
 
 export default class Garage extends Component {
   static propTypes = {
     bots: PropTypes.object.isRequired,
-    author: PropTypes.object.isRequired,
-    matchSummaries: PropTypes.object.isRequired,
+    onStandBot: PropTypes.func.isRequired,
     onRegisterBot: PropTypes.func.isRequired,
-    onSetup: PropTypes.func.isRequired
+    onSetup: PropTypes.func.isRequired,
   }
 
   componentWillMount(){
@@ -26,7 +24,6 @@ export default class Garage extends Component {
   }
 
   render() {
-    { matchSummaries } = this.props
     return(
       <div className="garage">
         <div className="container">

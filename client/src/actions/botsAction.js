@@ -1,4 +1,5 @@
-import api from '../api.js';
+import api from '../api';
+import {mapGameIdToName} from '../utils';
 
 export const BOTS_REGISTER_BOT = 'BOTS_REGISTER_BOT';
 export const BOTS_REGISTER_BOT_REQUEST = 'BOTS_REGISTER_BOT_REQUEST';
@@ -21,14 +22,14 @@ export const BOTS_STAND_BOT_SUCCESS = 'BOTS_STAND_BOT_SUCCESS';
 export const BOTS_STAND_BOT_FAIL = 'BOTS_STAND_BOT_FAIL';
 
 //register bot
-export function registerBot(gameName, bot){
+export function registerBot(bot){
   return (dispatch, getState) => {
-    dispatch(registerBotRequest(gameName, bot))
+    dispatch(registerBotRequest(bot))
 
     let params = FormDate()
     params.append('bot', bot)
 
-    let url = `/api/v1/bots/${gameName}`
+    let url = `/api/v1/bots/${mapGameIdToName(bot.get('gameId'))}`
     api(getState).post(url, parmas).then( response => {
       registerBotSuccess(response.data);
     }).catch( error => {
@@ -40,7 +41,6 @@ export function registerBot(gameName, bot){
 function registerBotRequest(bot){
   return {
     type: GARAGE_REGISTER_BOT_REQUEST,
-    gameName,
     bot,
   }
 }

@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 export default class BotRegisterForm extends Component {
 
   static propTypes = {
-    username: PropType.string.isRequired,
     onRegisterClicked: PropType.func.isRequired,
   }
 
@@ -33,23 +32,22 @@ export default class BotRegisterForm extends Component {
   handleRegisterClicked(event) {
     event.preventDefault();
     let bot = {
-      gameName: this.state.gameName,
+      gameId: this.state.gameId,
       botName: this.state.botName,
-      url: this.state.url,
-      repoType: this.state.repoType,
+      repoUrl: this.state.repoUrl,
+      isPrivate: this.state.isPrivate,
     }
 
     //TODO ここでbot名が一意であるかどうかを検査して、一意でなければ登録せずにエラーを表示する
+    //gameIdが-1のときはcallさせない
 
-    let username = this.props.userName;
-    BotActions.registerBotToDB(botName, imageName, gameName, userName);
-    this.props.onRegisterClicked(username, bot)
+    this.props.onRegisterClicked(bot)
   };
 
   render() {
     return(
       <div className="bot-register-form">
-        <form onSubmit={this.props.onSubmit}>
+        <form onSubmit={this.props.handleRegisterClicked}>
           <p className="contents-title"><i className="material-icons">file_upload</i>Register your Bot</p>
           <label htmlFor="newBotName">Bot name:</label>
           <input name="newBotName" type="text" className="register-input" value={this.state.newBotName} onChange={this.handleChange} />
@@ -57,9 +55,9 @@ export default class BotRegisterForm extends Component {
           <input name="newImageName" type="text" className="register-input" value={this.state.newImageName} onChange={this.handleChange} />
           <label htmlFor="newImageName">Game name:</label>
           <select name="newSelectedGameName" className="register-input" value={this.state.selectedGameName} onChange={this.handleChange}>
-            <option value="">Select game name</option>
-            <option value="oxGame">OX GAME</option>
-            <option value="reversi">Reversi</option>
+            <option value="-1">Select game name</option>
+            <option value="0">OX GAME</option>
+            <option value="1">Reversi</option>
           </select>
           <button type="submit" value="submit" className="register-button">Register!</button>
         </form>

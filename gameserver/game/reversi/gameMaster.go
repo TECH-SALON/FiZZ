@@ -1,8 +1,8 @@
-package main
+package ReversiGame
 
 import (
 	"log"
-	"game/reversi/game/ReversiGame"
+	ai "app/game"
 )
 
 type GameResult struct {
@@ -11,17 +11,17 @@ type GameResult struct {
 	Draw int `json:"Draw"`
 }
 
-func gameMaster(imageName string) (gameResult GameResult, err error)  {
+func GameMaster(imageName string) (gameResult GameResult, err error)  {
 	gameResult = initializeGameResult()
-	containerName, err := startAIServer(imageName)
+	containerName, err := ai.StartAIServer(imageName)
 	err = printErr(err)
 	var result int
 	for countGame := 0; countGame < 5; countGame++ {
 		log.Println(countGame)
-		result = ReversiGame.Game()
+		result = Game()
     gameResult = updateGameResult(result, gameResult)
 	}
-	err = closeAIServer(containerName)
+	err = ai.CloseAIServer(containerName)
 	err = printErr(err)
 	return gameResult, err
 }

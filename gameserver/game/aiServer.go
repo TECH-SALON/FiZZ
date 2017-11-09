@@ -1,4 +1,4 @@
-package main
+package game
 
 import (
 	"os/exec"
@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func startAIServer(imageName string) (containerName string, err error) {
+func StartAIServer(imageName string) (containerName string, err error) {
 	cmd := exec.Command("sh", "-c", "docker run -d -p 8282:8080 " + imageName)
 	b, err := cmd.Output()
 	containerName = string(b)
@@ -19,7 +19,7 @@ func startAIServer(imageName string) (containerName string, err error) {
 	return containerName, err
 }
 
-func closeAIServer(containerName string) (err error) {
+func CloseAIServer(containerName string) (err error) {
 	log.Println(containerName, " will be close")
 	cmd := exec.Command("bash", "-c", "docker rm -f " + containerName)
 	err = cmd.Run()

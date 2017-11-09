@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"log"
 	"encoding/json"
-	// "io/ioutil"
-	// "strconv"
-	// "io"
+	"app/game/reversi"
 )
 
 type ImageName struct {
@@ -31,7 +29,7 @@ func runGM(w http.ResponseWriter, r *http.Request) {
 			defer r.Body.Close()
 			log.Println(input.ImageName)
 			var imageName = input.ImageName
-			countWin, err := gameMaster(imageName)
+			countWin, err := ReversiGame.GameMaster(imageName)
 			log.Println(countWin)
 			if err != nil {
 				log.Println(err)

@@ -15,9 +15,8 @@ import MyBattleResults from './MyBattleResults';
 export default class Garage extends Component {
   static propTypes = {
     bots: PropTypes.object.isRequired,
+    author: PropTypes.object.isRequired,
     matchSummaries: PropTypes.object.isRequired,
-    // myPracticeResults: PropTypes.object.isRequired,
-    // battleResults: PropTypes.object.isRequired,
     onRegisterBot: PropTypes.func.isRequired,
     onSetup: PropTypes.func.isRequired
   }

@@ -4,7 +4,9 @@ import Garage from '../components/garage'
 import {connect} from 'react-redux';
 
 import {
+  getBots,
   registerBot,
+  standBot,
 } from '../actions/botsAction';
 
 const mapStateToProps = (state) => {
@@ -17,6 +19,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
+      dispatch()
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))

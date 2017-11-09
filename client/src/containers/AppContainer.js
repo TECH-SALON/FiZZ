@@ -76,9 +76,7 @@ class AppContainer extends Component {
               userName={this.state.profile.name}
               myBots={this.state.myBots}
               myBattleResults={this.state.myBattleResults}
-              myPracticeResults={this.state.myPracticeResults}
-            />}
-            />
+              myPracticeResults={this.state.myPracticeResults}/>}/>
             <Route path="/battle" render={() => <Battle
               // OXゲーム関連（Bot情報及び対戦履歴）
               myOxBots={this.state.myOxBots}
@@ -89,9 +87,7 @@ class AppContainer extends Component {
               myReversiBots={this.state.myReversiBots}
               myReversiResults={this.state.myReversiResults}
               reversiBots={this.state.reversiBots}
-              reversiResults={this.state.reversiResults}
-            />}
-            />
+              reversiResults={this.state.reversiResults}/>}/>
             <Route render={() => <Redirect to="/dashboard"/>}/>
           </Switch>
         </main>

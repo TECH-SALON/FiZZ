@@ -11,7 +11,7 @@ services:
       - "go:/go"
     tty: true
     stdin_open: true
-    command: go build | ./gameserver
+    command: go build | ./app
   webpack:
     build:
       context: ./client

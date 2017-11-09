@@ -25,5 +25,5 @@ ReactDOM.render(
     </div>
   </MuiThemeProvider>
   ,
-  document.getElementById("app")
+  document.getElementById("root")
 );

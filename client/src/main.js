@@ -11,7 +11,6 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import AppContainer from './containers/AppContainer';
 
 
-
 const theme = createMuiTheme();
 
 ReactDOM.render(

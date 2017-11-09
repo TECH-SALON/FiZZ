@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"github.com/TECH-SALON/ReversiPracticeServer/ReversiGame"
+	"game/reversi/game/ReversiGame"
 )
 
 type GameResult struct {

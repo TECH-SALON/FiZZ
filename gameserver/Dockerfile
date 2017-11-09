@@ -1,5 +1,4 @@
 FROM golang:alpine
 
-RUN apt-get update && apt-get install -y git
-
+RUN apk --update add git bash
 EXPOSE 8281

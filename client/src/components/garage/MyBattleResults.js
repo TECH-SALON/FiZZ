@@ -43,8 +43,7 @@ export default class MyBattleResults extends Component {
                     <td>{item.result.draw}</td>
                     <td>{date}</td>
                   </tr>
-                )
-              })}
+                )})}
             </tbody>
           </table>
         </div>

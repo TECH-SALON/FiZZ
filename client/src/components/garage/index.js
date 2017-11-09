@@ -3,6 +3,9 @@
 // 一般的なマイページ機能を提供する
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+
 import BotRegisterForm from './BotRegisterForm';
 import BotPracticeForm from './BotPracticeForm';
 import MyBotsTable from './MyBotsTable';
@@ -10,7 +13,21 @@ import PracticeResults from './PracticeResults';
 import MyBattleResults from './MyBattleResults';
 
 export default class Garage extends Component {
+  static propTypes = {
+    bots: PropTypes.object.isRequired,
+    matchSummaries: PropTypes.object.isRequired,
+    // myPracticeResults: PropTypes.object.isRequired,
+    // battleResults: PropTypes.object.isRequired,
+    onRegisterBot: PropTypes.func.isRequired,
+    onSetup: PropTypes.func.isRequired
+  }
+
+  componentWillMount(){
+    this.props.onSetup();
+  }
+
   render() {
+    { matchSummaries } = this.props
     return(
       <div className="garage">
         <div className="container">

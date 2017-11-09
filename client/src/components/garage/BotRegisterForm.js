@@ -1,18 +1,24 @@
 // 新しくBotをDBに保存するためのフォーム
 
 import React, { Component } from 'react';
-import BotActions from '../../actions/BotActions';
+import PropTypes from 'prop-types';
 
 
 export default class BotRegisterForm extends Component {
+
+  static propTypes = {
+    username: PropType.string.isRequired,
+    onRegisterClicked: PropType.func.isRequired,
+  }
 
   constructor(props) {
     super(props);
     // 登録フォームのstate管理
     this.state = {
-      newBotName: '',
-      newImageName: '',
-      newSelectedGameName: '',
+      gameName: '',
+      botName: '',
+      url: '',
+      repoType: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.registerBot = this.registerBot.bind(this);
@@ -24,13 +30,20 @@ export default class BotRegisterForm extends Component {
     })
   };
 
-  registerBot(event) {
+  handleRegisterClicked(event) {
     event.preventDefault();
-    let botName = this.state.newBotName;
-    let imageName = this.state.newImageName;
-    let gameName = this.state.newSelectedGameName;
-    let userName = this.props.userName;
+    let bot = {
+      gameName: this.state.gameName,
+      botName: this.state.botName,
+      url: this.state.url,
+      repoType: this.state.repoType,
+    }
+
+    //TODO ここでbot名が一意であるかどうかを検査して、一意でなければ登録せずにエラーを表示する
+
+    let username = this.props.userName;
     BotActions.registerBotToDB(botName, imageName, gameName, userName);
+    this.props.onRegisterClicked(username, bot)
   };
 
   render() {

@@ -12,6 +12,7 @@ class RootContainer extends Component {
   render() {
     return (
       <div>
+        <NavBar />
         <Switch>
           <Route exact path="/" component={TopPage}/>
         </Switch>

@@ -1,5 +1,4 @@
 // 練習試合の結果を表示するテーブル
-
 import React, { Component } from 'react';
 
 export default class PracticeResults extends Component {

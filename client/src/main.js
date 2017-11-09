@@ -10,7 +10,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 export const store = configureStore();
 
-export default class App extends React.Component {
+class App extends React.Component {
   componentWillMount(){
   }
   render(){

@@ -17,16 +17,12 @@ export default class Battle extends Component {
             myOxBots={this.props.myOxBots}
             myOxResults={this.props.myOxResults}
             oxBots={this.props.oxBots}
-            oxResults={this.props.oxResults}
-            />}
-          />
+            oxResults={this.props.oxResults}/>}/>
           <Route path="/battle/reversi" render={() => <ReversiBattle
             myReversiBots={this.props.myReversiBots}
             myReversiResults={this.props.myReversiResults}
             reversiBots={this.props.reversiBots}
-            reversiResults={this.props.reversiResults}
-            />}
-          />
+            reversiResults={this.props.reversiResults}/>}/>
         </div>
       </div>
     )

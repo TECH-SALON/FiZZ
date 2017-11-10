@@ -29,6 +29,7 @@ export default class VisitorNav extends Component {
           <div className="menu-top">
             <ul>
               <li><Link to="/garage">Garage</Link></li>
+              <li><Link to="/match">Match</Link></li>
             </ul>
           </div>
         </div>

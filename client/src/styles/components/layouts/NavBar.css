@@ -31,8 +31,12 @@
 }
 
 .navbar .menu-top li a {
-  color: #ECEFF1;
+  /*color: #ECEFF1;*/
+  color: #006687;
   text-decoration: none;
+}
+.top-page-nav .menu-top li a {
+  color: #ECEFF1;
 }
 
 .navbar .menu-top li a:hover {

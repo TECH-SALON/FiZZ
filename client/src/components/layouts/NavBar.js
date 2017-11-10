@@ -3,8 +3,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/utils/logo.svg';
-import logoIcon from '../../assets/utils/logo_icon.svg';
+import logoBlue from '../../assets/utils/logo.svg';
 import logoWhite from '../../assets/utils/logo_white.svg';
 
 
@@ -16,18 +15,50 @@ export default class VisitorNav extends Component {
 
   componentDidMount() {
     let navBar = document.getElementById("navbar");
-    let navLogo = document.getElementById("nav-logo")
+    let navLogo = document.getElementById("nav-logo");
+    if (this.isTopPage()) {
+      navBar.classList.add("top-page-nav");
+      this.adjustNav(600, logoWhite, logoBlue);
+    } else {
+      let navLogo = document.getElementById("nav-logo");
+      navLogo.src = logoBlue;
+      this.adjustNav(300, logoBlue, logoBlue);
+    }
+
+  }
+  componentWillUpdate() {
+    let navBar = document.getElementById("navbar");
+    let navLogo = document.getElementById("nav-logo");
+    if (this.isTopPage()) {
+      navLogo.src = logoWhite;
+      navBar.classList.add("top-page-nav");
+      this.adjustNav(600, logoWhite, logoBlue);
+    } else {
+      navLogo.src = logoBlue;
+      navBar.classList.remove("top-page-nav");
+      this.adjustNav(300, logoBlue, logoBlue);
+    }
+  }
+  isTopPage() {
+    if (location.pathname == "/") {
+      return true
+    } else {
+      return false
+    }
+  }
+  adjustNav(fixAfter, defaultLogo, fixedLogo) {
+    let navBar = document.getElementById("navbar");
+    let navLogo = document.getElementById("nav-logo");
     window.onscroll = () => {
-      if (window.pageYOffset > 700) {
-        navBar.className = "navbar navbar-fixed";
-        navLogo.src = logo;
+      if (window.pageYOffset > fixAfter) {
+        navBar.classList.add("navbar-fixed");
+        navLogo.src = fixedLogo;
       } else {
-        navBar.className = "navbar";
-        navLogo.src = logoWhite;
+        navBar.classList.remove("navbar-fixed");
+        navLogo.src = defaultLogo;
       }
     }
   }
-
 
   render() {
     return(

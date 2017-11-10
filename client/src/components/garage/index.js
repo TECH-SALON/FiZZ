@@ -12,12 +12,12 @@ import PracticeResults from './PracticeResults';
 import BattleResults from './BattleResults';
 
 export default class Garage extends Component {
-  static propTypes = {
-    bots: PropTypes.object.isRequired,
-    onStandBot: PropTypes.func.isRequired,
-    onRegisterBot: PropTypes.func.isRequired,
-    onSetup: PropTypes.func.isRequired
-  }
+  // static propTypes = {
+  //   bots: PropTypes.object.isRequired,
+  //   onStandBot: PropTypes.func.isRequired,
+  //   onRegisterBot: PropTypes.func.isRequired,
+  //   onSetup: PropTypes.func.isRequired
+  // }
 
   componentWillMount(){
     this.props.onSetup();

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 
 export default class BotsTable extends Component {
-  static propType = {
-    bots: PropTypes.object.isRequired
-  }
+  // static propType = {
+  //   bots: PropTypes.object.isRequired
+  // }
   render() {
     return(
       <div className="my-bots-table">

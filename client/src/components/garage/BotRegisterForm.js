@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 export default class BotRegisterForm extends Component {
 
-  static propTypes = {
-    onRegisterClicked: PropType.func.isRequired,
-  }
+  // static propTypes = {
+  //   onRegisterClicked: PropType.func.isRequired,
+  // }
 
   constructor(props) {
     super(props);

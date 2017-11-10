@@ -6,6 +6,7 @@ import {Route, Switch, Link} from 'react-router';
 
 import NavBar from '../components/layouts/Navbar';
 import TopPage from '../components/statics/TopPage';
+import GarageContainer from './GarageContainer';
 
 
 class RootContainer extends Component {
@@ -18,6 +19,7 @@ class RootContainer extends Component {
         <NavBar />
         <Switch>
           <Route exact path="/" component={TopPage}/>
+          <Route exact path="/garage" component={GarageContainer}/>
         </Switch>
       </div>
     );

@@ -30,6 +30,7 @@ export default class VisitorNav extends Component {
             <ul>
               <li><Link to="/garage">Garage</Link></li>
               <li><Link to="/match">Match</Link></li>
+              <li><Link to="/match">Docs</Link></li>
             </ul>
           </div>
         </div>

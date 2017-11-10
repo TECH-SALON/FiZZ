@@ -139,7 +139,7 @@ export function standBot(id){
     dispatch(standBotRequest(id))
 
     let bot = getState().getIn('bots', 'items').find(bot => bot.get('id') == id)
-    if !(bot.get('qualified')){
+    if (!bot.get('qualified')){
       return
     }
 

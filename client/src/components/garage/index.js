@@ -16,7 +16,7 @@ export default class Garage extends Component {
     bots: PropTypes.object.isRequired,
     onStandBot: PropTypes.func.isRequired,
     onRegisterBot: PropTypes.func.isRequired,
-    onSetup: PropTypes.func.isRequired,
+    onSetup: PropTypes.func.isRequired
   }
 
   componentWillMount(){

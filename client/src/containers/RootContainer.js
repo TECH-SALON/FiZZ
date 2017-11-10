@@ -3,7 +3,10 @@ import {render} from 'react-dom'
 
 import {connect} from 'react-redux';
 import {Route, Switch, Link} from 'react-router';
-import TopPage from '../pages/TopPage';
+
+import NavBar from '../components/layouts/Navbar';
+import TopPage from '../components/statics/TopPage';
+
 
 class RootContainer extends Component {
   componentWillMount() {

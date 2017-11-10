@@ -1,6 +1,6 @@
-import { createStore, applyMiddleware } from 'redux'
-import {combineReducers} from 'redux-immutable'
-import thunk from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux';
+import {combineReducers} from 'redux-immutable';
+import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {connectRouter, routerMiddleware} from 'connected-react-router/immutable'
@@ -15,6 +15,5 @@ export default function configureStore(initialState = Immutable.Map()) {
     initialState,
     composeWithDevTools(applyMiddleware(thunk, router))
   );
-
   return store;
 }

@@ -24,7 +24,7 @@ export default class BotsTable extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.bots.map(item => {
+              {/* {this.props.bots.map(item => {
                 let result = item.result.win + "勝" + item.result.lose + "敗" + item.result.draw + "引"
                 return(
                   <tr key={item.botName}>
@@ -33,7 +33,7 @@ export default class BotsTable extends Component {
                     <td>{result}</td>
                   </tr>
                 )
-              })}
+              })} */}
             </tbody>
           </table>
         </div>

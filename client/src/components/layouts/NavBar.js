@@ -28,7 +28,7 @@ export default class VisitorNav extends Component {
           </div>
           <div className="menu-top">
             <ul>
-              <li>a</li>
+              <li><Link to="/garage">Garage</Link></li>
             </ul>
           </div>
         </div>

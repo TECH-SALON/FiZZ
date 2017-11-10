@@ -62,7 +62,7 @@ function registerBotFail(error){
 //get bots
 export function getBots(refresh = false){
   return (dispatch, getState) => {
-    dispatch(getBotsRequest(bot))
+    dispatch(getBotsRequest())
 
     const bots = getState().get('bots')
 
@@ -70,11 +70,11 @@ export function getBots(refresh = false){
       return
     }
 
-    api(getState).get(url).then( response => {
-      getBotsSuccess(response.data);
-    }).catch( error => {
-      getBotsFail(error)
-    });
+    // api(getState).get(url).then( response => {
+    //   getBotsSuccess(response.data);
+    // }).catch( error => {
+    //   getBotsFail(error)
+    // });
   }
 }
 

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 
 import BotRegisterForm from './BotRegisterForm';
+import BotPracticeForm from './BotPracticeForm';
 import BotsTable from './BotsTable';
 import PracticeResults from './PracticeResults';
 import BattleResults from './BattleResults';
@@ -37,7 +38,7 @@ export default class Garage extends Component {
             {/* 登録したBotで勝率95%以上の一覧 */}
             <div className="two-thirds column">
               <div className="contents-box">
-                <MyBotsTable bots={this.props.myBots} />
+                <BotsTable bots={this.props.myBots} />
               </div>
             </div>
           </div>
@@ -59,7 +60,7 @@ export default class Garage extends Component {
             {/* 他の人のBotとの対戦履歴 */}
             <div className="twelve columns">
               <div className="contents-box">
-                <MyBattleResults results={this.props.myBattleResults} />
+                <BattleResults results={this.props.myBattleResults} />
               </div>
             </div>
           </div>

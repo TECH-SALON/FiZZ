@@ -20,7 +20,7 @@ export default class BotRegisterForm extends Component {
       repoType: '',
     };
     this.handleChange = this.handleChange.bind(this);
-    this.registerBot = this.registerBot.bind(this);
+    // this.registerBot = this.registerBot.bind(this);
   };
 
   handleChange(event) {

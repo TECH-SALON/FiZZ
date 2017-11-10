@@ -1,7 +1,6 @@
 // 登録したBotを練習試合させるためのフォーム
 
 import React, { Component } from 'react';
-import BotActions from '../../actions/BotActions';
 
 export default class BotPracticeForm extends Component {
   constructor(props) {
@@ -26,7 +25,6 @@ export default class BotPracticeForm extends Component {
     let botName = array[0];
     let imageName = array[1];
     let gameName = array[2];
-    BotActions.practice(botName, imageName, gameName);
   };
 
   render() {
@@ -37,12 +35,12 @@ export default class BotPracticeForm extends Component {
           <label htmlFor="newBotName">Selected Bot:</label>
           <select name="selectedBotForPractice" className="bot-selecter" value={this.state.selectedBot} onChange={this.handleChange}>
             <option value="">Please select</option>
-            {this.props.bots.map(item => {
+            {/* {this.props.bots.map(item => {
               let botInfo = item.botName+","+item.imageName+","+item.gameName;
               return(
                 <option value={botInfo} key={item.botName}>{item.botName} - ({item.imageName}) - {item.gameName}</option>
               )
-            })}
+            })} */}
           </select>
           <button type="submit" value="submit" className="register-button">Practice!</button>
         </form>

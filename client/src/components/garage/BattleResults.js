@@ -33,7 +33,7 @@ export default class BattleResults extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.results.map(item => {
+              {/* {this.props.results.map(item => {
                 let date = this.getFormatedDate(item.createdAt);
                 return(
                   <tr key={item.createdAt}>
@@ -43,7 +43,7 @@ export default class BattleResults extends Component {
                     <td>{item.result.draw}</td>
                     <td>{date}</td>
                   </tr>
-                )})}
+                )})} */}
             </tbody>
           </table>
         </div>

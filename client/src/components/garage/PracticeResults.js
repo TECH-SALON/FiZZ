@@ -32,7 +32,7 @@ export default class PracticeResults extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.results.map(item => {
+              {/* {this.props.results.map(item => {
                 let winPercentage = Math.floor(item.result.win / (item.result.win + item.result.lose + item.result.draw)*10000)/100;
                 let date = this.getFormatedDate(item.createdAt);
                 return(
@@ -44,7 +44,7 @@ export default class PracticeResults extends Component {
                     <td>{winPercentage + "%"}</td>
                   </tr>
                 )
-              })}
+              })} */}
             </tbody>
           </table>
         </div>

@@ -1,21 +1,13 @@
-#app {
+#root {
   font-family: 'Roboto', "Noto Sans Japanese", sans-serif;
 }
-
-#app .container {
+.contents-body {
+  padding-top: 96px;
+}
+.container {
   max-width: 1080px;
 }
 
-/*MaterialUIのcss調整*/
-.dialog-content {
-  padding: 20px;
-}
-.dialog-content .bot-selecter {
-  display: block;
-}
-.dialog-title {
-  font-size: 32px;
-}
 
 /* Larger than mobile */
 @media (min-width: 400px) {

@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
-      dispatch(getBots())
+      dispatch(getBots());
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))

@@ -1,7 +1,10 @@
 /*トップページのcss*/
 
 /*トップページ一般共通*/
-
+.top-page {
+  /*.contents-bodyで設定したpadding-topをTopPageだけ相殺*/
+  margin-top: -96px;
+}
 .top-page .container {
   padding-top: 300px;
   padding-bottom: 50px;

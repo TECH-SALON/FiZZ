@@ -20,10 +20,10 @@ class RootContainer extends Component {
       <div>
         <NavBar />
         <Switch>
-          <Route exact path="/" component={TopPage}/>
-          <Route path="/garage" component={GarageContainer}/>
-          <Route path="/match" component={MatchContainer}/>
-          <Route path="/docs" component={DocsContainer}/>
+            <Route exact path="/" component={TopPage}/>
+            <Route path="/garage" component={GarageContainer}/>
+            <Route path="/match" component={MatchContainer}/>
+            <Route path="/docs" component={DocsContainer}/>
         </Switch>
       </div>
     );

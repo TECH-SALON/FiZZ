@@ -4,13 +4,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-
-import BotRegisterForm from './BotRegisterForm';
-import BotPracticeForm from './BotPracticeForm';
-import BotsTable from './BotsTable';
-import PracticeResults from './PracticeResults';
-import BattleResults from './BattleResults';
+import { Link } from 'react-router-dom';
 
 export default class Garage extends Component {
   // static propTypes = {
@@ -27,40 +21,40 @@ export default class Garage extends Component {
   render() {
     return(
       <div className="garage">
-        <div className="container">
-          <div className="row">
-            {/* Botの登録フォーム */}
-            <div className="one-third column">
-              <div className="contents-box">
-                <BotRegisterForm />
+        <div className="contents-body">
+          <div className="container">
+            <div className="row">
+              <h1 className="page-title">Garage</h1>
+              <div className="page-menu">
+                <ul>
+                  <li><Link to="/Garage">Garage</Link></li>
+                  <li>Match</li>
+                  <li>Docs</li>
+                </ul>
               </div>
             </div>
-            {/* 登録したBotで勝率95%以上の一覧 */}
-            <div className="two-thirds column">
-              <div className="contents-box">
-                <BotsTable bots={this.props.myBots} />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            {/* Botの練習対戦フォーム */}
-            <div className="one-third column">
-              <div className="contents-box">
-                <BotPracticeForm bots={this.props.myBots} />
-              </div>
-            </div>
-            {/* 自分のBotの練習試合履歴 */}
-            <div className="two-thirds column">
-              <div className="contents-box">
-                <PracticeResults results={this.props.myPracticeResults} />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            {/* 他の人のBotとの対戦履歴 */}
-            <div className="twelve columns">
-              <div className="contents-box">
-                <BattleResults results={this.props.myBattleResults} />
+            <div className="row">
+              {/* Bots一覧及びアクション群 */}
+              <div className="twelve columns">
+                <div className="panel">
+                  <div className="table">
+                    <table className="u-full-width">
+                      <thead>
+                        <tr>
+                          <th>AI Name</th>
+                          <th>Win</th>
+                          <th>Lose</th>
+                          <th>Draw</th>
+                          <th>Time</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

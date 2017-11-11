@@ -21,8 +21,8 @@ export default class VisitorNav extends Component {
       this.adjustNav(600, logoWhite, logoBlue);
     } else {
       let navLogo = document.getElementById("nav-logo");
-      navLogo.src = logoBlue;
-      this.adjustNav(300, logoBlue, logoBlue);
+      navLogo.src = logoWhite;
+      this.adjustNav(300, logoWhite, logoWhite);
     }
 
   }

@@ -28,8 +28,8 @@ export default class Garage extends Component {
               <div className="page-menu">
                 <ul>
                   <li><Link to="/Garage">Garage</Link></li>
-                  <li>Match</li>
-                  <li>Docs</li>
+                  <li><Link to="/Match">Match</Link></li>
+                  <li><Link to="/Docs">Docs</Link></li>
                 </ul>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default class Garage extends Component {
                           <th>Status</th>
                           <th>Game</th>
                           <th>%</th>
-                          <th>actions</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>

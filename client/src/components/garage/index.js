@@ -75,9 +75,9 @@ export default class Garage extends Component {
               <h1 className="page-title">Garage</h1>
               <div className="page-menu">
                 <ul>
-                  <li><Link to="/Garage">Garage</Link></li>
-                  <li><Link to="/Match">Match</Link></li>
-                  <li><Link to="/Docs">Docs</Link></li>
+                  <li><Link to="/garage">Garage</Link></li>
+                  <li><Link to="/match">Match</Link></li>
+                  <li><Link to="/docs">Docs</Link></li>
                 </ul>
               </div>
             </div>

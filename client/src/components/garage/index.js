@@ -47,7 +47,21 @@ export default class Garage extends Component {
           isOpen={this.state.addNewModal}
           onRequestClose={() => this.closeModal("addNewModal")}
         >
-          <h3>Add your bot</h3>
+          <div className="modal-header">
+            <h3>Add your bot</h3>
+            <p>Botを登録しましょう</p>
+          </div>
+          <div className="modal-content">
+            <form>
+              <label for="botName">Bot name:</label>
+              <input className="u-full-width" type="text" placeholder="bot name" id="botName"/>
+              <label for="repositoryUrl">Repository URL:</label>
+              <input className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
+              <label for="botComment">Comment:</label>
+              <textarea className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
+              <input className="button-primary" type="submit" value="Submit"/>
+            </form>
+          </div>
         </Modal>
         <Modal
           isOpen={this.state.detailModal}

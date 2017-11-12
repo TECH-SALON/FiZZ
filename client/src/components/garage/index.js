@@ -77,8 +77,10 @@ export default class Garage extends Component {
         <Modal
           isOpen={this.state.practiceModal}
           onRequestClose={() => this.closeModal("practiceModal")}
+          title="Practice your bot"
+          description="Botを練習させましょう"
         >
-          <h3>Practice bot</h3>
+          <button className="button-primary">Run</button>
         </Modal>
       </div>
     )

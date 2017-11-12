@@ -67,8 +67,18 @@ export default class Match extends Component {
         <Modal
           isOpen={this.state.matchModal}
           onRequestClose={() => this.closeModal("matchModal")}
+          title="Match with this bot"
+          description="このBotと対戦させる自分のBotを選択しましょう"
         >
-          <h3>Match bot</h3>
+          <form>
+            <label htmlFor="botsOption">Select your bot</label>
+            <select className="u-full-width" id="botsOption">
+              <option value="Option 1">bot1</option>
+              <option value="Option 2">bot2</option>
+              <option value="Option 3">bot3</option>
+            </select>
+            <input className="button-primary" type="submit" value="Submit"/>
+          </form>
         </Modal>
       </div>
     )

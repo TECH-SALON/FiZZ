@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
 export default class Docs extends Component {
   // static propTypes = {
@@ -13,16 +13,16 @@ export default class Docs extends Component {
 
   render() {
     return(
-      <div className="garage">
+      <div className="docs">
         <div className="contents-body">
           <div className="container">
             <div className="row margin-top-25">
-              <h1 className="page-title">Garage</h1>
+              <h1 className="page-title">Docs</h1>
               <div className="page-menu">
                 <ul>
-                  <li><Link to="/Garage">Garage</Link></li>
-                  <li><Link to="/Match">Match</Link></li>
-                  <li><Link to="/Docs">Docs</Link></li>
+                  <li><Link to="/garage">Garage</Link></li>
+                  <li><Link to="/match">Match</Link></li>
+                  <li><Link to="/docs">Docs</Link></li>
                 </ul>
               </div>
             </div>
@@ -31,61 +31,59 @@ export default class Docs extends Component {
               <div className="twelve columns">
                 <div className="panel">
                   <div className="panel-heading">
-                    <h3>Your Bots</h3>
+                    <h3>Reversiの遊び方</h3>
                   </div>
-                  <div className="margin-top-15">
-                    <button className="button-primary">Add New</button>
-                  </div>
-                  <div className="table">
-                    <table className="u-full-width">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Status</th>
-                          <th>Game</th>
-                          <th>%</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Bot1</td>
-                          <td>NotQualified</td>
-                          <td>Reversi</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Bot2</td>
-                          <td>NotQualified</td>
-                          <td>Reversi</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Bot3</td>
-                          <td>NotQualified</td>
-                          <td>Reversi</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Bot4</td>
-                          <td>NotQualified</td>
-                          <td>Reversi</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div className="docs-container margin-top-50">
+                    <div className="index">
+                      <h4>目次</h4>
+                      <ul>
+                        <li><a href="#about-fizz">FiZZとは</a></li>
+                        <li><a href="#reversi-rule">Reversiのルール</a></li>
+                        <li><a href="#reversi-api">通信API</a></li>
+                        <li><a href="#reversi-ais">雛形AI一覧</a></li>
+                        <li><a href="#how-to-see-log">ログデータの見方</a></li>
+                      </ul>
+                    </div>
+                    <section id="about-fizz" className="margin-top-50">
+                      <h4>FiZZとは</h4>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                    </section>
+                    <section id="reversi-rule" className="margin-top-50">
+                      <h4>Reversiのルール</h4>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                    </section>
+                    <section id="reversi-api" className="margin-top-50">
+                      <h4>通信API</h4>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                    </section>
+                    <section id="reversi-ais" className="margin-top-50">
+                      <h4>雛形AI一覧</h4>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                    </section>
+                    <section id="how-to-see-log" className="margin-top-50">
+                      <h4>ログデータの見方</h4>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                      <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+                    </section>
                   </div>
                 </div>
               </div>

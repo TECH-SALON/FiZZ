@@ -1,0 +1,72 @@
+/*GarageのCSS*/
+
+.docs {
+  background-image: radial-gradient(farthest-side ellipse at 10% 0, #7097a4 20%, #c9c9c9);
+  height: 100%;
+  color: #eceff1;
+}
+
+.docs .page-title {
+  float: left;
+  font-size: 36px;
+}
+
+.docs .page-menu {
+  float: right;
+  font-size: 18px;
+}
+
+.docs .page-menu ul {
+  list-style: none;
+}
+
+.docs .page-menu li {
+  float: left;
+  padding-right: 18px;
+}
+
+.docs .page-menu li:after {
+  padding-left: 18px;
+  content: "|";
+}
+
+.docs .page-menu li:first-child:before {
+  padding-right: 18px;
+  content: "|";
+}
+
+.docs .page-menu a {
+  color: #eceff1;
+  text-decoration: none;
+}
+
+.docs .page-menu a:hover {
+  text-decoration: underline;
+}
+
+.docs .docs-container h4{
+  font-size: 24px;
+}
+
+.docs .docs-container p {
+  margin-bottom: 13px;
+}
+
+.docs .index {
+  background-color: rgba(51,51,51,0.8);
+  padding: 15px 15px;
+}
+
+.docs .index h4 {
+  font-size: 20px;
+  text-decoration: underline;
+}
+
+.docs .index ul {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.docs .index li {
+  margin-bottom: 5px;
+}

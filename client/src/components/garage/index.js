@@ -46,28 +46,33 @@ export default class Garage extends Component {
         <Modal
           isOpen={this.state.addNewModal}
           onRequestClose={() => this.closeModal("addNewModal")}
+          title="Add your Bot"
+          description="Botを登録しましょう"
         >
-          <div className="modal-header">
-            <h3>Add your bot</h3>
-            <p>Botを登録しましょう</p>
-          </div>
-          <div className="modal-content">
-            <form>
-              <label for="botName">Bot name:</label>
-              <input className="u-full-width" type="text" placeholder="bot name" id="botName"/>
-              <label for="repositoryUrl">Repository URL:</label>
-              <input className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
-              <label for="botComment">Comment:</label>
-              <textarea className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
-              <input className="button-primary" type="submit" value="Submit"/>
-            </form>
-          </div>
+          <form>
+            <label htmlFor="botName">Bot name:</label>
+            <input className="u-full-width" type="text" placeholder="bot name" id="botName"/>
+            <label htmlFor="repositoryUrl">Repository URL:</label>
+            <input className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
+            <label htmlFor="botComment">Comment:</label>
+            <textarea className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
+            <input className="button-primary" type="submit" value="Submit"/>
+          </form>
         </Modal>
         <Modal
           isOpen={this.state.detailModal}
           onRequestClose={() => this.closeModal("detailModal")}
+          title="Bot's detail"
+          description="Botの情報。名前やURLを修正できます。"
         >
-          <h3>Bot's details</h3>
+          <ul>
+            <li>BotName: Bot1</li>
+            <li>Status: NotQualified</li>
+            <li>Game: Reversi</li>
+            <li>Result: 30戦20勝10負</li>
+            <li>CreatedAt: 2017-10-20-10:33</li>
+          </ul>
+          <button className="button-primary">Edit</button>
         </Modal>
         <Modal
           isOpen={this.state.practiceModal}

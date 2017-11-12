@@ -15,7 +15,13 @@ export default class ModalContainer extends Component {
           className="modal"
           overlayClassName="modal-overlay"
         >
-          {this.props.children}
+          <div className="modal-header">
+            <h3>{this.props.title}</h3>
+            <p>{this.props.description}</p>
+          </div>
+          <div className="modal-content">
+            {this.props.children}
+          </div>
         </Modal>
       </div>
     );

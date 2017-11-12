@@ -20,13 +20,13 @@
   border: 1px solid #f25118;
 }
 
-.detail-button:hover {
+.detail-button:hover, .detail-button:focus {
   color: #fff;
   background-color: #3eee80;
   border-color: #3eee80;
 }
 
-.practice-button:hover {
+.practice-button:hover, .practice-button:focus {
   color: #fff;
   background-color: #fd6f3c;
   border-color: #fd6f3c;

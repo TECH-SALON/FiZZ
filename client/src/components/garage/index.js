@@ -5,8 +5,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Modal from '../utils/Modal';
 
 export default class Garage extends Component {
+
   // static propTypes = {
   //   bots: PropTypes.object.isRequired,
   //   onStandBot: PropTypes.func.isRequired,
@@ -14,13 +16,59 @@ export default class Garage extends Component {
   //   onSetup: PropTypes.func.isRequired
   // }
 
+  constructor() {
+    super();
+
+    this.state = {
+      addNewModal: false,
+      detailModal: false,
+      practiceModal: false
+    };
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
   componentWillMount(){
     this.props.onSetup();
+  }
+
+  openModal(modalName) {
+    this.setState({[modalName]: true});
+  }
+  closeModal(modalName) {
+    this.setState({[modalName]: false});
+  }
+
+  renderModals() {
+    return(
+      <div>
+        <Modal
+          isOpen={this.state.addNewModal}
+          onRequestClose={() => this.closeModal("addNewModal")}
+        >
+          <h3>Add your bot</h3>
+        </Modal>
+        <Modal
+          isOpen={this.state.detailModal}
+          onRequestClose={() => this.closeModal("detailModal")}
+        >
+          <h3>Bot's details</h3>
+        </Modal>
+        <Modal
+          isOpen={this.state.practiceModal}
+          onRequestClose={() => this.closeModal("practiceModal")}
+        >
+          <h3>Practice bot</h3>
+        </Modal>
+      </div>
+    )
   }
 
   render() {
     return(
       <div className="garage">
+        {this.renderModals()}
         <div className="contents-body">
           <div className="container">
             <div className="row margin-top-25">
@@ -41,7 +89,7 @@ export default class Garage extends Component {
                     <h3>Your Bots</h3>
                   </div>
                   <div className="margin-top-15">
-                    <button className="button-primary">Add New</button>
+                    <button className="button-primary" onClick={() => this.openModal("addNewModal")}>Add New</button>
                   </div>
                   <div className="table">
                     <table className="u-full-width">
@@ -61,7 +109,7 @@ export default class Garage extends Component {
                           <td>Reversi</td>
                           <td>30%</td>
                           <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
+                            <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
                           </td>
                         </tr>
                         <tr>
@@ -70,7 +118,7 @@ export default class Garage extends Component {
                           <td>Reversi</td>
                           <td>30%</td>
                           <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
+                            <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
                           </td>
                         </tr>
                         <tr>
@@ -79,7 +127,7 @@ export default class Garage extends Component {
                           <td>Reversi</td>
                           <td>30%</td>
                           <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
+                            <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
                           </td>
                         </tr>
                         <tr>
@@ -88,7 +136,7 @@ export default class Garage extends Component {
                           <td>Reversi</td>
                           <td>30%</td>
                           <td>
-                            <button className="button detail-button margin-top-5">Detail</button> <button className="practice-button margin-top-5">Practice</button>
+                            <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
                           </td>
                         </tr>
                       </tbody>

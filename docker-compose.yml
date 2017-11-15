@@ -5,13 +5,13 @@ services:
       context: ./gameserver
       dockerfile: Dockerfile
     ports:
-      - "8281:8281"
+      - "5000:5000"
     volumes:
       - "./gameserver:/go/src/app"
       - "go:/go"
     tty: true
     stdin_open: true
-    command: go build | ./app
+    command: go build
   webpack:
     build:
       context: ./client

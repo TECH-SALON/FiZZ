@@ -16,20 +16,19 @@ start:
 	docker-compose start
 
 
+GOP = docker-compose run -p 5000:5000 --rm go
 GO = docker-compose run --rm go
 
 gopp:
-	$(GO) ./app
-goun:
-	$(GO) go build && ./app
+	$(GOP) /go/src/app/app
 gold:
 	$(GO) go build
 gosh:
-	$(GO) bash
+	$(GOP) bash
 goet:
 	$(GO) go get ${ARG}
 goom:
-	docker-compose run --rm -d go go build && ./app
+	docker-compose run -p 5000:5000 --rm -d go go build && /go/src/app/app
 
 JS = docker-compose run --rm webpack
 

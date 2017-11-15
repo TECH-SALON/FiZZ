@@ -2,14 +2,22 @@ package main
 
 import (
 	"net/http"
-	"log"
+	"github.com/labstack/echo"
+	"app/api/v1/rest"
 )
 
-func main(){
-	log.Println("http server is running")
-	http.HandleFunc("/api/beta", runGM)
-	err := http.ListenAndServe(":8281", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+func main() {
+	e := echo.New()
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+	api := e.Group("/api/v1")
+
+	//bots
+	api.GET("/bots", bots.GetBots)
+	api.POST("/bots", bots.RegisterBot)
+	api.GET("/bots/:id", bots.GetBot)
+	api.PUT("/bots/:id", bots.StandBot)
+
+	e.Logger.Fatal(e.Start(":5000"))
 }

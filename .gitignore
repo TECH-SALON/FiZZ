@@ -6,3 +6,4 @@
 .env.dev
 *~
 /gameserver/app
+/gameserver/gameserver

@@ -12,7 +12,7 @@ It stands docker container below
  - aws-sam-local
 
 `$GOPATH` is `/go` and working directory is `./gameserver:/go/src/app`
-It means go builds application as 'app' in `/go/src/app` (equals `./gameserver`)
+It means go builds application as 'app' in `/go/src/app` (mounted host directory `./gameserver`)
 
 ## Makefile
 
@@ -20,7 +20,7 @@ It means go builds application as 'app' in `/go/src/app` (equals `./gameserver`)
 
 ### Go
 
-- **Start Application (builds and executes app)** `$ make goun`
+- **Start Application (executes app)** `$ make gopp`
 - **Go Build** `$ make gold`
 - **Go GET** `$ make goet ARG="[package url]"`
 - **Execute bash in go container.** `$ make gosh`

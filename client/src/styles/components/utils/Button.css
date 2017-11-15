@@ -1,0 +1,33 @@
+/*slecton.cssのbuttonを上書き*/
+
+.detail-button {
+  height: 35px;
+  padding: 0 20px;
+  color: #fff;
+  text-align: center;
+  line-height: 35px;
+  background-color: #3ecd74;
+  border: 1px solid #3ecd74;
+}
+
+
+.practice-button {
+  height: 35px;
+  padding: 0 20px;
+  color: #fff;
+  line-height: 35px;
+  background-color: #f25118;
+  border: 1px solid #f25118;
+}
+
+.detail-button:hover, .detail-button:focus {
+  color: #fff;
+  background-color: #3eee80;
+  border-color: #3eee80;
+}
+
+.practice-button:hover, .practice-button:focus {
+  color: #fff;
+  background-color: #fd6f3c;
+  border-color: #fd6f3c;
+}

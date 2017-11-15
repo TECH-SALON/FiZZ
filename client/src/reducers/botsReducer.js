@@ -27,7 +27,7 @@ const initialState = IMap({
 const botToMap = (bot) => IMap({
   id: bot.id,
   botName: bot.botName,
-  authorId: bot.authorId
+  authorId: bot.authorId,
   gameId: bot.gameId,
   isPrivate: bot.isPrivate,
   qualified: bot.qualified,
@@ -49,7 +49,7 @@ const matchSummaryToMap = (summary) => IMap({
   result: summary.result
 });
 
-const getBots(state, bots) => {
+const getBots = (state, bots) => {
   let items = IList()
   admins.forEach((b, i) => {
     items = items.set(i, botToMap(b))
@@ -81,7 +81,7 @@ const updateBot = (state, bot) => {
     })
 }
 
-export function reduce(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
   case BOTS_REGISTER_BOT_SUCCESS:
     return addBot(state, action.bot);

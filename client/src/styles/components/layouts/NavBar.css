@@ -1,0 +1,69 @@
+.navbar  {
+  position: absolute;
+  top: -75px;
+  height: 60px;
+  margin-top: 75px;
+  width: 100%;
+  background-color: rgba(0,0,0,0);
+  /*border-bottom: 3px solid #CFD8DC;*/
+  transition: top 1.2s ease-out;
+  z-index: 10;
+}
+
+.navbar .logo {
+  float: left;
+  width: 150px;
+  padding-top: 4px;
+}
+.navbar .menu-top {
+  padding-top: 13px;
+}
+.navbar .menu-top ul {
+  padding-top: 5px;
+  list-style: none;
+  float: right;
+}
+.navbar .top-page-menu li {
+  font-size: 18px;
+  float: left;
+  text-align: center;
+  padding-right: 36px;
+}
+.navbar .top-page-menu li a {
+  color: #eceff1;
+  text-decoration: none;
+
+}
+.navbar .utility-menu li {
+  float: left;
+  text-align: center;
+  padding-right: 25px;
+}
+
+.navbar .menu-top .utility-menu li i {
+  font-size: 24px;
+  color: #eceff1;
+}
+
+.navbar .menu-top li a:hover {
+  text-decoration: underline;
+}
+
+.navbar .menu-top li:last-child {
+  padding-right: 0px;
+}
+
+.navbar-fixed {
+  position: fixed;
+  top:0;
+  margin-top: 0px;
+  background-color: rgba(255,255,255,0.9);
+  width: 100%;
+  transition: top 0.5s ease-in;
+  -webkit-transition: top 0.5s ease-in;
+  -moz-transition: top 0.5s ease-in;
+}
+
+.navbar-fixed .menu-top li a {
+  color: #006687;
+}

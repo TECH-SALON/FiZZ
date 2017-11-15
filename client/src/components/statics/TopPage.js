@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import RobotoImg from '../assets/robots/intro-roboto_2.svg';
+import RobotoImg from '../../assets/robots/intro-roboto_2.svg';
 
 export default class TopPage extends Component {
-
   render() {
     return(
       <div className="top-page">

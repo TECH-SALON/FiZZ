@@ -1,10 +1,10 @@
 'use strict';
 
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import configureStore, { history } from './store/configureStore';
+import configureStore, { history } from './stores/configureStore';
 import RootContainer from './containers/RootContainer.js';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 

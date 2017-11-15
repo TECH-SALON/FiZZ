@@ -1,0 +1,46 @@
+/*MatchページのCSS*/
+
+.match {
+  background-image: radial-gradient(farthest-side ellipse at 10% 0, rgb(251, 153, 29) 20%, rgba(240, 202, 39, 0.88));
+  /*height: 100vh;*/
+  height: 100%;
+  color: #eceff1;
+}
+
+.match .page-title {
+  float: left;
+  font-size: 36px;
+}
+
+.match .page-menu {
+  float: right;
+  font-size: 18px;
+}
+
+.match .page-menu ul {
+  list-style: none;
+}
+
+.match .page-menu li {
+  float: left;
+  padding-right: 18px;
+}
+
+.match .page-menu li:after {
+  padding-left: 18px;
+  content: "|";
+}
+
+.match .page-menu li:first-child:before {
+  padding-right: 18px;
+  content: "|";
+}
+
+.match .page-menu a {
+  color: #eceff1;
+  text-decoration: none;
+}
+
+.match .page-menu a:hover {
+  text-decoration: underline;
+}

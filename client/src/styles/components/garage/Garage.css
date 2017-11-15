@@ -1,75 +1,49 @@
-/*TicTacToeの練習ページ*/
+/*GarageのCSS*/
 
 .garage {
-  padding-top: 60px;
-  margin-top: 36px;
+  background-image: radial-gradient(farthest-side ellipse at 10% 0, #296687 20%, #34828f);
+  height: 100vh;
+  color: #eceff1;
 }
 
-.garage .contents-box {
-  height: 400px;
-  border: 1px solid #B0BEC5;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-  padding: 12px;
-  margin-bottom: 20px;
+.garage .page-title {
+  float: left;
+  font-size: 36px;
 }
 
-.garage .contents-title {
-  margin-bottom: 12px;
-  font-size: 20px;
+.garage .page-menu {
+  float: right;
+  font-size: 18px;
+}
+
+.garage .page-menu ul {
+  list-style: none;
+}
+
+.garage .page-menu li {
+  float: left;
+  padding-right: 18px;
+}
+
+.garage .page-menu li:after {
+  padding-left: 18px;
+  content: "|";
+}
+
+.garage .page-menu li:first-child:before {
+  padding-right: 18px;
+  content: "|";
+}
+
+.garage .page-menu a {
+  color: #eceff1;
+  text-decoration: none;
+}
+
+.garage .page-menu a:hover {
   text-decoration: underline;
 }
 
-/*レジスター部分*/
+.garage .panel {
 
-.garage .contents-title .material-icons {
-  vertical-align: middle;
-}
-.garage .contents-title .select-icon {
-  font-size: 20px;
-  padding-bottom: 3px;
-}
-.garage .register-input {
-  margin-bottom: 8px;
-}
-.garage .register-button {
-  background-color: #006e77;
-  color: #fff;
-  font-size: 16px;
-  margin-top: 8px;
-}
-.garage .register-icon {
-  font-size: 42px;
-  color: #006e77;
-}
-.garage .helper-text {
-  color: #607D8B;
-}
-.garage .bot-selecter {
-  width: 172px;
-  margin-bottom: 8px;
-}
-
-/*自分の登録したBot一覧エリア*/
-
-.garage .bots-table {
-  height: 90%;
-  width: 95%;
-  margin: 12px auto;
-  overflow: scroll;
-}
-
-
-/*結果一覧の部分*/
-.garage .columns {
-  margin-top: 25px;
-  border: 1px solid #B0BEC5;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-
-.garage .delete-button {
-  margin-bottom: 0;
-}
-.garage .delete-icon {
-  color: #546E7A;
-  font-size: 24px;
 }

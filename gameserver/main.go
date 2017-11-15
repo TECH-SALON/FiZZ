@@ -11,6 +11,13 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	e.GET("/api/v1/bots", bots.GetBots)
+	api := e.Group("/api/v1")
+
+	//bots
+	api.GET("/bots", bots.GetBots)
+	api.POST("/bots", bots.RegisterBot)
+	api.GET("/bots/:id", bots.GetBot)
+	api.PUT("/bots/:id", bots.StandBot)
+
 	e.Logger.Fatal(e.Start(":5000"))
 }

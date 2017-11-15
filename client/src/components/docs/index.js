@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 export default class Docs extends Component {
-  // static propTypes = {
-  //
-  // }
+  static propTypes = {
+
+  }
 
   componentWillMount(){
     this.props.onSetup();

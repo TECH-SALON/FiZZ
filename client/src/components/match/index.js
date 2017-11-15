@@ -6,9 +6,9 @@ import Modal from '../utils/Modal';
 
 
 export default class Match extends Component {
-  // static propTypes = {
-  //
-  // }
+  static propTypes = {
+
+  }
 
   constructor(props) {
     super(props);

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 
 export class Panel extends Component {
 
-  // static propTypes = {
-  //   title: React.PropTypes.string,
-  //   className: React.PropTypes.string,
-  //   size: React.PropTypes.string,
-  //   withScroll: React.PropTypes.bool,
-  // }
-  //
-  // static defaultProps = {
-  //   className: '',
-  //   size: 'auto',
-  //   withScroll: false,
-  // }
+  static propTypes = {
+    title: React.PropTypes.string,
+    className: React.PropTypes.string,
+    size: React.PropTypes.string,
+    withScroll: React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    className: '',
+    size: 'auto',
+    withScroll: false,
+  }
 
   renderHeader() {
     if (! this.props.title) {

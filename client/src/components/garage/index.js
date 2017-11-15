@@ -61,6 +61,12 @@ export default class Garage extends Component {
       comment: this.state.comment
     };
     this.props.onRegisterBot(bot);
+    this.setState({
+      botName: "",
+      gameId: 0,
+      url: "",
+      comment: "",
+    });
   }
 
   renderModals() {
@@ -75,7 +81,7 @@ export default class Garage extends Component {
         >
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="botName">Bot name:</label>
-            <input name="botName" value={this.state.name} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
+            <input name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
             <label htmlFor="repositoryUrl">Repository URL:</label>
             <input name="url" value={this.state.url} onChange={this.handleChange} className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
             <label htmlFor="gameId">Game name:</label>

@@ -69,11 +69,13 @@ export function getBots(refresh = false){
       return
     }
 
-    // api(getState).get(url).then( response => {
-    //   getBotsSuccess(response.data);
-    // }).catch( error => {
-    //   getBotsFail(error)
-    // });
+    let url = "/api/v1/bots"
+
+    api(getState).get(url).then( response => {
+      getBotsSuccess(response.data);
+    }).catch( error => {
+      getBotsFail(error)
+    });
   }
 }
 

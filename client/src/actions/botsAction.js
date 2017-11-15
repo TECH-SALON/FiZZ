@@ -24,13 +24,12 @@ export const BOTS_STAND_BOT_FAIL = 'BOTS_STAND_BOT_FAIL';
 //register bot
 export function registerBot(bot){
   return (dispatch, getState) => {
-    dispatch(registerBotRequest(bot))
-
-    let params = FormDate()
-    params.append('bot', bot)
-
-    let url = `/api/v1/bots/${mapGameIdToName(bot.get('gameId'))}`
-    api(getState).post(url, parmas).then( response => {
+    dispatch(registerBotRequest(bot));
+    let params = new FormData();
+    params.append('bot', bot);
+    console.log(bot);
+    let url = `/api/v1/bots/${mapGameIdToName(bot.gameId)}`
+    api(getState).post(url, params).then( response => {
       registerBotSuccess(response.data);
     }).catch( error => {
       registerBotFail(error)
@@ -40,21 +39,21 @@ export function registerBot(bot){
 
 function registerBotRequest(bot){
   return {
-    type: GARAGE_REGISTER_BOT_REQUEST,
+    type: BOTS_REGISTER_BOT_REQUEST,
     bot,
   }
 }
 
 function registerBotSuccess(bot){
   return {
-    type: GARAGE_REGISTER_BOT_SUCCESS,
+    type: BOTS_REGISTER_BOT_SUCCESS,
     bot,
   }
 }
 
 function registerBotFail(error){
   return {
-    type: GARAGE_REGISTER_BOT_FAIL,
+    type: BOTS_REGISTER_BOT_FAIL,
     error,
   }
 }
@@ -70,11 +69,13 @@ export function getBots(refresh = false){
       return
     }
 
-    // api(getState).get(url).then( response => {
-    //   getBotsSuccess(response.data);
-    // }).catch( error => {
-    //   getBotsFail(error)
-    // });
+    let url = "/api/v1/bots"
+
+    api(getState).get(url).then( response => {
+      getBotsSuccess(response.data);
+    }).catch( error => {
+      getBotsFail(error)
+    });
   }
 }
 

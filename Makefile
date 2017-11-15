@@ -33,3 +33,5 @@ jsad:
 	$(JS) yarn add ${ARG}
 jsrm:
 	$(JS) yarn remove ${ARG}
+jssh:
+	$(JS) bash

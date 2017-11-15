@@ -8,6 +8,13 @@ restart:
 	docker-compose stop && docker-compose start
 up:
 	docker-compose up -d
+ps:
+	docker-compose ps ${ARG}
+down:
+	docker-compose down
+start:
+	docker-compose start
+
 
 GO = docker-compose run --rm go
 
@@ -23,7 +30,6 @@ goet:
 	$(GO) go get ${ARG}
 goom:
 	docker-compose run --rm -d go go build && ./app
-
 
 JS = docker-compose run --rm webpack
 

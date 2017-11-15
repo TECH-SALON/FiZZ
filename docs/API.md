@@ -36,7 +36,7 @@
 *Authenticated user only*
 
 ```
-post /api/v1/games/:game_name/match
+post /api/v1/games/:gameName/match
 ```
 
 | Field | Description | Optional |
@@ -48,7 +48,7 @@ Returns the **Result** of the game.
 #### Getting Ranking of the game.
 
 ```
-get /api/v1/games/:game_name/ranking
+get /api/v1/games/:gameName/ranking
 ```
 
 | Field | Description | Optional |
@@ -97,7 +97,7 @@ Returns the **Result** and downloading a file of fights.
 #### Registering bot for the game:
 
 ```
-post /api/v1/bots/:game_name
+post /api/v1/bots/:gameName
 ```
 
 *Authenticated user only*

@@ -1,5 +1,7 @@
 # FiZZ
 
+[![wercker status](https://app.wercker.com/status/dd5435b485b8d5e17a6bbbc6e098a3a2/s/master "wercker status")](https://app.wercker.com/project/byKey/dd5435b485b8d5e17a6bbbc6e098a3a2)
+
 # Development
 
 ## Getting start

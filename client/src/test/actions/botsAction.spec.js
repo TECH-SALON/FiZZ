@@ -6,6 +6,9 @@ import MockAdapter from 'axios-mock-adapter';
 
 import api from '../../api';
 import endPoint from '../../utils';
+import {
+  Map as IMap, List as IList
+} from 'immutable';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

@@ -36,5 +36,6 @@ When you failed to build app in go container using `make gold` or something, the
   - ex) `$ make jsad ARG="[packages...] [options...]"`
   - If you want to install package as devdependencies, you use option `-D` or `--dev` like `make jsad ARG="[packages name..] --dev"`
 - **Enter JS(webpack) container. (execute bash in webpack container)** `$ make jssh`
+- **Run Test** `$ make jest`
 
 # Deployment

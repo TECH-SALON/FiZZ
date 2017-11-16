@@ -75,7 +75,7 @@ export default class RegisterForm extends Component {
             <label htmlFor="repositoryUrl">Repository URL:</label>
             <input name="url" value={this.state.url} onChange={this.handleChange} className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
             <label htmlFor="gameId">Game name:</label>
-            <select name="gameId" value={this.state.gameId} onChange={this.handleChange}>
+            <select name="gameId" value={this.state.gameId} onChange={this.handleChange} className="u-full-width">
               <option>Please select</option>
               <option value="1">Reversi</option>
             </select>

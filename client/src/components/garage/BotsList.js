@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import Modal from '../utils/Modal';
 
 export default class BotsList extends Component {
-
-  // static propTypes = {
-  //   bots: PropTypes.object.isRequired,
-  // }
-
+  static propTypes = {
+    bots: PropTypes.object.isRequired,
+  }
   constructor() {
     super();
     this.state = {
@@ -90,7 +88,6 @@ export default class BotsList extends Component {
           </thead>
           <tbody>
             {bots.map((item) => {
-              console.log(item);
               <tr>
                 <td>{item.name}</td>
                 <td>{item.status}</td>

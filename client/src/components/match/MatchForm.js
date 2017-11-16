@@ -55,7 +55,7 @@ export default class MatchForm extends Component {
     const { bots } = this.props;
     return(
       <div>
-        <button className="button-primary" onClick={this.openModal}>Add New</button>
+        <button className="button-primary" onClick={this.openModal}>Select Bot</button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal("addNewModal")}

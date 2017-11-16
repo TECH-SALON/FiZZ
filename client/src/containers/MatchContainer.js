@@ -7,9 +7,9 @@ import {
 } from '../actions/botsAction';
 
 const mapStateToProps = (state) => {
-
   return {
     bots: state.getIn(['bots', 'items']),
+
   }
 }
 

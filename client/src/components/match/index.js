@@ -38,7 +38,7 @@ export default class Match extends Component {
               <div className="four columns">
                 <div className="panel">
                   <div className="panel-heading">
-                    <h3>Bots seeking opponents</h3>
+                    <h3>Match bots</h3>
                   </div>
                   <div className="margin-top-15">
                     <MatchForm bots={this.props.bots} onMatchRun={this.props.onMatchRun}/>

@@ -2,8 +2,7 @@
 
 .match {
   background-image: radial-gradient(farthest-side ellipse at 10% 0, rgb(251, 153, 29) 20%, rgba(240, 202, 39, 0.88));
-  /*height: 100vh;*/
-  height: 100%;
+  height: 100vh;
   color: #eceff1;
 }
 

@@ -4,90 +4,23 @@ import { Link } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Modal from '../utils/Modal';
 
+import MatchForm from './MatchForm';
+import OpponentsList from './OpponentsList';
+import ResultsList from './ResultsList';
+import BotsList from './BotsList';
 
 export default class Match extends Component {
   static propTypes = {
 
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      addNewModal: false,
-      detailModal: false,
-      matchModal: false,
-      resultModal: false,
-    };
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-  }
-
   componentWillMount(){
     this.props.onSetup();
-  }
-
-  openModal(modalName) {
-    this.setState({[modalName]: true});
-  }
-  closeModal(modalName) {
-    this.setState({[modalName]: false});
-  }
-
-  renderModals() {
-    return(
-      <div>
-        <Modal
-          isOpen={this.state.addNewModal}
-          onRequestClose={() => this.closeModal("addNewModal")}
-          title="Add your bot"
-          description="ここに登録されたBotは他のユーザーが対戦を申し込むことができます。"
-        >
-          <form>
-            <label htmlFor="botsOption">Select your bot</label>
-            <select className="u-full-width" id="botsOption">
-              <option value="Option 1">bot1</option>
-              <option value="Option 2">bot2</option>
-              <option value="Option 3">bot3</option>
-            </select>
-            <input className="button-primary" type="submit" value="Submit"/>
-          </form>
-        </Modal>
-        <Modal
-          isOpen={this.state.detailModal}
-          onRequestClose={() => this.closeModal("detailModal")}
-        >
-          <h3>Bot's details</h3>
-        </Modal>
-        <Modal
-          isOpen={this.state.resultModal}
-          onRequestClose={() => this.closeModal("resultModal")}
-        >
-          <h3>Result</h3>
-        </Modal>
-        <Modal
-          isOpen={this.state.matchModal}
-          onRequestClose={() => this.closeModal("matchModal")}
-          title="Match with this bot"
-          description="このBotと対戦させる自分のBotを選択しましょう"
-        >
-          <form>
-            <label htmlFor="botsOption">Select your bot</label>
-            <select className="u-full-width" id="botsOption">
-              <option value="Option 1">bot1</option>
-              <option value="Option 2">bot2</option>
-              <option value="Option 3">bot3</option>
-            </select>
-            <input className="button-primary" type="submit" value="Submit"/>
-          </form>
-        </Modal>
-      </div>
-    )
   }
 
   render() {
     return(
       <div className="match">
-        {this.renderModals()}
         <div className="contents-body">
           <div className="container">
             <div className="row margin-top-25">
@@ -102,63 +35,17 @@ export default class Match extends Component {
             </div>
             <div className="row margin-top-25">
               {/* Bots一覧及びアクション群 */}
-              <div className="twelve columns">
+              <div className="four columns">
                 <div className="panel">
                   <div className="panel-heading">
-                    <h3>Bots seeking opponents</h3>
+                    <h3>Match bots</h3>
                   </div>
                   <div className="margin-top-15">
-                    <button className="button-primary" onClick={() => this.openModal("addNewModal")}>Add Your Bot</button>
-                  </div>
-                  <div className="table">
-                    <table className="u-full-width">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Author</th>
-                          <th>Win%</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Bot1</td>
-                          <td>toshi443</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="practice-button margin-top-5" onClick={() => this.openModal("matchModal")}>Match!</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Bot1</td>
-                          <td>toshi443</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="practice-button margin-top-5" onClick={() => this.openModal("matchModal")} >Match!</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Bot1</td>
-                          <td>toshi443</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="practice-button margin-top-5" onClick={() => this.openModal("matchModal")}>Match!</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Bot1</td>
-                          <td>toshi443</td>
-                          <td>30%</td>
-                          <td>
-                            <button className="practice-button margin-top-5" onClick={() => this.openModal("matchModal")}>Match!</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <MatchForm bots={this.props.bots} onMatchRun={this.props.onMatchRun}/>
                   </div>
                 </div>
               </div>
-              <div className="twelve columns">
+              <div className="eight columns">
                 <div className="panel">
                   <div className="panel-heading">
                     <h3>Your Status</h3>
@@ -170,104 +57,13 @@ export default class Match extends Component {
             						<Tab>Your bot status</Tab>
             					</TabList>
             					<TabPanel>
-                        <div className="table">
-                          <table className="u-full-width">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Opponent</th>
-                                <th>Win%</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Bot1</td>
-                                <td>ReversiBot</td>
-                                <td>30%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("resultModal")}>Detail</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bot1</td>
-                                <td>ReversiBot</td>
-                                <td>30%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("resultModal")}>Detail</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bot1</td>
-                                <td>ReversiBot</td>
-                                <td>30%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("resultModal")}>Detail</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bot1</td>
-                                <td>ReversiBot</td>
-                                <td>30%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("resultModal")}>Detail</button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                        <ResultsList results={this.props.results}/>
             					</TabPanel>
             					<TabPanel>
-                        <div className="table">
-                          <table className="u-full-width">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Win%</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Bot1</td>
-                                <td>ReversiBot</td>
-                                <td>30%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bot2</td>
-                                <td>ReversiBot2</td>
-                                <td>40%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bot3</td>
-                                <td>ReversiBot3</td>
-                                <td>60%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bot1</td>
-                                <td>ReversiBot</td>
-                                <td>30%</td>
-                                <td>
-                                  <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                        <BotsList bots={this.props.bots}/>
             					</TabPanel>
             				</Tabs>
             			</div>
-
                 </div>
               </div>
             </div>

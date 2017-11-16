@@ -65,6 +65,7 @@ Returns the **Game** including **Ranking**
 get /api/v1/matches
 ```
 *Authenticated user only*
+
 | Field | Description | Optional |
 |:--:|:--:|:--:|
 | `gameName` | filtering matches where game name | yes |

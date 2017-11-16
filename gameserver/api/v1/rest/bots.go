@@ -20,6 +20,9 @@ type Bot struct {
   ResultSummaries []string `json:"resultSummaries"`
 }
 
+
+var badrequest = map[string]string{"messages":"Bad Request."}
+
 //TODO require authentication
 
 //GET /api/v1/bots
@@ -35,23 +38,36 @@ func GetBot(c echo.Context) error {
     return c.JSON(http.StatusOK, getBot(id))
   }else {
     //error
-    return c.JSON(http.StatusOK, getBot(id))
+    return c.JSON(http.StatusBadRequest, badrequest)
   }
 }
 
 //POST /api/v1/bots/:gameName
-// func RegisterBots(c echo.Context) error {
-//   return c.JSON(http.StatusCreated, registerBot())
-// }
+func RegisterBot(c echo.Context) error {
+  var gameName string = "reversi"
+  var botName string = "rev"
+  var description string = "This is reversi bot"
+  var repoUrl string = "https://github.com/yyy/zzz"
+
+  return c.JSON(http.StatusCreated,
+     registerBot(gameName, botName, description, repoUrl))
+}
 
 //PUT /api/v1/bots/:id
-// func StandBot(c echo.Context) error {
-//   return c.JSON(http.StatusOK, standBot())
-// }
+func StandBot(c echo.Context) error {
+  t := big.NewInt(-1)
+  id, ok := t.SetString(c.Param("id"), 10)
+  if ok {
+    return c.JSON(http.StatusOK, standBot(id))
+  }else {
+    //error
+    return c.JSON(http.StatusBadRequest, badrequest)
+  }
+}
 
-func getBots() map[string]Bot{
-  bots := map[string]Bot{
-    "1": Bot {
+func getBots() []Bot{
+  bots := []Bot{
+     Bot {
       Id: big.NewInt(100),
       Name: "reversi_bot",
       Description: "リバーシのbot",
@@ -63,7 +79,7 @@ func getBots() map[string]Bot{
       RepoUrl: "https://github.com/xxx/yyy",
       ResultSummaries: nil,
     },
-    "2": Bot {
+    Bot {
       Id: big.NewInt(101),
       Name: "reversi_bot2",
       Description: "リバーシのbot2",
@@ -95,7 +111,7 @@ func getBot(id bigint) *Bot{
   return b
 }
 
-func registerBots(
+func registerBot(
     gameName string,
     botName string,
     description string,

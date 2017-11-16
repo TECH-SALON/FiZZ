@@ -6,6 +6,11 @@ export const GAMES_RUN_MATCH_REQUEST = 'GAMES_RUN_MATCH_REQUEST';
 export const GAMES_RUN_MATCH_SUCCESS = 'GAMES_RUN_MATCH_SUCCESS';
 export const GAMES_RUN_MATCH_FAIL = 'GAMES_RUN_MATCH_FAIL';
 
+export const GAMES_GET_RANKING = 'GAMES_GET_RANKING';
+export const GAMES_GET_RANKING_REQUEST = 'GAMES_GET_RANKING_REQUEST';
+export const GAMES_GET_RANKING_SUCCESS = 'GAMES_GET_RANKING_SUCCESS';
+export const GAMES_GET_RANKING_FAIL = 'GAMES_GET_RANKING_FAIL';
+
 // run match
 export function runMatch(botId) {
   return(dispatch, getState) => {

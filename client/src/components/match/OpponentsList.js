@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Modal from '../utils/Modal';
 
 export default class OpponentsList extends Component {
-  static propTypes = {
-    bots: PropTypes.object.isRequired,
-  }
+  // static propTypes = {
+  //   bots: PropTypes.object.isRequired,
+  // }
   constructor() {
     super();
     this.state = {
@@ -71,7 +71,7 @@ export default class OpponentsList extends Component {
             </tr>
           </thead>
           <tbody>
-            {bots.map((opponent) => {
+            {/* {bots.map((opponent) => {
               <tr>
                 <td>{opponent.name}</td>
                 <td>{opponent.author}</td>
@@ -81,7 +81,7 @@ export default class OpponentsList extends Component {
                   <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
                 </td>
               </tr>
-            })}
+            })} */}
             <tr>
               <td>Bot1</td>
               <td>toshi443</td>

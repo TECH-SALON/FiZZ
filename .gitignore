@@ -7,3 +7,4 @@
 *~
 /gameserver/app
 /gameserver/gameserver
+/client/*log

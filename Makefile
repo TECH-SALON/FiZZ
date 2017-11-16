@@ -40,3 +40,5 @@ jsrm:
 	$(JS) yarn remove ${ARG}
 jssh:
 	$(JS) bash
+jest:
+	$(JS) yarn test

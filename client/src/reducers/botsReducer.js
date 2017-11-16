@@ -26,7 +26,8 @@ const initialState = IMap({
 
 const botToMap = (bot) => IMap({
   id: bot.id,
-  botName: bot.botName,
+  botName: bot.name,
+  description: bot.description,
   authorId: bot.authorId,
   gameId: bot.gameId,
   isPrivate: bot.isPrivate,

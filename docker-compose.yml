@@ -23,9 +23,9 @@ services:
     command: ["yarn", "start"]
     tty: false
     stdin_open: false
-  aws-sam-local:
+  sam:
     image: cnadiminti/aws-sam-local
-    command: local start-api --docker-volume-basedir "$PWD" --host 0.0.0.0
+    command: local start-api --docker-volume-basedir . --host 0.0.0.0
     ports:
       - '3000:3000'
     volumes:

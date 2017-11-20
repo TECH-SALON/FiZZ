@@ -25,16 +25,26 @@ services:
     stdin_open: false
   sam:
     image: cnadiminti/aws-sam-local
-    command: local start-api --docker-volume-basedir . --host 0.0.0.0
+    command: local start-api --docker-volume-basedir ./sam --host 0.0.0.0
     ports:
       - '3000:3000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ".:/var/opt"
+      - "./sam:/var/opt"
+  db:
+    image: dwmkerr/dynamodb
+    ports:
+      - '8000:8000'
+    volumes:
+      - "db:/data"
+    command: "-dbPath /data"
   data:
     image: "busybox"
     volumes:
       - "go:/go"
+      - "db:/data"
 volumes:
   go:
+    driver: local
+  db:
     driver: local

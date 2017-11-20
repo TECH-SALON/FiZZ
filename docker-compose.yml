@@ -9,9 +9,11 @@ services:
     volumes:
       - "./gameserver:/go/src/app"
       - "go:/go"
+    env_file:
+      - ./.env.dev
     tty: true
     stdin_open: true
-    command: go build
+    command: /go/src/app/app
   webpack:
     build:
       context: ./client
@@ -21,20 +23,36 @@ services:
     volumes:
       - "./client:/app"
     command: ["yarn", "start"]
+    env_file:
+      - ./.env.dev
     tty: false
     stdin_open: false
-  aws-sam-local:
+  sam:
     image: cnadiminti/aws-sam-local
-    command: local start-api --docker-volume-basedir "$PWD" --host 0.0.0.0
+    command: local start-api --docker-volume-basedir ./sam --host 0.0.0.0
     ports:
       - '3000:3000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ".:/var/opt"
+      - "./sam:/var/opt"
+    env_file:
+      - ./.env.dev
+  db:
+    image: dwmkerr/dynamodb
+    ports:
+      - '8000:8000'
+    volumes:
+      - "db:/data"
+    command: "-dbPath /data"
+    env_file:
+      - ./.env.dev
   data:
     image: "busybox"
     volumes:
       - "go:/go"
+      - "db:/data"
 volumes:
   go:
+    driver: local
+  db:
     driver: local

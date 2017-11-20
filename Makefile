@@ -1,4 +1,5 @@
 init:
+	cp .env.dev.sample .env.dev
 	docker-compose build
 	docker-compose run --rm webpack yarn install
 	docker-compose up -d
@@ -30,6 +31,17 @@ goet:
 goom:
 	docker-compose run -p 5000:5000 --rm -d go go build && /go/src/app/app
 
+go-app:
+	make gopp
+go-build:
+	make gold
+go-bash:
+	make gosh
+go-get:
+	make goet ARG=${ARG}
+go-run:
+	make goom
+
 JS = docker-compose run --rm webpack
 
 jsrn:
@@ -42,3 +54,32 @@ jssh:
 	$(JS) bash
 jest:
 	$(JS) yarn test
+
+yarn-install:
+	make jsrn
+yarn-add:
+	make jsad ARG=${ARG}
+yarn-remove:
+	make jsrm ARG=${ARG}
+js-bash:
+	make jssh
+js-test:
+	make jest
+
+
+SAM = docker-compose run --rm sam
+
+sam-help:
+	$(SAM)
+
+sam-validate:
+	$(SAM) validate
+
+sam-local-generate-event:
+	$(SAM) local generate-event api > ./sam/event.json
+
+sam-local-invoke: gen-event
+	$(SAM) local invoke -e ./sam/event.json --docker-volume-basedir "./sam"
+
+sam-local-start-api:
+	$(SAM) local start-api --docker-volume-basedir "./sam" --host 0.0.0.0

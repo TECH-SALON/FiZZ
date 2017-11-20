@@ -46,7 +46,7 @@ export default class RegisterForm extends Component {
     event.preventDefault();
     let bot = {
       name: this.state.botName,
-      gameId: this.state.gameId,
+      gameId: Number(this.state.gameId),
       url: this.state.url,
       comment: this.state.comment
     };

@@ -14,7 +14,7 @@ export const GAMES_GET_RANKING_FAIL = 'GAMES_GET_RANKING_FAIL';
 // run match
 export function runMatch(botId) {
   return(dispatch, getState) => {
-    // dispatch(runMatchRequest(botId));
+    dispatch(runMatchRequest(botId));
     let params = new FormData();
     params.append('botId', botId);
     let url = "/api/v1/games/reversi/match";
@@ -43,6 +43,41 @@ function runMatchSuccess(bot){
 function runMatchFail(error){
   return {
     type: GAMES_RUN_MATCH_FAIL,
+    error,
+  }
+}
+
+export function getRanking(botId) {
+  return(dispatch, getState) => {
+    dispatch(getRankingRequest(botId));
+    let params = new FormData();
+    params.append('botId', botId);
+    let url = "/api/v1/games/reversi/match";
+    api(getState).post(url, params).then( response => {
+      getRankingSuccess(response.data);
+    }).catch( error => {
+      getRankingFail(error);
+    })
+  }
+}
+
+function getRankingRequest(bot){
+  return {
+    type: GAMES_GET_RANKING_REQUEST,
+    bot,
+  }
+}
+
+function getRankingSuccess(bot){
+  return {
+    type: GAMES_GET_RANKING_SUCCESS,
+    bot,
+  }
+}
+
+function getRankingFail(error){
+  return {
+    type: GAMES_GET_RANKING_FAIL,
     error,
   }
 }

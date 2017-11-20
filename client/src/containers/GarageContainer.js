@@ -9,15 +9,21 @@ import {
   standBot,
 } from '../actions/botsAction';
 
+import {
+  getHistory
+} from '../actions/matchesAction';
+
 const mapStateToProps = (state) => {
   return {
     bots: state.getIn(['bots', 'items']),
+    results: state.getIn(['matches', 'results'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
       dispatch(getBots());
+      dispatch(getHistory());
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))

@@ -1,0 +1,38 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "uuid",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "gameName",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "totalMatches",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "updatedAt",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "createdAt",
+      "AttributeType": "S"
+    },
+  ],
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "uuid"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "gameName"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  },
+}

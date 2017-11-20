@@ -1,0 +1,50 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "uuid",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "gameId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "rule",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "filter",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "status",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "totalFights",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "updatedAt",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "createdAt",
+      "AttributeType": "S"
+    },
+  ],
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "uuid"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "gameId"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  },
+}

@@ -1,0 +1,54 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "uuid",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "botId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "resultId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "isWinner",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "scoringRate",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "totalWinFights",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "totalLoseFights",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "updatedAt",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "createdAt",
+      "AttributeType": "S"
+    },
+  ],
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "resultId"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "botId"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  },
+}

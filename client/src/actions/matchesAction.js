@@ -18,11 +18,9 @@ export const MATCHES_GET_FIGHTS_LOG_FAIL = 'MATCHES_GET_FIGHTS_LOG_FAIL';
 
 export function getHistory() {
   return(dispatch, getState) => {
-    // dispatch(runMatchRequest(botId));
-    let params = new FormData();
-    params.append('botId', botId);
-    let url = "/api/v1/games/reversi/match";
-    api(getState).post(url, params).then( response => {
+    dispatch(getHistoryRequest());
+    let url = "/api/v1/matches";
+    api(getState).get(url).then( response => {
       getHistorySuccess(response.data);
     }).catch( error => {
       getHistoryFail(error);
@@ -33,14 +31,12 @@ export function getHistory() {
 function getHistoryRequest(){
   return {
     type: MATCHES_GET_HISTORY_REQUEST,
-    bot,
   }
 }
 
 function getHistorySuccess(){
   return {
     type: MATCHES_GET_HISTORY_SUCCESS,
-    bot,
   }
 }
 

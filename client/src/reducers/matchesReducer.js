@@ -3,6 +3,7 @@ import {
 } from 'immutable';
 
 const initialState = IMap({
+  results: IList(),
   loaded: false,
   isLoading: true,
   error: IMap(),

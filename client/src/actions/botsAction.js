@@ -27,7 +27,6 @@ export function registerBot(bot){
     dispatch(registerBotRequest(bot));
     let params = new FormData();
     params.append('bot', bot);
-    console.log(bot);
     let url = `/api/v1/bots/${mapGameIdToName(bot.gameId)}`
     api(getState).post(url, params).then( response => {
       registerBotSuccess(response.data);

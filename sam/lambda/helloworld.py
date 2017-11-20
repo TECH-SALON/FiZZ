@@ -1,8 +1,14 @@
 import os
-import os
 import json
 import boto3
-votes_table = boto3.resource('dynamodb').Table(os.getenv('TABLE_NAME'))
+
+if os.getenv("AWS_SAM_LOCAL"):
+    votes_table = boto3.resource(
+        'dynamodb',
+        endpoint_url="http://docker.for.mac.localhost:8000/"
+    ).Table("spaces-tabs-votes")
+else:
+    votes_table = boto3.resource('dynamodb').Table(os.getenv('TABLE_NAME'))
 
 def lambda_handler(event, context):
     print(event)

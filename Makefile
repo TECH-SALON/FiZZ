@@ -1,4 +1,5 @@
 init:
+	cp .env.dev.sample .env.dev
 	docker-compose build
 	docker-compose run --rm webpack yarn install
 	docker-compose up -d

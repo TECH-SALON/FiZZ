@@ -9,9 +9,11 @@ services:
     volumes:
       - "./gameserver:/go/src/app"
       - "go:/go"
+    env_file:
+      - ./.env.dev
     tty: true
     stdin_open: true
-    command: go build
+    command: /go/src/app/app
   webpack:
     build:
       context: ./client
@@ -21,6 +23,8 @@ services:
     volumes:
       - "./client:/app"
     command: ["yarn", "start"]
+    env_file:
+      - ./.env.dev
     tty: false
     stdin_open: false
   sam:
@@ -31,6 +35,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "./sam:/var/opt"
+    env_file:
+      - ./.env.dev
   db:
     image: dwmkerr/dynamodb
     ports:
@@ -38,6 +44,8 @@ services:
     volumes:
       - "db:/data"
     command: "-dbPath /data"
+    env_file:
+      - ./.env.dev
   data:
     image: "busybox"
     volumes:

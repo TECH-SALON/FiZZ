@@ -5,7 +5,7 @@ import boto3
 if os.getenv("AWS_SAM_LOCAL"):
     votes_table = boto3.resource(
         'dynamodb',
-        endpoint_url="http://docker.for.mac.localhost:8000/"
+        endpoint_url="http://localhost:8000/"
     ).Table("spaces-tabs-votes")
 else:
     votes_table = boto3.resource('dynamodb').Table(os.getenv('TABLE_NAME'))

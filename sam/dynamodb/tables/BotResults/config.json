@@ -1,0 +1,26 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "resultId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "botId",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "resultId"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "botId"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

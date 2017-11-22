@@ -1,0 +1,26 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "uuid",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "gameId",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "uuid"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "gameId"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

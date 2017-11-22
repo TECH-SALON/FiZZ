@@ -1,4 +1,4 @@
-import api from '../api';
+import api, {endPoint} from '../api';
 import {mapGameIdToName} from '../utils';
 
 export const BOTS_REGISTER_BOT = 'BOTS_REGISTER_BOT';
@@ -68,7 +68,7 @@ export function getBots(refresh = false){
       return
     }
 
-    let url = "/api/v1/bots"
+    let url = `${endPoint()}/api/v1/bots`
 
     api(getState).get(url).then( response => {
       getBotsSuccess(response.data);

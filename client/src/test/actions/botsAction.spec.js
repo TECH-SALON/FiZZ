@@ -1,22 +1,27 @@
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import * as actions from '../../actions/botsAction'
-import expect from 'expect'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import * as actions from '../../actions/botsAction';
+import expect from 'expect';
 import MockAdapter from 'axios-mock-adapter';
+import {initialState} from '../../reducers/botsReducer';
 
-import {client, endPoint} from '../../api';
+import api, {endPoint} from '../../api';
 import {create} from '../utils';
 import {
   Map as IMap, List as IList
 } from 'immutable';
 
-const axiosMock = new MockAdapter(client);
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('Async actions', () => {
   const bots = [
     {"id":100,"name":"reversi_bot","description":"リバーシのbot","authorId":1,"gameId":1,"isPrivate":false,"qualified":false,"standBy":false,"repoUrl":"https://github.com/xxx/yyy","resultSummaries":null},
     {"id":101,"name":"reversi_bot2","description":"リバーシのbot2","authorId":1,"gameId":1,"isPrivate":false,"qualified":false,"standBy":false,"repoUrl":"https://github.com/xxx/zzz","resultSummaries":null}
   ];
+
+  const store = mockStore(IMap({ 'bots': initialState }));
+  const axiosMock = new MockAdapter(api(store.getState()));
 
   //getBots
   it('creates BOTS_GET_BOTS_SUCCESS when getBots has been done', () => {
@@ -26,12 +31,13 @@ describe('Async actions', () => {
     const expectedActions = [
       { type: actions.BOTS_GET_BOTS_REQUEST},
       { type: actions.BOTS_GET_BOTS_SUCCESS, bots: bots}
-    ]
+    ];
+    const d = store.dispatch(actions.getBots())
+    console.log(d)
 
-    const { store, invoke } = create();
-    invoke(actions.getBots()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions)
-    })
+    return d.then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   //getBot

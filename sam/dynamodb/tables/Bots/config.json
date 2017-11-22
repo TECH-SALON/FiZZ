@@ -1,0 +1,26 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "uuid",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "accountId",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "uuid"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "accountId"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

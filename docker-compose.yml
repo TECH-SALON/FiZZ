@@ -29,7 +29,7 @@ services:
     stdin_open: false
   sam:
     image: cnadiminti/aws-sam-local
-    command: local start-api --docker-volume-basedir ./sam --host 0.0.0.0
+    command: local start-api --docker-volume-basedir "$PWD/sam" --host 0.0.0.0
     ports:
       - '3000:3000'
     volumes:
@@ -43,7 +43,7 @@ services:
       - '8000:8000'
     volumes:
       - "db:/data"
-    command: "-dbPath /data"
+    command: "-sharedDb -dbPath /data"
     env_file:
       - ./.env.dev
   data:

@@ -19,7 +19,7 @@ export const apiWithToken = getState => axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Authorization': `Bearer ${getState().getIn(['account', 'accessToken'], '')}`,
+    'Authorization': `Bearer ${getState().getIn(['accounts', 'accessToken'], '')}`,
   },
 
   transformResponse: [function (data) {
@@ -46,8 +46,8 @@ export const client =  axios.create({
   }],
 })
 
-const endpointdev = "http://localhost:5000";
-const endpoint = "https://localhost:5000";
+const endpointdev = "http://localhost:3000";
+const endpoint = "https://localhost:8080";
 
 export const endPoint = () => {
   if(process.env.NODE_ENV == 'production'){

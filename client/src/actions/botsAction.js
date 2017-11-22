@@ -1,4 +1,4 @@
-import api from '../api';
+import api, {endPoint} from '../api';
 import {mapGameIdToName} from '../utils';
 
 export const BOTS_REGISTER_BOT = 'BOTS_REGISTER_BOT';
@@ -63,13 +63,13 @@ export function getBots(refresh = false){
   return (dispatch, getState) => {
     dispatch(getBotsRequest())
 
-    // const bots = getState().get('bots');
-    //
-    // if(!refresh && bots.get('loaded')){
-    //   return
-    // }
+    const bots = getState().get('bots');
 
-    let url = "/api/v1/bots"
+    if(!refresh && bots.get('loaded')){
+      return
+    }
+
+    let url = `${endPoint()}/api/v1/bots`
 
     api(getState).get(url).then( response => {
       getBotsSuccess(response.data);

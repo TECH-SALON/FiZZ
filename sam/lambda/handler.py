@@ -2,19 +2,19 @@ import os
 import json
 import boto3
 
+table_name = "Bots"
 if os.getenv("AWS_SAM_LOCAL"):
-    votes_table = boto3.resource(
+    bots_table = boto3.resource(
         'dynamodb',
-        endpoint_url="http://localhost:8000/"
-    ).Table("spaces-tabs-votes")
+        endpoint_url="http://localhost:8000"
+    ).Table(table_name)
 else:
-    votes_table = boto3.resource('dynamodb').Table(os.getenv('TABLE_NAME'))
+    bots_table = boto3.resource('dynamodb').Table(table_name)
 
 def lambda_handler(event, context):
     print(event)
     if event['httpMethod'] == 'GET':
-        resp = votes_table.scan()
-        return {'body': json.dumps({item['id']: int(item['votes']) for item in resp['Items']})}
+        return { 'hello': 'world'}
     elif event['httpMethod'] == 'POST':
         try:
             body = json.loads(event['body'])
@@ -25,7 +25,7 @@ def lambda_handler(event, context):
         if body['vote'] not in ['spaces', 'tabs']:
             return {'statusCode': 400, 'body': 'vote value must be "spaces" or "tabs"'}
 
-        resp = votes_table.update_item(
+        resp = bots_table.update_item(
             Key={'id': body['vote']},
             UpdateExpression='ADD votes :incr',
             ExpressionAttributeValues={':incr': 1},

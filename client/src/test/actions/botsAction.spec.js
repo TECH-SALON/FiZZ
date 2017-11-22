@@ -1,17 +1,17 @@
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import * as actions from '../../actions/botsAction'
-import expect from 'expect'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import * as actions from '../../actions/botsAction';
+import expect from 'expect';
 import MockAdapter from 'axios-mock-adapter';
+import {initialState} from '../../reducers/botsReducer';
 
-import {client, endPoint} from '../../api';
+import api, {endPoint} from '../../api';
 import {create} from '../utils';
 import {
   Map as IMap, List as IList
 } from 'immutable';
 
 const middlewares = [thunk];
-const axiosMock = new MockAdapter(client);
 const mockStore = configureMockStore(middlewares);
 
 describe('Async actions', () => {
@@ -19,6 +19,9 @@ describe('Async actions', () => {
     {"id":100,"name":"reversi_bot","description":"リバーシのbot","authorId":1,"gameId":1,"isPrivate":false,"qualified":false,"standBy":false,"repoUrl":"https://github.com/xxx/yyy","resultSummaries":null},
     {"id":101,"name":"reversi_bot2","description":"リバーシのbot2","authorId":1,"gameId":1,"isPrivate":false,"qualified":false,"standBy":false,"repoUrl":"https://github.com/xxx/zzz","resultSummaries":null}
   ];
+
+  const store = mockStore(IMap({ 'bots': initialState }));
+  const axiosMock = new MockAdapter(api(store.getState()));
 
   //getBots
   it('creates BOTS_GET_BOTS_SUCCESS when getBots has been done', () => {
@@ -29,15 +32,10 @@ describe('Async actions', () => {
       { type: actions.BOTS_GET_BOTS_REQUEST},
       { type: actions.BOTS_GET_BOTS_SUCCESS, bots: bots}
     ];
+    const d = store.dispatch(actions.getBots())
+    console.log(d)
 
-    const store = mockStore(IMap({ 'bots': actions.initialState }));
-    console.log(store);
-    console.log(store.getState())
-    console.log(actions.getBots())
-    const dis = store.dispatch(actions.getBots())
-    console.log(dis);
-
-    return dis.then(() => {
+    return d.then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

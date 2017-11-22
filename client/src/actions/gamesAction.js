@@ -16,7 +16,9 @@ export function runMatch(botId) {
   return(dispatch, getState) => {
     dispatch(runMatchRequest(botId));
     let params = new FormData();
-    params.append('botId', botId);
+    params.append("botId", botId);
+    params.append("ruleId", "");
+    params.append("range", "");
     let url = "/api/v1/games/reversi/match";
     api(getState).post(url, params).then( response => {
       runMatchSuccess(response.data);

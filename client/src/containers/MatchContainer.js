@@ -6,18 +6,25 @@ import {
   getBots,
 } from '../actions/botsAction';
 
+import {
+  getRanking,
+  runMatch
+} from '../actions/gamesAction';
+
 const mapStateToProps = (state) => {
   return {
     bots: state.getIn(['bots', 'items']),
+    ranking: state.getIn(['games', 'ranking'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
       dispatch(getBots());
+      dispatch(getRanking('reversi'))
     },
-    onMatchRun: (id) => {
-      dispatch()
+    onMatchRun: (botId) => {
+      dispatch(runMatch(botId));
     }
 });
 

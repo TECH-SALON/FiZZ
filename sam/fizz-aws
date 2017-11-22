@@ -40,19 +40,12 @@ function check_aws() {
 #     --policy-name ${table_name}_table_access
 # }
 #
-function help() {
-  echo
-  echo "Usage: fizz-aws <action> [arguments...]"
-  echo
-  echo "Actions:"
-  echo "    create_local_db"
-  echo "    list_tables_local_db"
-  echo
-}
 
 function create_local_dynamo_db() {
   local table_dir=${1%/}
+  echo $table_dir
   local table_name=$(basename $table_dir)
+  echo $table_name
   local endpoint="http://localhost:8000"
   if [[ ! -s ${table_dir}/table_info.json ]]; then
     aws dynamodb create-table \
@@ -73,16 +66,16 @@ function create_local_dynamo_db() {
 
 function create_local_db() {
   local bots="${PWD}/dynamodb/tables/Bots"
-  local accounts="${PWD}/dynamodb/tables/Accounts"
+  local acc="${PWD}/dynamodb/tables/Accounts"
   local botresults="${PWD}/dynamodb/tables/BotResults"
   local games="${PWD}/dynamodb/tables/Games"
   local results="${PWD}/dynamodb/tables/Results"
-  
+
   echo "Creating tables..."
   echo " Games..."
   create_local_dynamo_db $games
   echo " Accounts..."
-  create_local_dynamo_db $accounts
+  create_local_dynamo_db $acc
   echo " Bots..."
   create_local_dynamo_db $bots
   echo " Results..."
@@ -90,6 +83,32 @@ function create_local_db() {
   echo " BotResults..."
   create_local_dynamo_db $botresults
   echo "Done."
+}
+
+function drop_local_db() {
+  aws dynamodb delete-table --table-name "Bots" --endpoint-url http://localhost:8000
+  aws dynamodb delete-table --table-name "Accounts" --endpoint-url http://localhost:8000
+  aws dynamodb delete-table --table-name "BotResults" --endpoint-url http://localhost:8000
+  aws dynamodb delete-table --table-name "Games" --endpoint-url http://localhost:8000
+  aws dynamodb delete-table --table-name "Results" --endpoint-url http://localhost:8000
+}
+
+function create_accounts () {
+  aws dynamodb create-table --endpoint-url http://localhost:8000 \
+  --table-name Accounts --attribute-definitions AttributeName=cognitoId,AttributeType=S AttributeName=username,AttributeType=S \
+  --key-schema AttributeName=cognitoId,KeyType=HASH AttributeName=username,KeyType=RANGE \
+  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+}
+
+function help() {
+  echo
+  echo "Usage: fizz-aws <action> [arguments...]"
+  echo
+  echo "Actions:"
+  echo "    create_local_db"
+  echo "    list_tables_local_db"
+  echo "    drop_tables_local_db"
+  echo
 }
 
 action=${1:-"help"}
@@ -100,6 +119,9 @@ case "$action" in
     ;;
   list_tables_local_db)
     aws dynamodb list-tables --endpoint-url http://localhost:8000
+    ;;
+  drop_tables_local_db)
+    drop_local_db
     ;;
   *)
     help

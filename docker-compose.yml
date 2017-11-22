@@ -43,7 +43,7 @@ services:
       - '8000:8000'
     volumes:
       - "db:/data"
-    command: "-dbPath /data"
+    command: "-sharedDb -dbPath /data"
     env_file:
       - ./.env.dev
   data:

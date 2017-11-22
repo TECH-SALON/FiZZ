@@ -1,20 +1,15 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  VotesTable:
-    Type: "AWS::Serverless::SimpleTable"
-  VoteSpacesTabs:
+  HelloWorld:
     Type: "AWS::Serverless::Function"
     Properties:
       Runtime: python3.6
-      Handler: lambda_function.lambda_handler
+      Handler: lambda/bots.lambda_handler
       Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref VotesTable
       Events:
-        Vote:
+        Index:
           Type: Api
           Properties:
-            Path: /
-            Method: post
+            Path: /api/v1/bots
+            Method: get

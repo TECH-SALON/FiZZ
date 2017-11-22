@@ -25,8 +25,8 @@ describe('Async actions', () => {
 
   //getBots
   it('creates BOTS_GET_BOTS_SUCCESS when getBots has been done', () => {
-    // axiosMock
-    //   .onGet(`${endPoint()}/api/v1/bots`).reply(200, bots)
+    axiosMock
+      .onGet(`${endPoint()}/api/v1/bots`).reply(200, bots)
 
     const expectedActions = [
       { type: actions.BOTS_GET_BOTS_REQUEST},

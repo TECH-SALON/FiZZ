@@ -78,11 +78,11 @@ sam-validate:
 sam-local-generate-event:
 	$(SAM) local generate-event api > ./sam/event.json
 
-sam-local-invoke: gen-event
-	$(SAM) local invoke -e ./sam/event.json --docker-volume-basedir "./sam"
+sam-local-invoke: 
+	$(SAM) local invoke -e ./event.json --docker-volume-basedir "."
 
 sam-local-start-api:
-	$(SAM) local start-api --docker-volume-basedir "./sam" --host 0.0.0.0
+	$(SAM) local start-api --docker-volume-basedir "." --host 0.0.0.0
 
 db-list:
 	aws dynamodb list-tables --endpoint-url http://localhost:8000

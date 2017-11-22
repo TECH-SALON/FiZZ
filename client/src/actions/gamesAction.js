@@ -47,13 +47,11 @@ function runMatchFail(error){
   }
 }
 
-export function getRanking(botId) {
+export function getRanking(gameName) {
   return(dispatch, getState) => {
-    dispatch(getRankingRequest(botId));
-    let params = new FormData();
-    params.append('botId', botId);
-    let url = "/api/v1/games/reversi/match";
-    api(getState).post(url, params).then( response => {
+    dispatch(getRankingRequest(gameName));
+    let url = `/api/v1/games/${gameName}/ranking`;
+    api(getState).get(url).then( response => {
       getRankingSuccess(response.data);
     }).catch( error => {
       getRankingFail(error);

@@ -5,18 +5,9 @@ import {
 } from 'immutable';
 
 describe('bots reducer', () => {
-  const bot = JSON.parse({
-          "id":100,
-          "name":"reversi_bot",
-          "description":"リバーシのbot",
-          "authorId":1,
-          "gameId":1,
-          "isPrivate":false,
-          "qualified":false,
-          "standBy":false,
-          "repoUrl":"https://github.com/xxx/yyy",
-          "resultSummaries":null,
-      })
+  let jsonText = '{"id":100,"name":"reversi_bot","description":"リバーシのbot","authorId":1,"gameId":1,"isPrivate":false,"qualified":false,"standBy":false,"repoUrl":"https://github.com/xxx/yyy","resultSummaries":null}';
+  const bot = JSON.parse(jsonText);
+  console.log(bot);
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(IMap(
       {
@@ -30,7 +21,7 @@ describe('bots reducer', () => {
   it('should handle BOTS_GET_BOTS_SUCCESS', () => {
     expect(reducer(IList(), {
       type: types.BOTS_GET_BOTS_SUCCESS,
-      bot:  bot
+      bots:  bot
     })).toEqual(IMap(
       {
         items: IList([IMap({
@@ -49,7 +40,7 @@ describe('bots reducer', () => {
     ))
   });
   //TODO resultSummariesのテストを行うこと
-  
+
   it('should handle BOTS_REGISTER_BOT_SUCCESS', () => {
   });
   it('should handle BOTS_GET_BOT_SUCCESS', () => {

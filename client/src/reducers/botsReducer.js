@@ -52,7 +52,8 @@ const matchSummaryToMap = (summary) => IMap({
 
 const getBots = (state, bots) => {
   let items = IList();
-  bots.forEach((b, i) => {
+  console.log(bots);
+  bots.prototype.forEach((b, i) => {
     items = items.set(i, botToMap(b))
   });
 

@@ -7,43 +7,7 @@
     {
       "AttributeName": "accountId",
       "AttributeType": "S"
-    },
-    {
-      "AttributeName": "gameId",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "name",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "isPrivate",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "qualified",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "standBy",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "repoUrl",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "rank",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "updatedAt",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "createdAt",
-      "AttributeType": "S"
-    },
+    }
   ],
   "KeySchema": [
     {
@@ -58,23 +22,5 @@
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 5,
     "WriteCapacityUnits": 5
-  },
-  "LocalSecondaryIndexes": [
-    {
-      "IndexName": "BotGameIndex",
-      "KeySchema": [
-        {
-          "AttributeName": "uuid",
-          "KeyType": "HASH",
-        },
-        {
-          "AttributeName": "gameId",
-          "KeyType": "RANGE",
-        },
-      ],
-      "Projection": {
-        "ProjectionType": "KEYS_ONLY"
-      }
-    }
-  ]
+  }
 }

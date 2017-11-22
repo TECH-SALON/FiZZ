@@ -63,11 +63,11 @@ export function getBots(refresh = false){
   return (dispatch, getState) => {
     dispatch(getBotsRequest())
 
-    const bots = getState().get('bots');
-
-    if(!refresh && bots.get('loaded')){
-      return
-    }
+    // const bots = getState().get('bots');
+    //
+    // if(!refresh && bots.get('loaded')){
+    //   return
+    // }
 
     let url = "/api/v1/bots"
 

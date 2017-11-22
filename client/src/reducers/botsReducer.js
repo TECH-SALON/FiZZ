@@ -17,7 +17,7 @@ import {
   BOTS_STAND_BOT_FAIL,
 } from '../actions/botsAction';
 
-const initialState = IMap({
+export const initialState = IMap({
   items: IList(),
   loaded: false,
   isLoading: true,

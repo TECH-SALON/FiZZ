@@ -9,3 +9,4 @@
 /gameserver/gameserver
 /client/*log
 /sam/event.json
+/sam/dynamodb/tables/*/table_info.json

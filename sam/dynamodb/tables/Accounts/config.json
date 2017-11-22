@@ -7,31 +7,7 @@
     {
       "AttributeName": "username",
       "AttributeType": "S"
-    },
-    {
-      "AttributeName": "email",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "totalMatches",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "isAdmin",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "lastLoginedAt",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "updatedAt",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "createdAt",
-      "AttributeType": "S"
-    },
+    }
   ],
   "KeySchema": [
     {
@@ -46,5 +22,5 @@
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 5,
     "WriteCapacityUnits": 5
-  },
+  }
 }

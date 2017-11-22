@@ -10,7 +10,9 @@ import {
   Map as IMap, List as IList
 } from 'immutable';
 
+const middlewares = [thunk];
 const axiosMock = new MockAdapter(client);
+const mockStore = configureMockStore(middlewares);
 
 describe('Async actions', () => {
   const bots = [
@@ -20,18 +22,24 @@ describe('Async actions', () => {
 
   //getBots
   it('creates BOTS_GET_BOTS_SUCCESS when getBots has been done', () => {
-    axiosMock
-      .onGet(`${endPoint()}/api/v1/bots`).reply(200, bots)
+    // axiosMock
+    //   .onGet(`${endPoint()}/api/v1/bots`).reply(200, bots)
 
     const expectedActions = [
       { type: actions.BOTS_GET_BOTS_REQUEST},
       { type: actions.BOTS_GET_BOTS_SUCCESS, bots: bots}
-    ]
+    ];
 
-    const { store, invoke } = create();
-    invoke(actions.getBots()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions)
-    })
+    const store = mockStore(IMap({ 'bots': actions.initialState }));
+    console.log(store);
+    console.log(store.getState())
+    console.log(actions.getBots())
+    const dis = store.dispatch(actions.getBots())
+    console.log(dis);
+
+    return dis.then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   //getBot

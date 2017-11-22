@@ -7,31 +7,7 @@
     {
       "AttributeName": "gameId",
       "AttributeType": "S"
-    },
-    {
-      "AttributeName": "rule",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "filter",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "status",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "totalFights",
-      "AttributeType": "N"
-    },
-    {
-      "AttributeName": "updatedAt",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "createdAt",
-      "AttributeType": "S"
-    },
+    }
   ],
   "KeySchema": [
     {
@@ -46,5 +22,5 @@
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 5,
     "WriteCapacityUnits": 5
-  },
+  }
 }

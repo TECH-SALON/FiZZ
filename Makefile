@@ -58,9 +58,9 @@ jest:
 yarn-install:
 	make jsrn
 yarn-add:
-	make jsad ARG=${ARG}
+	$(JS) yarn add ${ARG}
 yarn-remove:
-	make jsrm ARG=${ARG}
+	$(JS) yarn remove ${ARG}
 js-bash:
 	make jssh
 js-test:
@@ -83,3 +83,6 @@ sam-local-invoke: gen-event
 
 sam-local-start-api:
 	$(SAM) local start-api --docker-volume-basedir "./sam" --host 0.0.0.0
+
+db-list:
+	aws dynamodb list-tables --endpoint-url http://localhost:8000

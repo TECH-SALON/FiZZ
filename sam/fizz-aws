@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+# profile=credentials
+
 function check_aws() {
   if ! which aws > /dev/null; then
     echo "Can't find AWS CLI. Install 'awscli' using pip."
@@ -11,39 +13,40 @@ function check_aws() {
   fi
 }
 
-function create_table() {
-  local table_dir=${1%/}
-  local table_name=$(basename $table_dir)
-  local role_name="${2}_cognito_authenticated"
-  if [[ ! -s ${table_dir}/table_info.json ]]; then
-    aws --profile $profile dynamodb create-table \
-      --table-name $table_name \
-      --cli-input-json "file://${table_dir}/config.json" \
-      > ${table_dir}/table_info.json
-
-    echo -n "Waiting for table creation..."
-    aws --profile $profile dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
-    while [[ "$(support/jsed.py ${table_dir}/table_info.json 'Table.TableStatus')" != "ACTIVE" ]]; do
-      aws --profile $profile dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
-      echo -n .
-    done
-    echo "...done!"
-  fi
-
-  local table_arn=$(support/jsed.py ${table_dir}/table_info.json 'Table.TableArn')
-  generate_table_policy ${table_arn} > ${table_dir}/role_policy.json
-  aws --profile $profile iam put-role-policy \
-    --policy-document file://${table_dir}/role_policy.json \
-    --role-name ${role_name} \
-    --policy-name ${table_name}_table_access
-}
-
+# function create_table() {
+#   local table_dir=${1%/}
+#   local table_name=$(basename $table_dir)
+#   local role_name="${2}_cognito_authenticated"
+#   if [[ ! -s ${table_dir}/table_info.json ]]; then
+#     aws --profile $profile dynamodb create-table \
+#       --table-name $table_name \
+#       --cli-input-json "file://${table_dir}/config.json" \
+#       > ${table_dir}/table_info.json
+#
+#     echo -n "Waiting for table creation..."
+#     aws --profile $profile dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
+#     while [[ "$(support/jsed.py ${table_dir}/table_info.json 'Table.TableStatus')" != "ACTIVE" ]]; do
+#       aws --profile $profile dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
+#       echo -n .
+#     done
+#     echo "...done!"
+#   fi
+#
+#   local table_arn=$(support/jsed.py ${table_dir}/table_info.json 'Table.TableArn')
+#   generate_table_policy ${table_arn} > ${table_dir}/role_policy.json
+#   aws --profile $profile iam put-role-policy \
+#     --policy-document file://${table_dir}/role_policy.json \
+#     --role-name ${role_name} \
+#     --policy-name ${table_name}_table_access
+# }
+#
 function help() {
   echo
   echo "Usage: fizz-aws <action> [arguments...]"
   echo
   echo "Actions:"
   echo "    create_local_db"
+  echo "    list_tables_local_db"
   echo
 }
 
@@ -51,18 +54,52 @@ function create_local_dynamo_db() {
   local table_dir=${1%/}
   local table_name=$(basename $table_dir)
   local endpoint="http://localhost:8000"
-  aws dynamodb create-table \
-    --endpoint-url $endpoint \
-    --table_name $table_name \
-    --cli-input-json "file://${table_dir}/config.json"
+  if [[ ! -s ${table_dir}/table_info.json ]]; then
+    aws dynamodb create-table \
+      --endpoint-url $endpoint \
+      --table-name $table_name \
+      --cli-input-json "file://${table_dir}/config.json" \
+      > ${table_dir}/table_info.json
+
+    # echo -n "Waiting for table creation..."
+    # aws dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
+    # while [[ "$(support/jsed.py ${table_dir}/table_info.json 'Table.TableStatus')" != "ACTIVE" ]]; do
+    #   aws dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
+    #   echo -n .
+    # done
+    # echo "...done!"
+  fi
+}
+
+function create_local_db() {
+  local bots="${PWD}/dynamodb/tables/Bots"
+  local accounts="${PWD}/dynamodb/tables/Accounts"
+  local botresults="${PWD}/dynamodb/tables/BotResults"
+  local games="${PWD}/dynamodb/tables/Games"
+  local results="${PWD}/dynamodb/tables/Results"
+  
+  echo "Creating tables..."
+  echo " Games..."
+  create_local_dynamo_db $games
+  echo " Accounts..."
+  create_local_dynamo_db $accounts
+  echo " Bots..."
+  create_local_dynamo_db $bots
+  echo " Results..."
+  create_local_dynamo_db $results
+  echo " BotResults..."
+  create_local_dynamo_db $botresults
+  echo "Done."
 }
 
 action=${1:-"help"}
 
 case "$action" in
   create_local_db)
-    check_aws
-    create_local_dynamo_db
+    create_local_db
+    ;;
+  list_tables_local_db)
+    aws dynamodb list-tables --endpoint-url http://localhost:8000
     ;;
   *)
     help

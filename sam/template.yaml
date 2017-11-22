@@ -1,11 +1,12 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
+Description: FiZZ Lambda API
 Resources:
-  HelloWorld:
+  GetBots:
     Type: "AWS::Serverless::Function"
     Properties:
       Runtime: python3.6
-      Handler: lambda/bots.lambda_handler
+      Handler: lambda/bots.get_bots
       Policies: AmazonDynamoDBFullAccess
       Events:
         Index:
@@ -13,3 +14,42 @@ Resources:
           Properties:
             Path: /api/v1/bots
             Method: get
+
+  GetBot:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.get_bot
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots/{botId}
+            Method: get
+
+  RegisterBot:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.register_bot
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots/{gameName}
+            Method: post
+
+  StandBot:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.stand_bot
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots/{botId}
+            Method: post

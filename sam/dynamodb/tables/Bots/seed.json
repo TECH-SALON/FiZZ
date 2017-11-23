@@ -1,0 +1,15 @@
+{
+    "uuid": {"S":"eeb4e9f0-f69c-4ad6-99f2-e82166188ce6"},
+    "accountId": {"S": "ap-northeast-1:38209be3-04b3-46f1-bedd-7ef7a72f9eef"},
+    "gameId": {"S": "eeb4e9f0-f69c-4ad6-99f2-e82166188ce6"},
+    "name": {"S": "ReversiRandomAI"},
+    "isPrivate": {"N": "1"},
+    "isQualified": {"N": "0"},
+    "isStandBy": {"N": "0"},
+    "isValid": {"N": "1"},
+    "isMatching": {"N": "0"},
+    "rank": {"N": "-1"},
+    "repoUrl": {"S": "https://github.com/TECH-SALON/ReversiRandomAI"},
+    "updatedAt": {"S": "2017-11-23 07:02:10.214179+00:00"},
+    "createdAt": {"S": "2017-11-23 07:02:10.214179+00:00"}
+}

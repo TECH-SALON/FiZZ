@@ -25,7 +25,7 @@ class Bot:
 
 
     def create_bot(self, accountId, gameId, name, isPrivate, repoUrl):
-        utc = datetime.now(timezone('UTC'))
+        utc = str(datetime.now(timezone('UTC')))
         item = {
             'uuid': uuid.uuid4(),
             'accountId': accountId,
@@ -52,7 +52,7 @@ class Bot:
         return (None, attr)
 
     def update_bot(self, uuid, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
-        utc = datetime.now(timezone('UTC'))
+        utc = str(datetime.now(timezone('UTC')))
         item = {
             'name': name,
             'isPrivate': isPrivate,

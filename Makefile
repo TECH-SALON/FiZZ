@@ -69,6 +69,13 @@ js-test:
 
 SAM = docker-compose run --rm sam
 
+sam:
+	'sam-help'
+	'sam-validate'
+	'sam-local--generate-event'
+	'sam-lcoal-invoke'
+	'sam-test'
+
 sam-help:
 	$(SAM)
 
@@ -76,13 +83,22 @@ sam-validate:
 	$(SAM) validate
 
 sam-local-generate-event:
-	$(SAM) local generate-event api > ./sam/event.json
+	$(SAM) local generate-event api > ./sam/test/events/event.json
 
-sam-local-invoke: 
-	$(SAM) local invoke -e ./event.json --docker-volume-basedir "."
+sam-local-invoke:
+	$(SAM) local invoke -e ./test/events/event.json --docker-volume-basedir "test"
+
+sam-test:
+	$(SAM) local invoke ${FN} -e ./test/events/${EV} --docker-volume-basedir "test"
 
 sam-local-start-api:
 	$(SAM) local start-api --docker-volume-basedir "." --host 0.0.0.0
 
 db-list:
 	aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+sam-test-bot:
+	make sam-test EV="bots.json" FN="Bots"
+
+sam-test-check-input:
+	python ./sam/test/events/check_json.py

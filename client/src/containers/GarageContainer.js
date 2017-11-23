@@ -14,7 +14,7 @@ import {
 } from '../actions/gamesAction';
 
 import {
-  getHistory
+  getResults
 } from '../actions/matchesAction';
 
 const mapStateToProps = (state) => {
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
       dispatch(getBots());
-      dispatch(getHistory());
+      dispatch(getResults());
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))

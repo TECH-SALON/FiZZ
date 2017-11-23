@@ -100,28 +100,54 @@ function create_accounts () {
   --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
 }
 
+function db_seeds(){
+  local table_dir=${1%/}
+  local table_name=$(basename $table_dir)
+  aws dynamodb put-item --endpoint-url http://localhost:8000 \
+    --table-name $table_name \
+    --item "file://${table_dir}/seed.json"
+}
+
+function seed_tables_local_db(){
+  local bots="${PWD}/dynamodb/tables/Bots"
+  local acc="${PWD}/dynamodb/tables/Accounts"
+  local botresults="${PWD}/dynamodb/tables/BotResults"
+  local games="${PWD}/dynamodb/tables/Games"
+  local results="${PWD}/dynamodb/tables/Results"
+
+  db_seeds $bots
+  db_seeds $acc
+  # db_seeds $botresults
+  db_seeds $games
+  # db_seeds $results
+}
+
 function help() {
   echo
   echo "Usage: fizz-aws <action> [arguments...]"
   echo
   echo "Actions:"
-  echo "    create_local_db"
-  echo "    list_tables_local_db"
-  echo "    drop_tables_local_db"
+  echo "    create_local"
+  echo "    list_local"
+  echo "    drop_local"
+  echo "    seed_local"
   echo
 }
 
 action=${1:-"help"}
 
 case "$action" in
-  create_local_db)
+  create_local)
     create_local_db
     ;;
-  list_tables_local_db)
+  list_local)
     aws dynamodb list-tables --endpoint-url http://localhost:8000
     ;;
-  drop_tables_local_db)
+  drop_local)
     drop_local_db
+    ;;
+  seed_local)
+    seed_tables_local_db
     ;;
   *)
     help

@@ -1,9 +1,9 @@
 import api from '../api';
 
-export const MATCHES_GET_HISTORY = 'MATCHES_GET_HISTORY';
-export const MATCHES_GET_HISTORY_REQUEST = 'MATCHES_GET_HISTORY_REQUEST';
-export const MATCHES_GET_HISTORY_SUCCESS = 'MATCHES_GET_HISTORY_SUCCESS';
-export const MATCHES_GET_HISTORY_FAIL = 'MATCHES_GET_HISTORY_FAIL';
+export const MATCHES_GET_RESULTS = 'MATCHES_GET_RESULTS';
+export const MATCHES_GET_RESULTS_REQUEST = 'MATCHES_GET_RESULTS_REQUEST';
+export const MATCHES_GET_RESULTS_SUCCESS = 'MATCHES_GET_RESULTS_SUCCESS';
+export const MATCHES_GET_RESULTS_FAIL = 'MATCHES_GET_RESULTS_FAIL';
 
 export const MATCHES_GET_RESULT = 'MATCHES_GET_RESULT';
 export const MATCHES_GET_RESULT_REQUEST = 'MATCHES_GET_RESULT_REQUEST';
@@ -16,33 +16,36 @@ export const MATCHES_GET_FIGHTS_LOG_SUCCESS = 'MATCHES_GET_FIGHTS_LOG_SUCCESS';
 export const MATCHES_GET_FIGHTS_LOG_FAIL = 'MATCHES_GET_FIGHTS_LOG_FAIL';
 
 
-export function getHistory() {
+export function getResults(gameName) {
   return(dispatch, getState) => {
-    dispatch(getHistoryRequest());
+    dispatch(getResultsRequest(gameName));
     let url = "/api/v1/matches";
-    api(getState).get(url).then( response => {
-      getHistorySuccess(response.data);
+    let params = new FormData();
+    params.append('gameName', gameName);
+    api(getState).get(url, params).then( response => {
+      getResultsSuccess(response.data);
     }).catch( error => {
-      getHistoryFail(error);
+      getResultsFail(error);
     })
   }
 }
 
-function getHistoryRequest(){
+function getResultsRequest(){
   return {
-    type: MATCHES_GET_HISTORY_REQUEST,
+    type: MATCHES_GET_RESULTS_REQUEST,
   }
 }
 
-function getHistorySuccess(){
+function getResultsSuccess(results){
   return {
-    type: MATCHES_GET_HISTORY_SUCCESS,
+    type: MATCHES_GET_RESULTS_SUCCESS,
+    results
   }
 }
 
-function getHistoryFail(error){
+function getResultsFail(error){
   return {
-    type: MATCHES_GET_HISTORY_FAIL,
+    type: MATCHES_GET_RESULTS_FAIL,
     error,
   }
 }

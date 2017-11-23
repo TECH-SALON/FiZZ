@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../utils/Modal';
+import ModalContainer from '../utils/Modal';
 
 export default class ResultsList extends Component {
   constructor() {
@@ -38,7 +38,7 @@ export default class ResultsList extends Component {
     const { result } = this.state;
     return(
       <div>
-        <Modal
+        <ModalContainer
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal()}
           title="Result detail"
@@ -50,7 +50,7 @@ export default class ResultsList extends Component {
             <li>{result.winPercentage}</li>
             <li>{result.createdAt}</li>
           </ul>
-        </Modal>
+        </ModalContainer>
       </div>
     )
   }

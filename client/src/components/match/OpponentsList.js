@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../utils/Modal';
+import ModalContainer from '../utils/Modal';
 
 export default class OpponentsList extends Component {
   // static propTypes = {
@@ -39,7 +39,7 @@ export default class OpponentsList extends Component {
     const { opponent } = this.state;
     return(
       <div>
-        <Modal
+        <ModalContainer
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal("detailModal")}
           title="Opponent's detail"
@@ -51,7 +51,7 @@ export default class OpponentsList extends Component {
             <li>{opponent.winPercentage}</li>
           </ul>
           <button className="button-primary">Run</button>
-        </Modal>
+        </ModalContainer>
       </div>
     )
   }

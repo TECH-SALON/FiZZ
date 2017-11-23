@@ -10,7 +10,11 @@ import {
 } from '../actions/botsAction';
 
 import {
-  getHistory
+  runPractice
+} from '../actions/gamesAction';
+
+import {
+  getResults
 } from '../actions/matchesAction';
 
 const mapStateToProps = (state) => {
@@ -23,13 +27,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
       dispatch(getBots());
-      dispatch(getHistory());
+      dispatch(getResults());
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))
     },
-    onStandBot: (id) => {
-      dispatch(standBot(id))
+    onPracticeBot: (botId) => {
+      dispatch(runPractice(botId))
+    },
+    onStandBot: (botId) => {
+      dispatch(standBot(botId))
     }
 });
 

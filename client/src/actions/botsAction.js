@@ -60,7 +60,7 @@ function registerBotFail(error){
 //get bots
 export function getBots(refresh = false){
   return (dispatch, getState) => {
-    dispatch(getBotsRequest())
+    dispatch(getBotsRequest());
 
     const bots = getState().get('bots');
 

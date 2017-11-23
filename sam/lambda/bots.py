@@ -6,6 +6,11 @@ from pytz import timezone
 from datetime import datetime
 import uuid
 
+# TODO: Check Parameters
+# TODO: Validates
+# TODO: Error and Exception Handling
+# TODO: Manage Return Value
+
 
 class Bot:
     table_name = "Bots"
@@ -28,10 +33,12 @@ class Bot:
             'gameId': gameId,
             'name': name,
             'isPrivate': isPrivate,
-            'qualified': False,
-            'standBy': False,
+            'isQualified': False,
+            'isStandBy': False,
             'repoUrl': repoUrl,
             'rank': -1,
+            'isMatching': False,
+            'isValid': False,
             'updatedAt': utc,
             'createdAt': utc
         }
@@ -45,15 +52,17 @@ class Bot:
 
         return (None, attr)
 
-    def update_bot(self, uuid, name=None, isPrivate=None, qualified=None, standBy=None, repoUrl=None, rank=None):
+    def update_bot(self, uuid, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
         utc = datetime.now(timezone('UTC'))
         item = {
             'name': name,
             'isPrivate': isPrivate,
-            'qualified': qualified,
-            'standBy': standBy,
+            'isQualified': isQualified,
+            'isStandBy': isStandBy,
             'repoUrl': repoUrl,
             'rank': rank,
+            'isMatching': isMatching,
+            'isValid': isValid,
             'updatedAt': utc
         }
         # dynamodb
@@ -138,7 +147,7 @@ def register_bot(event, context):
         resp, error = bot.create_bot(
             accountId=body['accountId'],
             gameId=bot.transform_game_name2id(gameName),
-            name=body['botName'],
+            name=body['name'],
             isPrivate=body['isPrivate'],
             repoUrl=body['repoUrl']
         )
@@ -147,8 +156,8 @@ def register_bot(event, context):
 
         return {'statusCode': 400, 'body': 'Request Failed'}
 
-#POST /api/v1/bots/:botId
-def stand_bot(event, context):
+# PUT /api/v1/bots/:botId
+def update_bot(event, context):
     print(event)
     if event['httpMethod'] == 'GET':
         return {'statusCode': 400, 'body': 'This method is not supported.'}
@@ -162,7 +171,11 @@ def stand_bot(event, context):
 
     bot = Bot()
     resp, error = bot.update_bot(
-        uuid, standBy=True
+        uuid,
+        name=body['name'],
+        isPrivate=body['isPrivate'],
+        isStandBy=body['isStandBy'],
+        repoUrl=body['repoUrl']
     )
 
     if error is None

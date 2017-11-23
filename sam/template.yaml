@@ -41,7 +41,7 @@ Resources:
             Path: /api/v1/bots/{gameName}
             Method: post
 
-  StandBot:
+  UpdateBot:
     Type: "AWS::Serverless::Function"
     Properties:
       Runtime: python3.6
@@ -52,4 +52,4 @@ Resources:
           Type: Api
           Properties:
             Path: /api/v1/bots/{botId}
-            Method: post
+            Method: put

@@ -12,6 +12,8 @@ import uuid
 # TODO: Manage Return Value
 
 class DB:
+    main_table = "Accounts"
+
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
             self.db_client = boto3.resource(
@@ -84,13 +86,21 @@ class DB:
 
 ####################### API #########################
 
+def example(event, context):
+    # Error Handling
+    # Parameters Check
+    # Return Response
+    return {'statusCode': 400, 'body': 'Request Failed'}
+
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
+            break
         elif event['httpMethod'] == 'POST':
+            break
         elif event['httpMethod'] == 'PUT':
-        else:
-            return {'statusCode': 400, 'body': 'Request Failed'}
+            break
+        return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
         print(e)
         return {'statusCode': 500, 'body': 'Request Failed'}

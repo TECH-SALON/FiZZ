@@ -34,7 +34,7 @@ class DB:
         success, attr = self.validates(item)
 
         if success:
-            self.db_client.Table("").put_item(Item=item);
+            self.db_client.Table(DB.main_table).put_item(Item=item);
             return (item, None)
 
         return (None, attr)
@@ -53,7 +53,7 @@ class DB:
                 if v is not None:
                     updates[k] = { 'Action': 'PUT', 'Value': v}
 
-            resp = self.db_client.Table("").update_item(
+            resp = self.db_client.Table(DB.main_table).update_item(
                 Key={'uuid': uuid },
                 AttributeUpdates=updates,
                 ReturnValues="ALL_NEW"
@@ -75,10 +75,11 @@ class DB:
             return e
 
     def get(self, uuid):
-        self.query("", 'uuid', uuid)
+        self.query(DB.main_table, 'uuid', uuid)
 
     def scan(self):
         # self.scan()
+        return
 
     def validates(item):
         error = {}

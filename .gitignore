@@ -8,5 +8,5 @@
 /gameserver/app
 /gameserver/gameserver
 /client/*log
-/sam/event.json
+/sam/test/events/event.json
 /sam/dynamodb/tables/*/table_info.json

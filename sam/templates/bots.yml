@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FiZZ Lambda Bots API
+Resources:
+  ScanBots:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.scan_bots
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots
+            Method: get
+
+  GetBot:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.get_bot
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots/{botId}
+            Method: get
+
+  CreateBot:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.create_bot
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots/{gameName}
+            Method: post
+
+  UpdateBot:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: lambda/bots.update_bot
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Index:
+          Type: Api
+          Properties:
+            Path: /api/v1/bots/{botId}
+            Method: put
+Outputs:
+  ScanBots:
+    Value: !Ref ScanBots

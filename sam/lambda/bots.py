@@ -11,7 +11,6 @@ import uuid
 # TODO: Error and Exception Handling
 # TODO: Manage Return Value
 
-
 class Bot:
     table_name = "Bots"
 
@@ -91,7 +90,8 @@ class Bot:
                 KeyConditionExpression = Key(key).eq(value)
             )
             return res
-        except Exception, e:
+        except Exception as e:
+            print(e.__doc__)
             return e
 
     def get(self, uuid):
@@ -109,17 +109,18 @@ class Bot:
         # それぞれのkeytypeをcheckする
         # if isPrivate is 1 then repoUrl is in FiZZ repo
         # gameId is valid
+        # bot名のvalidation
         error = {}
         return (True, error)
 
 ####################### API #########################
 
 #GET /api/v1/bots
-def get_bots(event, context):
+def scan_bots(event, context):
     print(event)
     if event['httpMethod'] == 'GET':
-        return {"statusCode": 200, "body": 'GET Bots!!'}
-    elif event['httpMethod'] == 'POST':
+        return {"statusCode": 200, "body": 'Scan Bots!!'}
+    else:
         return {'statusCode': 400, 'body': 'This method is not supported.'}
 
 #GET /api/v1/bots/:botId
@@ -127,45 +128,49 @@ def get_bot(event, context):
     print(event)
     if event['httpMethod'] == 'GET':
         return {"statusCode": 200, "body": 'GET Bot!!'}
-    elif event['httpMethod'] == 'POST':
+    else:
         return {'statusCode': 400, 'body': 'This method is not supported.'}
 
 #POST /api/v1/bots/:gameName
-def register_bot(event, context):
+def create_bot(event, context):
+    print("Register bot");
     print(event)
-    if event['httpMethod'] == 'GET':
-        return {'statusCode': 400, 'body': 'This method is not supported.'}
-    elif event['httpMethod'] == 'POST':
+    if event['httpMethod'] == 'POST':
         try:
             body = json.loads(event['body'])
-        except:
-            return {'statusCode': 400, 'body': 'malformed json input'}
+            gameName = event['pathParameters']['gameName']
+            bot = Bot()
+            resp, error = bot.create_bot(
+                accountId=body['accountId'],
+                gameId=bot.transform_game_name2id(gameName),
+                name=body['name'],
+                isPrivate=body['isPrivate'],
+                repoUrl=body['repoUrl']
+            )
+            ret = str(resp)
+            print(ret)
+        except Exception as e:
+            print(e.__doc__)
+            return {'statusCode': 400, 'body': 'Request Failed'}
+    else:
+        return {'statusCode': 400, 'body': 'This method is not supported.'}
 
-        gameName = event['pathParameters']['gameName']
-
-        bot = Bot()
-        resp, error = bot.create_bot(
-            accountId=body['accountId'],
-            gameId=bot.transform_game_name2id(gameName),
-            name=body['name'],
-            isPrivate=body['isPrivate'],
-            repoUrl=body['repoUrl']
-        )
-        if error is None:
-            return {'statusCode': 201, 'body': str(resp)}
-
-        return {'statusCode': 400, 'body': 'Request Failed'}
+    if error is None:
+        return {'statusCode': 201, 'body': ret}
+    return {'statusCode': 400, 'body': 'Request Failed'}
 
 # PUT /api/v1/bots/:botId
 def update_bot(event, context):
     print(event)
-    if event['httpMethod'] == 'GET':
-        return {'statusCode': 400, 'body': 'This method is not supported.'}
-    elif event['httpMethod'] == 'POST':
+    if event['httpMethod'] == 'PUT':
         try:
             body = json.loads(event['body'])
-        except:
+        except Exception as e:
+            print(e.__doc__)
             return {'statusCode': 400, 'body': 'malformed json input'}
+    else:
+        return {'statusCode': 400, 'body': 'This method is not supported.'}
+
 
     uuid = event['pathParameters']['botId']
 
@@ -182,3 +187,23 @@ def update_bot(event, context):
         return {'statusCode': 200, 'body': str(resp)}
 
     return {'statusCode': 400, 'body': 'Request Failed'}
+
+
+def handler(event, context):
+    try:
+        if event['httpMethod'] == 'GET':
+            if 'botId' in event['pathParameters'].keys():
+                # GetBot
+                return get_bot(event, context)
+            else:
+                # ScanBots
+                return scan_bots(event, context)
+        elif event['httpMethod'] == 'POST':
+            return create_bot(event, context)
+        elif event['httpMethod'] == 'PUT':
+            return update_bot(event, context)
+        else:
+            return {'statusCode': 400, 'body': 'Request Failed'}
+    except BaseException as e:
+        print(e)
+        return {'statusCode': 500, 'body': 'Request Failed'}

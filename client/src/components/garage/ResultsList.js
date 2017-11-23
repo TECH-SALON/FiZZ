@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../utils/Modal';
+import ModalContainer from '../utils/Modal';
 
 export default class ResultsList extends Component {
   static propTypes = {
@@ -44,7 +44,7 @@ export default class ResultsList extends Component {
     const { item } = this.state;
     return(
       <div>
-        <Modal
+        <ModalContainer
           isOpen={this.state.detailModal}
           onRequestClose={() => this.closeModal("detailModal")}
           title="Bot's detail"
@@ -58,7 +58,7 @@ export default class ResultsList extends Component {
             <li>{item.createdAt}</li>
           </ul>
           <button className="button-primary">Edit</button>
-        </Modal>
+        </ModalContainer>
       </div>
     )
   }

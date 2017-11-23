@@ -10,6 +10,10 @@ import {
 } from '../actions/botsAction';
 
 import {
+  runPractice
+} from '../actions/gamesAction';
+
+import {
   getHistory
 } from '../actions/matchesAction';
 
@@ -28,8 +32,11 @@ const mapDispatchToProps = (dispatch) => ({
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))
     },
-    onStandBot: (id) => {
-      dispatch(standBot(id))
+    onPracticeBot: (botId) => {
+      dispatch(runPractice(botId))
+    },
+    onStandBot: (botId) => {
+      dispatch(standBot(botId))
     }
 });
 

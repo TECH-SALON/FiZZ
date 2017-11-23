@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../utils/Modal';
+import ModalContainer from '../utils/Modal';
 
 export default class BotsList extends Component {
   static propTypes = {
@@ -44,7 +44,7 @@ export default class BotsList extends Component {
     const { item } = this.state;
     return(
       <div>
-        <Modal
+        <ModalContainer
           isOpen={this.state.detailModal}
           onRequestClose={() => this.closeModal("detailModal")}
           title="Bot's detail"
@@ -58,15 +58,15 @@ export default class BotsList extends Component {
             <li>{item.createdAt}</li>
           </ul>
           <button className="button-primary">Edit</button>
-        </Modal>
-        <Modal
+        </ModalContainer>
+        <ModalContainer
           isOpen={this.state.practiceModal}
           onRequestClose={() => this.closeModal("practiceModal")}
           title="Practice your bot"
-          description="Botを練習させましょう"
+          description="このbotを練習試合させますか？ボタンを押すと練習が始まります。結果は結果一覧リストに表示されます。"
         >
-          <button className="button-primary">Run</button>
-        </Modal>
+          <button onClick={(item) => this.props.onPracticeBot(item.botId)} className="button-primary">YES</button>
+        </ModalContainer>
       </div>
     )
   }
@@ -104,7 +104,7 @@ export default class BotsList extends Component {
               <td>Reversi</td>
               <td>30%</td>
               <td>
-                <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
+                <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={(item) => this.openModal("practiceModal", item)}>Practice</button>
               </td>
             </tr>
             <tr>

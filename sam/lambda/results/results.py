@@ -12,7 +12,7 @@ import uuid
 # TODO: Manage Return Value
 
 class DB:
-    main_table = "Accounts"
+    main_table = "Results"
 
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
@@ -61,6 +61,8 @@ class DB:
             return (resp, None)
         return (None, attr)
 
+
+
     def query(self, table_name, key, value):
         table = self.db_client.Table(table_name)
         try:
@@ -85,7 +87,19 @@ class DB:
 
 ####################### API #########################
 
-def example(event, context):
+def scan_results(event, context):
+    # Error Handling
+    # Parameters Check
+    # Return Response
+    return {'statusCode': 400, 'body': 'Request Failed'}
+
+def get_results(event, context):
+    # Error Handling
+    # Parameters Check
+    # Return Response
+    return {'statusCode': 400, 'body': 'Request Failed'}
+
+def get_fights_log(event, context):
     # Error Handling
     # Parameters Check
     # Return Response

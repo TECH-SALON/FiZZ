@@ -79,6 +79,7 @@ class DB:
 
     def scan(self):
         # self.scan()
+        return
 
     def validates(item):
         error = {}
@@ -124,10 +125,12 @@ def get_ranking(event, context):
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
+            break
         elif event['httpMethod'] == 'POST':
+            break
         elif event['httpMethod'] == 'PUT':
-        else:
-            return {'statusCode': 400, 'body': 'Request Failed'}
+            break
+        return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
         print(e)
         return {'statusCode': 500, 'body': 'Request Failed'}

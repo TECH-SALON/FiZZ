@@ -28,7 +28,10 @@ services:
     tty: false
     stdin_open: false
   sam:
-    image: cnadiminti/aws-sam-local
+    # image: cnadiminti/aws-sam-local
+    build:
+      context: ./sam
+      dockerfile: Dockerfile
     command: local start-api --docker-volume-basedir "$PWD/sam" --host 0.0.0.0
     ports:
       - '3000:3000'

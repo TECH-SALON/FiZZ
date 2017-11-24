@@ -82,14 +82,14 @@ sam-help:
 sam-validate:
 	$(SAM) validate
 
-sam-local-generate-event:
-	$(SAM) local generate-event api > ./sam/test/events/event.json
+# sam-local-generate-event:
+# 	$(SAM) local generate-event api > ./sam/test/events/event.json
 
-sam-local-invoke:
-	$(SAM) local invoke -e ./test/events/event.json --docker-volume-basedir "test"
+# sam-local-invoke:
+# 	$(SAM) local invoke -e ./test/events/event.json --docker-volume-basedir "test"
 
-sam-test:
-	$(SAM) local invoke ${FN} -e ./test/events/${EV} --docker-volume-basedir "."
+# sam-test:
+# 	$(SAM) local invoke ${FN} -e ./test/events/${EV} --docker-volume-basedir "."
 
 sam-local-start-api:
 	$(SAM) local start-api --docker-volume-basedir "." --host 0.0.0.0
@@ -97,8 +97,5 @@ sam-local-start-api:
 db-list:
 	aws dynamodb list-tables --endpoint-url http://localhost:8000
 
-sam-test-bot:
-	make sam-test EV="bots.json" FN="Bots"
-
-sam-test-check-input:
-	python ./sam/test/events/check_json.py
+# sam-test-bot:
+# 	make sam-test EV="bots.json" FN="Bots"

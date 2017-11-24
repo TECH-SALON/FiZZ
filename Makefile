@@ -89,7 +89,7 @@ sam-local-invoke:
 	$(SAM) local invoke -e ./test/events/event.json --docker-volume-basedir "test"
 
 sam-test:
-	$(SAM) local invoke ${FN} -e ./test/events/${EV} --docker-volume-basedir "test"
+	$(SAM) local invoke ${FN} -e ./test/events/${EV} --docker-volume-basedir "."
 
 sam-local-start-api:
 	$(SAM) local start-api --docker-volume-basedir "." --host 0.0.0.0

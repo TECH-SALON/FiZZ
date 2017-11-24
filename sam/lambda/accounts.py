@@ -99,6 +99,13 @@ def get_account(event, context):
     # Return Response
     return {'statusCode': 400, 'body': 'Request Failed'}
 
+def get_account_bots(event, context):
+    # Error Handling
+    # Parameters Check
+    # Return Response
+    return {'statusCode': 400, 'body': 'Request Failed'}
+
+
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':

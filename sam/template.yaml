@@ -17,7 +17,12 @@ Resources:
         GetAccount:
           Type: Api
           Properties:
-            Path: /api/v1/accounts/{accountId}
+            Path: /api/v1/accounts/{username}
+            Method: get
+        GetAccountBots:
+          Type: Api
+          Properties:
+            Path: /api/v1/accounts/{username}
             Method: get
 
   Games:
@@ -99,7 +104,6 @@ Resources:
     Properties:
       Handler: lambda/auth.handler
       Runtime: python3.6
-      Policies: AmazonDynamoDBFullAccess
       Events:
         Login:
           Type: Api

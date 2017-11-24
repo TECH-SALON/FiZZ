@@ -1,4 +1,4 @@
-import api from '../api';
+import api, {endPoint} from '../api';
 import {mapGameIdToName} from '../utils';
 
 export const GAMES_RUN_MATCH = 'GAMES_RUN_MATCH';
@@ -24,7 +24,7 @@ export function runMatch(botId) {
     params.append("botId", botId);
     params.append("ruleId", "");
     params.append("range", "");
-    let url = "/api/v1/games/reversi/match";
+    let url = "${endPoint()}/api/v1/games/reversi/match";
     api(getState).post(url, params).then( response => {
       runMatchSuccess(response.data);
     }).catch( error => {
@@ -58,11 +58,10 @@ function runMatchFail(error){
 
 export function runPractice(botId) {
   return(dispatch, getState) => {
-    console.log(botId);
     dispatch(runPracticeRequest(botId));
     let params = new FormData();
     params.append("botId", botId);
-    let url = "/api/v1/games/reversi/practice";
+    let url = "${endPoint()}/api/v1/games/reversi/practice";
     api(getState).post(url, params).then( response => {
       runPracticeSuccess(response.data);
     }).catch( error => {
@@ -95,7 +94,7 @@ function runPracticeFail(error){
 export function getRanking(gameName) {
   return(dispatch, getState) => {
     dispatch(getRankingRequest(gameName));
-    let url = `/api/v1/games/${gameName}/ranking`;
+    let url = `${endPoint()}/api/v1/games/${gameName}/ranking`;
     api(getState).get(url).then( response => {
       getRankingSuccess(response.data);
     }).catch( error => {

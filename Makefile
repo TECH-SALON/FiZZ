@@ -99,3 +99,6 @@ db-list:
 
 # sam-test-bot:
 # 	make sam-test EV="bots.json" FN="Bots"
+
+sam-bash:
+	docker-compose run --rm --entrypoint bash sam

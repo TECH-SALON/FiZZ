@@ -61,8 +61,6 @@ class DB:
             return (resp, None)
         return (None, attr)
 
-
-
     def query(self, table_name, key, value):
         table = self.db_client.Table(table_name)
         try:

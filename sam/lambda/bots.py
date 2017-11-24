@@ -2,7 +2,7 @@ import os
 import json
 import boto3
 
-from pytz import timezone
+# from pytz import timezone
 from datetime import datetime
 import uuid
 
@@ -23,8 +23,18 @@ class DB:
         else:
             self.db_client = boto3.resource('dynamodb')
 
+    def validates(item):
+        # nameはアカウントごとにユニーク
+        # それぞれのkeytypeをcheckする
+        # if isPrivate is 1 then repoUrl is in FiZZ repo
+        # gameId is valid
+        # bot名のvalidation
+        error = {}
+        return (True, error)
+
     def create(self, accountId, gameId, name, isPrivate, repoUrl):
-        utc = str(datetime.now(timezone('UTC')))
+        # utc = str(datetime.now(timezone('UTC')))
+        utc = str(datetime.now())
         item = {
             'uuid': uuid.uuid4(),
             'accountId': accountId,
@@ -45,13 +55,14 @@ class DB:
 
         # dynamodb
         if success:
-            self.db_client.Table(DB.main_table).put_item(Item=item);
+            self.db_client.Table(DB.main_table).put_item(Item=item)
             return (item, None)
 
         return (None, attr)
 
     def update(self, uuid, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
-        utc = str(datetime.now(timezone('UTC')))
+        # utc = str(datetime.now(timezone('UTC')))
+        utc = str(datetime.now())
         item = {
             'name': name,
             'isPrivate': isPrivate,
@@ -64,7 +75,7 @@ class DB:
             'updatedAt': utc
         }
         # dynamodb
-        success, attr = self.validates(item):
+        success, attr = self.validates(item)
 
         if success:
             updates = {}
@@ -102,14 +113,6 @@ class DB:
         res = self.query("Games", "name", name)
         return res['uuid']
 
-    def validates(item):
-        # nameはアカウントごとにユニーク
-        # それぞれのkeytypeをcheckする
-        # if isPrivate is 1 then repoUrl is in FiZZ repo
-        # gameId is valid
-        # bot名のvalidation
-        error = {}
-        return (True, error)
 
 ####################### API #########################
 
@@ -181,7 +184,7 @@ def update_bot(event, context):
         repoUrl=body['repoUrl']
     )
 
-    if error is None
+    if error is None:
         return {'statusCode': 200, 'body': str(resp)}
 
     return {'statusCode': 400, 'body': 'Request Failed'}

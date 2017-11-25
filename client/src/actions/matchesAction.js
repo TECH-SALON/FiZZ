@@ -1,4 +1,4 @@
-import api from '../api';
+import api, {endPoint} from '../api';
 
 export const MATCHES_GET_RESULTS = 'MATCHES_GET_RESULTS';
 export const MATCHES_GET_RESULTS_REQUEST = 'MATCHES_GET_RESULTS_REQUEST';
@@ -19,7 +19,7 @@ export const MATCHES_GET_FIGHTS_LOG_FAIL = 'MATCHES_GET_FIGHTS_LOG_FAIL';
 export function getResults(gameName) {
   return(dispatch, getState) => {
     dispatch(getResultsRequest(gameName));
-    let url = "/api/v1/matches";
+    let url = "${endPoint()}/api/v1/matches";
     let params = new FormData();
     params.append('gameName', gameName);
     api(getState).get(url, params).then( response => {
@@ -90,7 +90,7 @@ export function getFightsLog(botId) {
     // dispatch(runMatchRequest(botId));
     let params = new FormData();
     params.append('botId', botId);
-    let url = "/api/v1/games/reversi/match";
+    let url = "${endPoint()}/api/v1/games/reversi/match";
     api(getState).post(url, params).then( response => {
       getFightsLogSuccess(response.data);
     }).catch( error => {

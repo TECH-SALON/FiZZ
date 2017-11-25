@@ -10,10 +10,16 @@ See this: https://github.com/TECH-SALON/FiZZ/wiki/API
 
 ## Getting start
 
+### Development client or gameserver only
+
+just RUN `$ make init`
+
+### Development SAM(DynamoDB, Lambda, APIGateway etc...)
+
 1. RUN `$ make init`
-2. Install AWS CLI `pip install awscli` (**Mac or Linux**)
-3. Configure Accesskey `aws configure`
-4. RUN `$ make db`
+2. Install AWS CLI `pip install awscli` (**Mac or Linux**) & create credentials in AWS Dashboard, IAM.
+3. Configure Accesskey `aws configure` you get above.
+4. RUN `$ make db-init`
 
 It stands docker containers below
  - go  `localhost:5000`

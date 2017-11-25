@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Modal from '../utils/Modal';
+import ModalContainer from '../utils/Modal';
 
 export default class MatchForm extends Component {
 
@@ -56,7 +56,7 @@ export default class MatchForm extends Component {
     return(
       <div>
         <button className="button-primary" onClick={this.openModal}>Select Bot</button>
-        <Modal
+        <ModalContainer
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal("addNewModal")}
           title="Select your bot"
@@ -71,7 +71,7 @@ export default class MatchForm extends Component {
             </select>
             <input className="button-primary" type="submit" value="Submit"/>
           </form>
-        </Modal>
+        </ModalContainer>
       </div>
     )
   }

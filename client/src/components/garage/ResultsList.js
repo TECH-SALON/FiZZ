@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ModalContainer from '../utils/Modal';
 
-export default class BotsList extends Component {
+export default class ResultsList extends Component {
+  static propTypes = {
+    results: PropTypes.object.isRequired,
+  }
   constructor() {
     super();
     this.state = {
-      modalIsOpen: false,
+      detailModal: false,
+      practiceModal: false,
       item: {
         name: '',
         status: '',
+        gameName: '',
         resultSummary: '',
         createdAt: ''
       }
@@ -18,23 +23,24 @@ export default class BotsList extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
-  openModal(item) {
+  openModal(modalName, item) {
     this.setState({
-      modalIsOpen: true,
+      [modalName]: true,
       item: {
         name: item.name,
         status: item.status,
+        gameName: item.gameName,
         resultSummary: item.resultSummary,
         createdAt: item.createdAt
       }
     })
   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
+  closeModal(modalName) {
+    this.setState({[modalName]: false});
   }
 
-  renderModal() {
+  renderModals() {
     const { item } = this.state;
     return(
       <div>
@@ -47,6 +53,7 @@ export default class BotsList extends Component {
           <ul>
             <li>{item.name}</li>
             <li>{item.status}</li>
+            <li>{item.gameName}</li>
             <li>{item.resultSummary}</li>
             <li>{item.createdAt}</li>
           </ul>
@@ -55,50 +62,68 @@ export default class BotsList extends Component {
       </div>
     )
   }
+
   render() {
+    const { results } = this.props;
     return(
       <div className="table">
-        {this.renderModal()}
+        {this.renderModals()}
         <table className="u-full-width">
           <thead>
             <tr>
               <th>Name</th>
               <th>Status</th>
-              <th>Win%</th>
-              <th>Action</th>
+              <th>Game</th>
+              <th>%</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
+            {results.map((item) => {
+              <tr>
+                <td>{item.name}</td>
+                <td>{item.status}</td>
+                <td>{item.gameName}</td>
+                <td>{item.winPercentage}</td>
+                <td>
+                  <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button>
+                </td>
+              </tr>
+            })}
             <tr>
               <td>Bot1</td>
-              <td>ReversiBot</td>
+              <td>NotQualified</td>
+              <td>Reversi</td>
               <td>30%</td>
               <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
+                <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button>
               </td>
             </tr>
             <tr>
               <td>Bot2</td>
-              <td>ReversiBot2</td>
-              <td>40%</td>
+              <td>NotQualified</td>
+              <td>Reversi</td>
+              <td>30%</td>
               <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
+                <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
               </td>
             </tr>
             <tr>
               <td>Bot3</td>
-              <td>ReversiBot3</td>
-              <td>60%</td>
+              <td>NotQualified</td>
+              <td>Reversi</td>
+              <td>30%</td>
               <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
+                <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
               </td>
             </tr>
             <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
+              <td>Bot4</td>
+              <td>NotQualified</td>
+              <td>Reversi</td>
               <td>30%</td>
               <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
+                <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button>
               </td>
             </tr>
           </tbody>

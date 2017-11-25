@@ -6,7 +6,7 @@
 
 See this: https://github.com/TECH-SALON/FiZZ/wiki/API
 
-# Develo
+# Development
 
 ## Getting start
 
@@ -16,11 +16,11 @@ See this: https://github.com/TECH-SALON/FiZZ/wiki/API
 4. RUN `$ make db`
 
 It stands docker containers below
- - go
- - webpack
+ - go  `localhost:5000`
+ - webpack `localhost:8080`
  - data
- - sam
- - db
+ - sam `localhost:3000`
+ - db  `localhost:8000/shell`
 
 `$GOPATH` is `/go` and working directory is `./gameserver:/go/src/app`
 It means go builds application as 'app' in `/go/src/app` (mounted host directory `./gameserver`)pment

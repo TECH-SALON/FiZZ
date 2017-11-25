@@ -9,21 +9,34 @@ import {
   standBot,
 } from '../actions/botsAction';
 
+import {
+  runPractice
+} from '../actions/gamesAction';
+
+import {
+  getResults
+} from '../actions/matchesAction';
+
 const mapStateToProps = (state) => {
   return {
     bots: state.getIn(['bots', 'items']),
+    results: state.getIn(['matches', 'results'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
       dispatch(getBots());
+      dispatch(getResults());
     },
     onRegisterBot: (bot) => {
       dispatch(registerBot(bot))
     },
-    onStandBot: (id) => {
-      dispatch(standBot(id))
+    onPracticeBot: (botId) => {
+      dispatch(runPractice(botId))
+    },
+    onStandBot: (botId) => {
+      dispatch(standBot(botId))
     }
 });
 

@@ -2,7 +2,7 @@
 
 .garage {
   background-image: radial-gradient(farthest-side ellipse at 10% 0, #296687 20%, #34828f);
-  height: 100vh;
+  height: 100%;
   color: #eceff1;
 }
 

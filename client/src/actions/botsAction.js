@@ -27,8 +27,7 @@ export function registerBot(bot){
     dispatch(registerBotRequest(bot));
     let params = new FormData();
     params.append('bot', bot);
-    console.log(bot);
-    let url = `/api/v1/bots/${mapGameIdToName(bot.gameId)}`
+    let url = `${endPoint()}/api/v1/bots/${mapGameIdToName(bot.gameId)}`
     api(getState).post(url, params).then( response => {
       registerBotSuccess(response.data);
     }).catch( error => {
@@ -61,7 +60,7 @@ function registerBotFail(error){
 //get bots
 export function getBots(refresh = false){
   return (dispatch, getState) => {
-    dispatch(getBotsRequest())
+    dispatch(getBotsRequest());
 
     const bots = getState().get('bots');
 
@@ -104,7 +103,7 @@ export function getBot(id){
   return (dispatch, getState) => {
     dispatch(getBotRequest(id))
 
-    let url = `/api/v1/bots/${id}`
+    let url = `${endPoint()}/api/v1/bots/${id}`
     api(getState).get(url).then( response => {
       getBotSuccess(response.data);
     }).catch( error => {
@@ -144,7 +143,7 @@ export function standBot(id){
       return
     }
 
-    let url = `/api/v1/bots/${id}`
+    let url = `${endPoint()}/api/v1/bots/${id}`
     api(getState).get(url).then( response => {
       standBotSuccess(response.data);
     }).catch( error => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Modal from '../utils/Modal';
+import ModalContainer from '../utils/Modal';
 
 export default class RegisterForm extends Component {
 
@@ -46,7 +46,7 @@ export default class RegisterForm extends Component {
     event.preventDefault();
     let bot = {
       name: this.state.botName,
-      gameId: this.state.gameId,
+      gameId: Number(this.state.gameId),
       url: this.state.url,
       comment: this.state.comment
     };
@@ -63,7 +63,7 @@ export default class RegisterForm extends Component {
     return(
       <div>
         <button className="button-primary" onClick={this.openModal}>Add New</button>
-        <Modal
+        <ModalContainer
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           title="Add your Bot"
@@ -83,7 +83,7 @@ export default class RegisterForm extends Component {
             <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
             <input className="button-primary" type="submit" value="Submit"/>
           </form>
-        </Modal>
+        </ModalContainer>
       </div>
     )
   }

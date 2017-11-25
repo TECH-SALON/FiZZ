@@ -49,6 +49,7 @@ services:
     command: "-sharedDb -dbPath /data"
     env_file:
       - ./.env.dev
+
   data:
     image: "busybox"
     volumes:

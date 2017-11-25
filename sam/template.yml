@@ -54,6 +54,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
+      Timeout: 30
       Handler: lambda/bots/bots.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess

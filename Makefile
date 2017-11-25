@@ -117,3 +117,6 @@ S3 = "fizz-sam-development"
 
 sam-package:
 	$(SAM) package --template-file ${TEMP} --s3-bucket ${S3} --output-template-file packaged.yml
+
+sam-host:
+	sam local start-api -p 3001 --env-vars ./sam/sam-local/env.json

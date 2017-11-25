@@ -6,22 +6,25 @@ import boto3
 from datetime import datetime
 import uuid
 
-# TODO: Check Parameters
 # TODO: Validates
-# TODO: Error and Exception Handling
-# TODO: Manage Return Value
 
 class DB:
     main_table = "Bots"
 
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
+            print('execute for local')
             self.db_client = boto3.resource(
                 'dynamodb',
                 endpoint_url="http://localhost:8000"
             )
         else:
-            self.db_client = boto3.resource('dynamodb')
+            print('executes for remote')
+            # self.db_client = boto3.resource('dynamodb')
+            self.db_client = boto3.resource(
+                'dynamodb',
+                endpoint_url="http://localhost:8000"
+            )
 
     def validates(item):
         # nameはアカウントごとにユニーク
@@ -36,7 +39,7 @@ class DB:
         # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
         item = {
-            'uuid': uuid.uuid4(),
+            'id': uuid.uuid4(),
             'accountId': accountId,
             'gameId': gameId,
             'name': name,
@@ -60,7 +63,7 @@ class DB:
 
         return (None, attr)
 
-    def update(self, uuid, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
+    def update(self, id, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
         # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
         item = {
@@ -84,7 +87,7 @@ class DB:
                     updates[k] = { 'Action': 'PUT', 'Value': v}
 
             resp = self.db_client.Table(DB.main_table).update_item(
-                Key={'uuid': uuid },
+                Key={'id': id },
                 AttributeUpdates=updates,
                 ReturnValues="ALL_NEW"
             )
@@ -95,61 +98,80 @@ class DB:
         table = self.db_client.Table(table_name)
         try:
             res = table.query(
-                KeyConditionExpression = Key(key).eq(value)
+                KeyConditionExpression = f"{key} = :val",
+                ExpressionAttributeValues = {
+                    ":val": {"S": f"{value}"}
+                }
             )
-            return res
+            return (res, None)
         except Exception as e:
             print(e.__doc__)
-            return e
+            return (None, e)
 
-    def get(self, uuid):
-        self.query(DB.main_table, 'uuid', uuid)
+    def get(self, id):
+        resp, error = self.query(DB.main_table, 'id', id)
+        if error is None:
+            return (resp, None)
+        return (None, error)
 
-    def scan(self):
-        # self.scan()
-        return
+    def scan(self, accountId):
+        try:
+            resp = self.db_client.Table(DB.main_table).scan(
+                Limit=100
+            )
+            return (resp, None)
+        except Exception as e:
+            print(e)
+            return (None, e)
 
     def transform_game_name2id(name):
         res = self.query("Games", "name", name)
-        return res['uuid']
+        return res['id']
 
 
 ####################### API #########################
 
+# TODO: Check Parameters
+# TODO: Error and Exception Handling
+# TODO: Manage Return Value
+
 #GET /api/v1/bots
 def scan_bots(event, context):
+    db = DB()
     print(event)
     if event['httpMethod'] == 'GET':
-        return {"statusCode": 200, "body": 'Scan Bots!!'}
-    else:
-        return {'statusCode': 400, 'body': 'This method is not supported.'}
+        resp, error = db.scan('accountId')
+        if error is None:
+            return {'statusCode': 200, "body": str(resp)}
+    return {'statusCode': 400, 'body': 'Request Failed'}
 
 #GET /api/v1/bots/:botId
 def get_bot(event, context):
+    db = DB()
     print(event)
     if event['httpMethod'] == 'GET':
+        resp, error = db.get('eeb4e9f0-f69c-4ad6-99f2-e82166188ce6')
         return {"statusCode": 200, "body": 'GET Bot!!'}
     else:
         return {'statusCode': 400, 'body': 'This method is not supported.'}
 
 #POST /api/v1/bots/:gameName
 def create_bot(event, context):
+    db = DB()
     print("Register bot");
     print(event)
     if event['httpMethod'] == 'POST':
         try:
             body = json.loads(event['body'])
             gameName = event['pathParameters']['gameName']
-            bot = Bot()
-            resp, error = bot.create_bot(
+            resp, error = db.create(
                 accountId=body['accountId'],
-                gameId=bot.transform_game_name2id(gameName),
+                gameId=db.transform_game_name2id(gameName),
                 name=body['name'],
                 isPrivate=body['isPrivate'],
                 repoUrl=body['repoUrl']
             )
-            ret = str(resp)
-            print(ret)
+            print(resp)
         except Exception as e:
             print(e.__doc__)
             return {'statusCode': 400, 'body': 'Request Failed'}
@@ -157,11 +179,12 @@ def create_bot(event, context):
         return {'statusCode': 400, 'body': 'This method is not supported.'}
 
     if error is None:
-        return {'statusCode': 201, 'body': ret}
+        return {'statusCode': 201, 'body': str(resp)}
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 # PUT /api/v1/bots/:botId
 def update_bot(event, context):
+    db = DB()
     print(event)
     if event['httpMethod'] == 'PUT':
         try:
@@ -173,11 +196,10 @@ def update_bot(event, context):
         return {'statusCode': 400, 'body': 'This method is not supported.'}
 
 
-    uuid = event['pathParameters']['botId']
+    id = event['pathParameters']['botId']
 
-    bot = Bot()
-    resp, error = bot.update_bot(
-        uuid,
+    resp, error = db.update(
+        id,
         name=body['name'],
         isPrivate=body['isPrivate'],
         isStandBy=body['isStandBy'],
@@ -194,17 +216,14 @@ def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
             if 'botId' in event['pathParameters'].keys():
-                # GetBot
                 return get_bot(event, context)
             else:
-                # ScanBots
                 return scan_bots(event, context)
         elif event['httpMethod'] == 'POST':
             return create_bot(event, context)
         elif event['httpMethod'] == 'PUT':
             return update_bot(event, context)
-        else:
-            return {'statusCode': 400, 'body': 'Request Failed'}
+        return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
         print(e)
         return {'statusCode': 500, 'body': 'Request Failed'}

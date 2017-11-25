@@ -47,7 +47,8 @@ function create_local_dynamo_db() {
   local table_name=$(basename $table_dir)
   echo $table_name
   local endpoint="http://localhost:8000"
-  if [[ ! -s ${table_dir}/table_info.json ]]; then
+
+  # if [[ ! -s ${table_dir}/table_info.json ]]; then
     aws dynamodb create-table \
       --endpoint-url $endpoint \
       --table-name $table_name \
@@ -61,7 +62,7 @@ function create_local_dynamo_db() {
     #   echo -n .
     # done
     # echo "...done!"
-  fi
+  # fi
 }
 
 function create_local_db() {

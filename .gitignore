@@ -10,3 +10,4 @@
 /client/*log
 /sam/test/events/event.json
 /sam/dynamodb/tables/*/table_info.json
+/sam/*/*/__pycache__/

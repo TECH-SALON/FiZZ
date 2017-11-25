@@ -10,8 +10,10 @@ See this: https://github.com/TECH-SALON/FiZZ/wiki/API
 
 ## Getting start
 
-Install AWS CLI `pip install awscli` (**Mac or Linux**)
-RUN `$ make init`
+1. RUN `$ make init`
+2. Install AWS CLI `pip install awscli` (**Mac or Linux**)
+3. Configure Accesskey `aws configure`
+4. RUN `$ make db`
 
 It stands docker containers below
  - go

@@ -26,7 +26,7 @@ class DB:
     def create(self):
         utc = datetime.now(timezone('UTC'))
         item = {
-            'uuid': uuid.uuid4(),
+            'id': uuid.uuid4(),
             'updatedAt': utc,
             'createdAt': utc
         }
@@ -39,7 +39,7 @@ class DB:
 
         return (None, attr)
 
-    def update(self, uuid):
+    def update(self, id):
         utc = datetime.now(timezone('UTC'))
         item = {
             'updatedAt': utc
@@ -54,7 +54,7 @@ class DB:
                     updates[k] = { 'Action': 'PUT', 'Value': v}
 
             resp = self.db_client.Table("").update_item(
-                Key={'uuid': uuid },
+                Key={'id': id },
                 AttributeUpdates=updates,
                 ReturnValues="ALL_NEW"
             )
@@ -74,8 +74,8 @@ class DB:
             print(e.__doc__)
             return e
 
-    def get(self, uuid):
-        self.query("", 'uuid', uuid)
+    def get(self, id):
+        self.query("", 'id', id)
 
     def scan(self):
         # self.scan()

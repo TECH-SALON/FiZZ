@@ -16,6 +16,15 @@ down:
 start:
 	docker-compose start
 
+# initialize-db:
+# 	./sam/fizz-aws create_local
+# 	./sam/fizz-aws seed_local
+
+# recreate-db:
+# 	./sam/fizz-aws drop_local
+# 	./sam/fizz-aws create_local
+# 	./sam/fizz-aws seed_local
+
 
 GOP = docker-compose run -p 5000:5000 --rm go
 GO = docker-compose run --rm go
@@ -102,3 +111,9 @@ db-list:
 
 sam-bash:
 	docker-compose run --rm --entrypoint bash sam
+
+TEMP = "template.yml"
+S3 = "fizz-sam-development"
+
+sam-package:
+	$(SAM) package --template-file ${TEMP} --s3-bucket ${S3} --output-template-file packaged.yml

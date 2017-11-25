@@ -1,5 +1,5 @@
 {
-    "uuid": {"S":"eeb4e9f0-f69c-4ad6-99f2-e82166188ce6"},
+    "id": {"S":"eeb4e9f0-f69c-4ad6-99f2-e82166188ce6"},
     "gameName": {"S": "reversi"},
     "totalMatches": {"N": "100"},
     "updatedAt": {"S": "2017-11-23 07:02:10.214179+00:00"},

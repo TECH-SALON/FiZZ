@@ -5,7 +5,8 @@ Resources:
   Accounts:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: lambda/accounts/accounts.handler
+      CodeUri: ./lambda/accounts
+      Handler: accounts.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -28,6 +29,7 @@ Resources:
   Games:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: .
       Handler: lambda/games/games.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
@@ -51,6 +53,7 @@ Resources:
   Bots:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: .
       Handler: lambda/bots/bots.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
@@ -79,6 +82,7 @@ Resources:
   Results:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: ./lambda/results
       Handler: lambda/results/results.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
@@ -102,6 +106,7 @@ Resources:
   Auth:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: ./lambda/auth
       Handler: lambda/auth/auth.handler
       Runtime: python3.6
       Events:

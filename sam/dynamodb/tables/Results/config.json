@@ -1,7 +1,7 @@
 {
   "AttributeDefinitions": [
     {
-      "AttributeName": "uuid",
+      "AttributeName": "id",
       "AttributeType": "S"
     },
     {
@@ -12,7 +12,7 @@
   "KeySchema": [
     {
       "KeyType": "HASH",
-      "AttributeName": "uuid"
+      "AttributeName": "id"
     },
     {
       "KeyType": "RANGE",

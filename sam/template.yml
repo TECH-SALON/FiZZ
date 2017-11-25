@@ -5,9 +5,9 @@ Resources:
   Accounts:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./lambda/accounts
+      CodeUri: lambda/accounts
       Timeout: 30
-      Handler: lambda/accounts/accounts.handler
+      Handler: accounts/accounts.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -30,9 +30,9 @@ Resources:
   Games:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: .
+      CodeUri: lambda/games
       Timeout: 30
-      Handler: lambda/games/games.handler
+      Handler: games/games.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -55,9 +55,9 @@ Resources:
   Bots:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: .
+      CodeUri: lambda/bots
       Timeout: 30
-      Handler: lambda/bots/bots.handler
+      Handler: bots/bots.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -85,9 +85,9 @@ Resources:
   Results:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./lambda/results
+      CodeUri: lambda/results
       Timeout: 30
-      Handler: lambda/results/results.handler
+      Handler: results/results.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -110,9 +110,9 @@ Resources:
   Auth:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./lambda/auth
+      CodeUri: lambda/auth
       Timeout: 30
-      Handler: lambda/auth/auth.handler
+      Handler: auth/auth.handler
       Runtime: python3.6
       Events:
         Login:

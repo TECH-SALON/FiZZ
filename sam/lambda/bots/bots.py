@@ -13,18 +13,12 @@ class DB:
 
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
-            print('execute for local')
             self.db_client = boto3.resource(
                 'dynamodb',
                 endpoint_url="http://localhost:8000"
             )
         else:
-            print('executes for remote')
-            # self.db_client = boto3.resource('dynamodb')
-            self.db_client = boto3.resource(
-                'dynamodb',
-                endpoint_url="http://localhost:8000"
-            )
+            self.db_client = boto3.resource('dynamodb')
 
     def validates(item):
         # nameはアカウントごとにユニーク
@@ -116,9 +110,7 @@ class DB:
 
     def scan(self, accountId):
         try:
-            resp = self.db_client.Table(DB.main_table).scan(
-                Limit=100
-            )
+            resp = self.db_client.Table(DB.main_table).scan()
             return (resp, None)
         except Exception as e:
             print(e)

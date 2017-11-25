@@ -15,16 +15,8 @@ down:
 	docker-compose down
 start:
 	docker-compose start
-
-# initialize-db:
-# 	./sam/fizz-aws create_local
-# 	./sam/fizz-aws seed_local
-
-# recreate-db:
-# 	./sam/fizz-aws drop_local
-# 	./sam/fizz-aws create_local
-# 	./sam/fizz-aws seed_local
-
+logs:
+	docker-compose logs
 
 GOP = docker-compose run -p 5000:5000 --rm go
 GO = docker-compose run --rm go
@@ -91,23 +83,23 @@ sam-help:
 sam-validate:
 	$(SAM) validate
 
-# sam-local-generate-event:
-# 	$(SAM) local generate-event api > ./sam/test/events/event.json
+FN="bots"
+EV="event"
 
-# sam-local-invoke:
-# 	$(SAM) local invoke -e ./test/events/event.json --docker-volume-basedir "test"
+sam-local-generate-event:
+	$(SAM) local generate-event api > ./sam/lambda/${FN}/event.json
 
-# sam-test:
-# 	$(SAM) local invoke ${FN} -e ./test/events/${EV} --docker-volume-basedir "."
+sam-local-invoke:
+	$(SAM) local invoke ${AC} -e ./sam/lambda/${FN}/${EV}.json --docker-volume-basedir "."
 
 sam-local-start-api:
 	$(SAM) local start-api --docker-volume-basedir "." --host 0.0.0.0
 
+sam-log:
+	docker-compose logs sam
+
 db-list:
 	aws dynamodb list-tables --endpoint-url http://localhost:8000
-
-# sam-test-bot:
-# 	make sam-test EV="bots.json" FN="Bots"
 
 sam-bash:
 	docker-compose run --rm --entrypoint bash sam
@@ -117,3 +109,18 @@ S3 = "fizz-sam-development"
 
 sam-package:
 	$(SAM) package --template-file ${TEMP} --s3-bucket ${S3} --output-template-file packaged.yml
+
+
+db-init:
+	cd sam && \
+	./fizz-aws create_local && \
+	./fizz-aws list_local && \
+	./fizz-aws seed_local && \
+	cd ..
+
+db-recreate:
+	cd sam && ./fizz-aws drop_local && \
+	./fizz-aws create_local && \
+	./fizz-aws list_local && \
+	./fizz-aws seed_local && \
+	cd ..

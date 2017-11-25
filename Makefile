@@ -91,10 +91,10 @@ sam-local-generate-event:
 	$(SAM) local generate-event api > ./sam/lambda/${FN}/event.json
 
 sam-local-invoke:
-	$(SAM) local invoke ${AC} -e ./lambda/${FN}/${EV}.json --docker-volume-basedir "${PWD}/sam/lambda/${FN}"
+	$(SAM) local invoke ${AC} -e ./lambda/${FN}/${EV}.json --docker-volume-basedir "${PWD}/sam/lambda"
 
 sam-local-start-api:
-	docker-compose run --rm -p 3001:3000 sam local start-api -t ./template.yml --docker-volume-basedir "${PWD}/sam/lambda/${FN}" --host 0.0.0.0
+	docker-compose run --rm -p 3001:3000 sam local start-api -t ./template.yml --docker-volume-basedir "${PWD}/sam/lambda" --host 0.0.0.0
 
 sam-log:
 	docker-compose logs sam

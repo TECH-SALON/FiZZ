@@ -1,10 +1,35 @@
 /*GarageのCSS*/
 
 .garage {
-  background-image: radial-gradient(farthest-side ellipse at 10% 0, #296687 20%, #34828f);
+  /*background-image: radial-gradient(farthest-side ellipse at 10% 0, #296687 20%, #34828f);*/
   height: 100%;
   color: #eceff1;
+  background-image: url('assets/utils/garage_back_image17.svg');
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-attachment: fixed;
+  background-size:cover;
 }
+
+.garage .contents-body {
+  padding-bottom: 900px;
+  /*background-image: url('assets/utils/garage_back_image3.svg');
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-attachment: fixed;
+  background-size:cover;*/
+}
+
+/*.garage .over-lay {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color:rgba(255,255,255,0.25);
+}*/
 
 .garage .page-title {
   float: left;

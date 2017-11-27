@@ -90,7 +90,7 @@ sam-local-generate-event:
 	$(SAM) local generate-event api > ./sam/lambda/${FN}/event.json
 
 sam-local-invoke:
-	$(SAM) local invoke ${AC} -e ./sam/lambda/${FN}/${EV}.json --docker-volume-basedir "."
+	$(SAM) local invoke ${AC} -e ./lambda/${FN}/${EV}.json --docker-volume-basedir "."
 
 sam-local-start-api:
 	$(SAM) local start-api --docker-volume-basedir "." --host 0.0.0.0

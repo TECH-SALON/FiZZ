@@ -34,6 +34,7 @@ export default class Garage extends Component {
     const { bots, results } = this.props;
     return(
       <div className="garage">
+        <div className="over-lay"></div>
         <div className="contents-body">
           <div className="container">
             <div className="row margin-top-25">

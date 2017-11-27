@@ -1,11 +1,15 @@
-import os
+import sys, os
 import json
 import boto3
 
-# from pytz import timezone
 import traceback
 from datetime import datetime
 import uuid
+
+moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
+sys.path.append(moduledir)
+
+from pytz import timezone
 
 # TODO: Validates
 
@@ -107,16 +111,16 @@ class DB:
         resp = self.db_client.Table(DB.main_table).scan()
         return resp
 
-    def transform_game_name2id(name):
-        res = self.query("Games", "name", name)
-        return res['id']
+    def transform_game_name2id(self, name):
+        res = self.query("Games", "gameName", name)
+        return res
 
 
 ####################### API #########################
 
 # TODO: Check Parameters
 # TODO: Error and Exception Handling
-# TODO: Manage Return Value
+# TODO: Manage Return Value (Serialize)
 
 #GET /api/v1/bots
 def scan_bots(event, context):

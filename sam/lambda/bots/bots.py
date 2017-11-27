@@ -2,7 +2,8 @@ import os
 import json
 import boto3
 
-# from pytz import timezone
+from pytz import timezone
+import traceback
 from datetime import datetime
 import uuid
 
@@ -103,7 +104,7 @@ class DB:
             return (None, e)
 
     def get(self, id):
-        resp, error = self.query(DB.main_table, 'id', id)
+        resp, error = self.(DB.main_table, 'id', id)
         if error is None:
             return (resp, None)
         return (None, error)
@@ -129,77 +130,70 @@ class DB:
 
 #GET /api/v1/bots
 def scan_bots(event, context):
-    db = DB()
     print(event)
-    if event['httpMethod'] == 'GET':
+    try:
+        db = DB()
         resp, error = db.scan('accountId')
         if error is None:
             return {'statusCode': 200, "body": str(resp)}
+    except:
+        traceback.print_exc()
+
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 #GET /api/v1/bots/:botId
 def get_bot(event, context):
-    db = DB()
     print(event)
-    if event['httpMethod'] == 'GET':
+    try:
+        db = DB()
         resp, error = db.get('eeb4e9f0-f69c-4ad6-99f2-e82166188ce6')
-        return {"statusCode": 200, "body": 'GET Bot!!'}
-    else:
-        return {'statusCode': 400, 'body': 'This method is not supported.'}
+        if error is None:
+            return {"statusCode": 200, "body": str(resp)}
+    except:
+        traceback.print_exc()
+    return {'statusCode': 400, 'body': 'Request Failed'}
 
 #POST /api/v1/bots/:gameName
 def create_bot(event, context):
-    db = DB()
-    print("Register bot");
     print(event)
-    if event['httpMethod'] == 'POST':
-        try:
-            body = json.loads(event['body'])
-            gameName = event['pathParameters']['gameName']
-            resp, error = db.create(
-                accountId=body['accountId'],
-                gameId=db.transform_game_name2id(gameName),
-                name=body['name'],
-                isPrivate=body['isPrivate'],
-                repoUrl=body['repoUrl']
-            )
-            print(resp)
-        except Exception as e:
-            print(e.__doc__)
-            return {'statusCode': 400, 'body': 'Request Failed'}
-    else:
-        return {'statusCode': 400, 'body': 'This method is not supported.'}
+    try:
+        db = DB()
+        body = json.loads(event['body'])
+        gameName = event['pathParameters']['gameName']
+        resp, error = db.create(
+            accountId=body['accountId'],
+            gameId=db.transform_game_name2id(gameName),
+            name=body['name'],
+            isPrivate=body['isPrivate'],
+            repoUrl=body['repoUrl']
+        )
+        if error is None:
+            return {'statusCode': 201, 'body': str(resp)}
+    except :
+        traceback.print_exc()
 
-    if error is None:
-        return {'statusCode': 201, 'body': str(resp)}
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 # PUT /api/v1/bots/:botId
 def update_bot(event, context):
-    db = DB()
     print(event)
-    if event['httpMethod'] == 'PUT':
-        try:
-            body = json.loads(event['body'])
-        except Exception as e:
-            print(e.__doc__)
-            return {'statusCode': 400, 'body': 'malformed json input'}
-    else:
-        return {'statusCode': 400, 'body': 'This method is not supported.'}
+    try:
+        db = DB()
+        body = json.loads(event['body'])
+        id = event['pathParameters']['botId']
 
+        resp, error = db.update(
+            id,
+            name=body['name'],
+            isPrivate=body['isPrivate'],
+            isStandBy=body['isStandBy'],
+            repoUrl=body['repoUrl']
+        )
 
-    id = event['pathParameters']['botId']
-
-    resp, error = db.update(
-        id,
-        name=body['name'],
-        isPrivate=body['isPrivate'],
-        isStandBy=body['isStandBy'],
-        repoUrl=body['repoUrl']
-    )
-
-    if error is None:
-        return {'statusCode': 200, 'body': str(resp)}
+        if error is None:
+            return {'statusCode': 200, 'body': str(resp)}
+    except:
+        traceback.print_exc()
 
     return {'statusCode': 400, 'body': 'Request Failed'}
 
@@ -216,6 +210,6 @@ def handler(event, context):
         elif event['httpMethod'] == 'PUT':
             return update_bot(event, context)
         return {'statusCode': 400, 'body': 'Request Failed'}
-    except BaseException as e:
-        print(e)
-        return {'statusCode': 500, 'body': 'Request Failed'}
+    except:
+        traceback.print_exc()
+    return {'statusCode': 500, 'body': 'Request Failed'}

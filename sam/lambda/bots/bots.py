@@ -2,7 +2,7 @@ import os
 import json
 import boto3
 
-from pytz import timezone
+# from pytz import timezone
 import traceback
 from datetime import datetime
 import uuid
@@ -91,31 +91,21 @@ class DB:
 
     def query(self, table_name, key, value):
         table = self.db_client.Table(table_name)
-        try:
-            res = table.query(
-                KeyConditionExpression = f"{key} = :val",
-                ExpressionAttributeValues = {
-                    ":val": {"S": f"{value}"}
-                }
-            )
-            return (res, None)
-        except Exception as e:
-            print(e.__doc__)
-            return (None, e)
+        res = table.query(
+            KeyConditionExpression = f"{key} = :val",
+            ExpressionAttributeValues = {
+                ":val": value
+            }
+        )
+        return res
 
     def get(self, id):
-        resp, error = self.(DB.main_table, 'id', id)
-        if error is None:
-            return (resp, None)
-        return (None, error)
+        resp = self.query(DB.main_table, "id", id)
+        return resp
 
     def scan(self, accountId):
-        try:
-            resp = self.db_client.Table(DB.main_table).scan()
-            return (resp, None)
-        except Exception as e:
-            print(e)
-            return (None, e)
+        resp = self.db_client.Table(DB.main_table).scan()
+        return resp
 
     def transform_game_name2id(name):
         res = self.query("Games", "name", name)
@@ -133,9 +123,8 @@ def scan_bots(event, context):
     print(event)
     try:
         db = DB()
-        resp, error = db.scan('accountId')
-        if error is None:
-            return {'statusCode': 200, "body": str(resp)}
+        resp = db.scan('accountId')
+        return {'statusCode': 200, "body": str(resp)}
     except:
         traceback.print_exc()
 
@@ -146,9 +135,8 @@ def get_bot(event, context):
     print(event)
     try:
         db = DB()
-        resp, error = db.get('eeb4e9f0-f69c-4ad6-99f2-e82166188ce6')
-        if error is None:
-            return {"statusCode": 200, "body": str(resp)}
+        resp = db.get('eeb4e9f0-f69c-4ad6-99f2-e82166188ce6')
+        return {"statusCode": 200, "body": str(resp)}
     except:
         traceback.print_exc()
     return {'statusCode': 400, 'body': 'Request Failed'}

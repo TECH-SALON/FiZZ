@@ -15,7 +15,7 @@ class DB:
         if os.getenv("AWS_SAM_LOCAL"):
             self.db_client = boto3.resource(
                 'dynamodb',
-                endpoint_url="http://10.2.0.2:8000"
+                endpoint_url="http://docker.for.mac.localhost:8000"
             )
         else:
             self.db_client = boto3.resource('dynamodb')
@@ -131,10 +131,6 @@ class DB:
 def scan_bots(event, context):
     db = DB()
     print(event)
-    print(db.db_client)
-    print(db.db_client.Table("Bots"))
-    print(db.db_client.Table("Bots").item_count())
-    return {'statusCode': 400, 'body': 'Request Failed'}
     if event['httpMethod'] == 'GET':
         resp, error = db.scan('accountId')
         if error is None:

@@ -55,6 +55,7 @@ services:
     volumes:
       - "go:/go"
       - "db:/data"
+
 volumes:
   go:
     driver: local

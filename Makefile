@@ -87,14 +87,17 @@ FN=bots
 EV=event
 AC=Bots
 
+TEMP = "lambda/template.yml"
+S3 = "fizz-sam-development"
+
 sam-local-generate-event:
-	$(SAM) local generate-event api > ./sam/lambda/${FN}/event.json
+	$(SAM) local generate-event api > ./sam/lambda/functions/${FN}/event.json
 
 sam-local-invoke:
-	docker-compose run --rm sam local invoke ${AC} -e ./lambda/${FN}/${EV}.json --docker-volume-basedir "${PWD}/sam/lambda"
+	docker-compose run --rm sam local invoke ${AC} -e ./lambda/functions/${FN}/${EV}.json --docker-volume-basedir "${PWD}/sam/lambda/functions"
 
 sam-local-start-api:
-	docker-compose run --rm -p 3001:3000 sam local start-api -t ./template.yml --docker-volume-basedir "${PWD}/sam/lambda" --host 0.0.0.0
+	docker-compose run --rm -p 3001:3000 sam local start-api -t ${TEMP} --docker-volume-basedir "${PWD}/sam/lambda/functions" --host 0.0.0.0
 
 sam-log:
 	docker-compose logs sam
@@ -105,12 +108,13 @@ db-list:
 sam-bash:
 	docker-compose run --rm --entrypoint bash sam
 
-TEMP = "template.yml"
-S3 = "fizz-sam-development"
-
 sam-package:
 	$(SAM) package --template-file ${TEMP} --s3-bucket ${S3} --output-template-file packaged.yml
 
+sam-bundle:
+	cd sam/lambda && \
+	make bundle && \
+	cd ../../
 
 db-init:
 	cd sam && \

@@ -32,7 +32,7 @@ services:
     build:
       context: ./sam
       dockerfile: Dockerfile
-    command: local start-api -t ./template.yml --docker-volume-basedir "$PWD/sam/lambda" --host 0.0.0.0
+    command: local start-api -t lambda/template.yml --docker-volume-basedir "$PWD/sam/lambda" --host 0.0.0.0
     ports:
       - '3000:3000'
     volumes:
@@ -55,6 +55,7 @@ services:
     volumes:
       - "go:/go"
       - "db:/data"
+
 volumes:
   go:
     driver: local

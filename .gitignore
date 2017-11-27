@@ -10,5 +10,10 @@
 /client/*log
 /sam/test/events/event.json
 /sam/dynamodb/tables/*/table_info.json
-/sam/*/*/__pycache__/
-/sam/sam-local/
+
+/sam/lambda/.venv
+/sam/lambda/var
+/sam/lambda/*.py[co]
+/sam/lambda/*.egg-info
+/sam/lambda/packaged.yml
+/sam/lambda/bundle.zip

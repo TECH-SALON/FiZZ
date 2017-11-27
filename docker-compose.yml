@@ -32,7 +32,7 @@ services:
     build:
       context: ./sam
       dockerfile: Dockerfile
-    command: local start-api --docker-volume-basedir "$PWD/sam" --host 0.0.0.0
+    command: local start-api -t ./template.yml --docker-volume-basedir "$PWD/sam/lambda" --host 0.0.0.0
     ports:
       - '3000:3000'
     volumes:
@@ -49,6 +49,7 @@ services:
     command: "-sharedDb -dbPath /data"
     env_file:
       - ./.env.dev
+
   data:
     image: "busybox"
     volumes:

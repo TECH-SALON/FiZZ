@@ -24,7 +24,7 @@ export function runMatch(botId) {
     params.append("botId", botId);
     params.append("ruleId", "");
     params.append("range", "");
-    let url = "${endPoint()}/api/v1/games/reversi/match";
+    let url = `${endPoint()}/api/v1/games/reversi/match`;
     api(getState).post(url, params).then( response => {
       runMatchSuccess(response.data);
     }).catch( error => {
@@ -61,7 +61,7 @@ export function runPractice(botId) {
     dispatch(runPracticeRequest(botId));
     let params = new FormData();
     params.append("botId", botId);
-    let url = "${endPoint()}/api/v1/games/reversi/practice";
+    let url = `${endPoint()}/api/v1/games/reversi/practice`;
     api(getState).post(url, params).then( response => {
       runPracticeSuccess(response.data);
     }).catch( error => {

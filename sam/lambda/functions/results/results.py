@@ -1,10 +1,15 @@
-import os
+import sys, os
 import json
 import boto3
 
-from pytz import timezone
+import traceback
 from datetime import datetime
 import uuid
+
+moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
+sys.path.append(moduledir)
+
+from pytz import timezone
 
 # TODO: Check Parameters
 # TODO: Validates
@@ -13,12 +18,11 @@ import uuid
 
 class DB:
     main_table = "Results"
-
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
             self.db_client = boto3.resource(
                 'dynamodb',
-                endpoint_url="http://localhost:8000"
+                endpoint_url="http://docker.for.mac.localhost:8000"
             )
         else:
             self.db_client = boto3.resource('dynamodb')
@@ -45,7 +49,7 @@ class DB:
             'updatedAt': utc
         }
 
-        success, attr = self.validates(item):
+        success, attr = self.validates(item)
 
         if success:
             updates = {}
@@ -79,7 +83,8 @@ class DB:
 
     def scan(self):
         # self.scan()
-        return
+        resp = self.db_client.Table(DB.main_table).scan()
+        return resp
 
     def validates(item):
         error = {}
@@ -91,6 +96,19 @@ def scan_results(event, context):
     # Error Handling
     # Parameters Check
     # Return Response
+    print(event)
+    try:
+        db = DB()
+        results = db.scan()
+        resp = {
+            "headers":  { "Access-Control-Allow-Origin" : "*" },
+            'statusCode': 200,
+            "body": str(results)
+        }
+        return resp
+    except:
+        traceback.print_exc()
+
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 def get_results(event, context):
@@ -108,11 +126,11 @@ def get_fights_log(event, context):
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
-            break
+            return scan_results(event, context)
         elif event['httpMethod'] == 'POST':
-            break
+            pass
         elif event['httpMethod'] == 'PUT':
-            break
+            pass
         return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
         print(e)

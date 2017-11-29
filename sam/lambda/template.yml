@@ -91,6 +91,7 @@ Resources:
         ScanResults:
           Type: Api
           Properties:
+            Cors: "*"
             Path: /api/v1/matches
             Method: get
         GetResult:

@@ -49,11 +49,19 @@ function create_local_dynamo_db() {
   local endpoint="http://localhost:8000"
 
   # if [[ ! -s ${table_dir}/table_info.json ]]; then
+  if [ $# -eq 2 ]; then
+    aws --profile $2 dynamodb create-table \
+      --endpoint-url $endpoint \
+      --table-name $table_name \
+      --cli-input-json "file://${table_dir}/config.json" \
+      > ${table_dir}/table_info.json
+  else
     aws dynamodb create-table \
       --endpoint-url $endpoint \
       --table-name $table_name \
       --cli-input-json "file://${table_dir}/config.json" \
       > ${table_dir}/table_info.json
+  fi
 
     # echo -n "Waiting for table creation..."
     # aws dynamodb describe-table --table-name "$table_name" > ${table_dir}/table_info.json
@@ -73,18 +81,34 @@ function create_local_db() {
   local results="${PWD}/dynamodb/tables/Results"
 
   echo "Creating tables..."
-  echo " Games..."
-  create_local_dynamo_db $games
-  echo " Accounts..."
-  create_local_dynamo_db $acc
-  echo " Bots..."
-  create_local_dynamo_db $bots
-  echo " Results..."
-  create_local_dynamo_db $results
-  echo " BotResults..."
-  create_local_dynamo_db $botresults
-  echo "Done."
+  create_local_dynamo_db $games $1
+  create_local_dynamo_db $acc $1
+  create_local_dynamo_db $botresults $1
+  create_local_dynamo_db $bots $1
+  create_local_dynamo_db $results $1
+  echo "Done"
 }
+
+# function create_local_db() {
+#   local bots="${PWD}/dynamodb/tables/Bots"
+#   local acc="${PWD}/dynamodb/tables/Accounts"
+#   local botresults="${PWD}/dynamodb/tables/BotResults"
+#   local games="${PWD}/dynamodb/tables/Games"
+#   local results="${PWD}/dynamodb/tables/Results"
+#
+#   echo "Creating tables..."
+#   echo " Games..."
+#   create_local_dynamo_db $games
+#   echo " Accounts..."
+#   create_local_dynamo_db $acc
+#   echo " Bots..."
+#   create_local_dynamo_db $bots
+#   echo " Results..."
+#   create_local_dynamo_db $results
+#   echo " BotResults..."
+#   create_local_dynamo_db $botresults
+#   echo "Done."
+# }
 
 function drop_local_db() {
   aws dynamodb delete-table --table-name "Bots" --endpoint-url http://localhost:8000
@@ -149,6 +173,9 @@ case "$action" in
     ;;
   seed_local)
     seed_tables_local_db
+    ;;
+  create_local_with_profile)
+    create_local_db $2
     ;;
   *)
     help

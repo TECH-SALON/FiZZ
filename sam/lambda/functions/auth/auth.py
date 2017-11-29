@@ -21,6 +21,8 @@ class Cognito:
         # self.client_id = os.getenv("AWS_CLIENT_ID")
         # self.client_secret = os.getenv("AWS_CLIENT_SECRET")
         # self.region = os.getenv("AWS_REGION")
+
+        self.identity_client = boto3.client('cognito-identity')
         return
 
     def sign_up(self, username, email, password):
@@ -40,6 +42,24 @@ class Cognito:
             username=username_or_alias
         )
         return u.authenticate(password=password)
+
+    def get_session(self, id_token):
+        return self.identity_client.get_id(
+            IdentityPoolId=self.identity_pool_id,
+            Logins={
+                f"cognito-idp.{self.user_pool_region}.amazonaws.com/{self.user_pool_id}": id_token
+            }
+        )
+
+    def get_credentials_for_identity(self, identity_id, id_token=None):
+        params = {
+            'IdentityId': identity_id,
+        }
+        if id_token is not None:
+            params['Logins'] = {
+                f"cognito-idp.{self.user_pool_region}.amazonaws.com/{self.user_pool_id}": id_token
+            }
+        return self.identity_client.get_credentials_for_identity(**params)
 
 ####################### API #########################
 
@@ -75,13 +95,15 @@ def login(event, context):
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 
-def sign_up_with_provider(event, context):
+def get_session(event, context):
     try:
         body = json.loads(event['body'])
 
         provider = body['provider']
         if provider == 'google':
-            pass
+            id_token = body['id_token']
+            resp = cognito.get_session(id_token)
+            return {'statusCode': 200, 'body': str(resp)}
         else:
             return {'statusCode': 400, 'body': 'The Provider is not supported'}
     except:
@@ -102,8 +124,7 @@ def sign_up(event, context):
         cognito = Cognito()
         resp = cognito.sign_up(username, email, password)
         ret = {
-            'confirmed': resp['UserConfirmed'],
-            'delivery_details': resp['CodeDeliveryDetails']
+            'userConfirmed': resp['UserConfirmed'],
         }
 
         return {'statusCode': 201, 'body': str(ret)}

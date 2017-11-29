@@ -3,11 +3,6 @@
 .match {
   height: 100vh;
   color: #eceff1;
-  background-image: url('assets/utils/games_back_image3.svg');
-  background-repeat: no-repeat;
-  background-position: bottom;
-  background-attachment: fixed;
-  background-size:cover;
 }
 
 .match .page-title {

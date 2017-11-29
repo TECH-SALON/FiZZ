@@ -1,7 +1,4 @@
-.games {
-}
-
-.games-back-image {
+.reversi-back-image {
   content: "";
   display: block;
   position: fixed;

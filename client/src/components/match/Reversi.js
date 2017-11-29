@@ -22,6 +22,7 @@ export default class Reversi extends Component {
     const { bots, results } = this.props;
     return(
       <div className="reversi">
+        <div className="reversi-back-image"></div>
         <div className="row margin-top-25">
           <h1 className="page-title">Match</h1>
           <div className="page-menu">

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom'
 
 import {connect} from 'react-redux';
-import {Route, Switch, Link} from 'react-router';
+import {Route, Switch, Link} from 'react-router-dom';
 
 import NavBar from '../components/layouts/Navbar';
 import TopPage from '../components/statics/TopPage';

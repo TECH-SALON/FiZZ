@@ -121,7 +121,8 @@ db-init:
 	./fizz-aws create_local && \
 	./fizz-aws list_local && \
 	./fizz-aws seed_local && \
-	cd ..
+	cd .. && \
+	make sam-bundle
 
 db-recreate:
 	cd sam && ./fizz-aws drop_local && \

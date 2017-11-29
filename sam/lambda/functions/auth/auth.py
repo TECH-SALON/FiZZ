@@ -9,11 +9,14 @@ import base64
 
 
 class Cognito:
-    identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID", "")
-    user_pool_id = os.getenv("AWS_USER_POOL_ID", "")
-    client_id = os.getenv("AWS_CLIENT_ID", "")
-    client_secret = os.getenv("AWS_CLIENT_SECRET", "")
-    region = os.getenv("AWS_REGION", "us-east-1")
+
+    def __init__(self):
+        self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
+        self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
+        self.client_id = os.getenv("AWS_CLIENT_ID")
+        self.client_secret = os.getenv("AWS_CLIENT_SECRET")
+        self.region = os.getenv("AWS_REGION")
+        return
 
     def __get_client(self):
         return boto3.client('cognito-idp', 'us-east-1')

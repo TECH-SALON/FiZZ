@@ -18,7 +18,6 @@ class DB:
 
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
-            print(os.getenv("AWS_SAM_LOCAL"))
             self.db_client = boto3.resource(
                 'dynamodb',
                 endpoint_url="http://docker.for.mac.localhost:8000"

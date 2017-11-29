@@ -1,4 +1,8 @@
-import os
+import sys, os
+
+moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
+sys.path.append(moduledir)
+
 import json
 import boto3
 import traceback
@@ -6,54 +10,36 @@ import botocore
 import hmac
 import hashlib
 import base64
+import warrant
 
 
 class Cognito:
 
     def __init__(self):
-        self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
-        self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
-        self.client_id = os.getenv("AWS_CLIENT_ID")
-        self.client_secret = os.getenv("AWS_CLIENT_SECRET")
-        self.region = os.getenv("AWS_REGION")
+        # self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
+        # self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
+        # self.client_id = os.getenv("AWS_CLIENT_ID")
+        # self.client_secret = os.getenv("AWS_CLIENT_SECRET")
+        # self.region = os.getenv("AWS_REGION")
         return
 
-    def __get_client(self):
-        return boto3.client('cognito-idp', 'us-east-1')
-
-    def __get_identity_client(self):
-        return boto3.client('cognito-identity')
-
-    def get_secret_hash(self, username):
-        message = username + self.client_id
-        dig = hmac.new(self.client_secret, msg=message.encode('UTF-8'),
-                       digestmod=hashlib.sha256).digest()
-        return base64.b64encode(dig).decode()
-
     def sign_up(self, username, email, password):
-        return self.__get_client().sign_up(
-            ClientId=self.client_id,
-            Username=username,
-            Password=password,
-            UserAttributes=[
-                {
-                    'Name': 'email',
-                    'Value': email
-                }
-            ]
+        u = warrant.Cognito(
+            self.user_pool_id,
+            self.client_id,
+            user_pool_region=self.region
         )
+        u.add_base_attributes(email=email)
+        return u.register(username, password)
 
     def login(self, username_or_alias, password):
-        return self.__get_client().admin_initiate_auth(
-            UserPoolId=self.user_pool_id,
-            ClientId=self.client_id,
-            AuthFlow='ADMIN_NO_SRP_AUTH',
-            AuthParameters={
-                'USERNAME': username_or_alias,
-                'PASSWORD': password,
-                'SECRET_HASH': self.get_secret_hash(username_or_alias)
-            }
+        u = warrant.Cognito(
+            self.user_pool_id,
+            self.client_id,
+            user_pool_region=self.region,
+            username=username_or_alias
         )
+        return u.authenticate(password=password)
 
 ####################### API #########################
 

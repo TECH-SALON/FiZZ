@@ -111,11 +111,19 @@ function create_local_db() {
 # }
 
 function drop_local_db() {
-  aws dynamodb delete-table --table-name "Bots" --endpoint-url http://localhost:8000
-  aws dynamodb delete-table --table-name "Accounts" --endpoint-url http://localhost:8000
-  aws dynamodb delete-table --table-name "BotResults" --endpoint-url http://localhost:8000
-  aws dynamodb delete-table --table-name "Games" --endpoint-url http://localhost:8000
-  aws dynamodb delete-table --table-name "Results" --endpoint-url http://localhost:8000
+  if [ $# -eq 1 ]; then
+    aws --profile $1 dynamodb delete-table --table-name "Bots" --endpoint-url http://localhost:8000
+    aws --profile $1 dynamodb delete-table --table-name "Accounts" --endpoint-url http://localhost:8000
+    aws --profile $1 dynamodb delete-table --table-name "BotResults" --endpoint-url http://localhost:8000
+    aws --profile $1 dynamodb delete-table --table-name "Games" --endpoint-url http://localhost:8000
+    aws --profile $1 dynamodb delete-table --table-name "Results" --endpoint-url http://localhost:8000
+  else
+    aws dynamodb delete-table --table-name "Bots" --endpoint-url http://localhost:8000
+    aws dynamodb delete-table --table-name "Accounts" --endpoint-url http://localhost:8000
+    aws dynamodb delete-table --table-name "BotResults" --endpoint-url http://localhost:8000
+    aws dynamodb delete-table --table-name "Games" --endpoint-url http://localhost:8000
+    aws dynamodb delete-table --table-name "Results" --endpoint-url http://localhost:8000
+  fi
 }
 
 function create_accounts () {
@@ -128,9 +136,15 @@ function create_accounts () {
 function db_seeds(){
   local table_dir=${1%/}
   local table_name=$(basename $table_dir)
-  aws dynamodb put-item --endpoint-url http://localhost:8000 \
-    --table-name $table_name \
-    --item "file://${table_dir}/seed.json"
+  if [ $# -eq 2 ]; then
+    aws --profile $2 dynamodb put-item --endpoint-url http://localhost:8000 \
+      --table-name $table_name \
+      --item "file://${table_dir}/seed.json"
+  else
+    aws dynamodb put-item --endpoint-url http://localhost:8000 \
+      --table-name $table_name \
+      --item "file://${table_dir}/seed.json"
+  fi
 }
 
 function seed_tables_local_db(){
@@ -140,10 +154,10 @@ function seed_tables_local_db(){
   local games="${PWD}/dynamodb/tables/Games"
   local results="${PWD}/dynamodb/tables/Results"
 
-  db_seeds $bots
-  db_seeds $acc
+  db_seeds $bots $1
+  db_seeds $acc $1
   # db_seeds $botresults
-  db_seeds $games
+  db_seeds $games $1
   # db_seeds $results
 }
 
@@ -166,13 +180,17 @@ case "$action" in
     create_local_db
     ;;
   list_local)
-    aws dynamodb list-tables --endpoint-url http://localhost:8000
+    if [ $# -eq 2 ]; then
+      aws --profile $2 dynamodb list-tables --endpoint-url http://localhost:8000
+    else
+      aws dynamodb list-tables --endpoint-url http://localhost:8000
+    fi
     ;;
   drop_local)
-    drop_local_db
+    drop_local_db $2
     ;;
   seed_local)
-    seed_tables_local_db
+    seed_tables_local_db $2
     ;;
   create_local_with_profile)
     create_local_db $2

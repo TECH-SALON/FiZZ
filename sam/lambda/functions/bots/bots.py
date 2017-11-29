@@ -127,8 +127,13 @@ def scan_bots(event, context):
     print(event)
     try:
         db = DB()
-        resp = db.scan('accountId')
-        return {'statusCode': 200, "body": str(resp)}
+        bots = db.scan('accountId')
+        resp = {
+            "headers":  { "Access-Control-Allow-Origin" : "*" },
+            'statusCode': 200,
+            "body": str(bots)
+        }
+        return resp
     except:
         traceback.print_exc()
 

@@ -31,6 +31,7 @@ export default class Garage extends Component {
   }
 
   render() {
+    {console.log(this.props)}
     const { bots, results } = this.props;
     return(
       <div className="garage">

@@ -27,11 +27,11 @@ export const initialState = IMap({
 const botToMap = (bot) => IMap({
   id: bot.id,
   botName: bot.name,
-  description: bot.description,
+  // description: bot.description,
   authorId: bot.authorId,
   gameId: bot.gameId,
   isPrivate: bot.isPrivate,
-  qualified: bot.qualified,
+  qualified: bot.isQualified,
   standBy: bot.standBy,
   repoUrl: bot.repoUrl,
   matchSummaries: matchSummariesToList(bot.matchSummaries),

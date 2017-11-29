@@ -71,7 +71,8 @@ export function getBots(refresh = false){
     let url = `${endPoint()}/api/v1/bots`
     console.log(url);
     api(getState).get(url).then( response => {
-      getBotsSuccess(response.data);
+      let bots = response.data;
+      dispatch(getBotsSuccess(bots));
     }).catch( error => {
       getBotsFail(error)
     });

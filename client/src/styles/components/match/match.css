@@ -1,9 +1,13 @@
 /*MatchページのCSS*/
 
 .match {
-  background-image: radial-gradient(farthest-side ellipse at 10% 0, rgb(251, 153, 29) 20%, rgba(240, 202, 39, 0.88));
   height: 100vh;
   color: #eceff1;
+  background-image: url('assets/utils/games_back_image3.svg');
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-attachment: fixed;
+  background-size:cover;
 }
 
 .match .page-title {

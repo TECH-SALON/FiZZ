@@ -13,7 +13,6 @@ services:
       - ./.env.dev
     tty: true
     stdin_open: true
-    command: /go/src/app/app
   webpack:
     build:
       context: ./client

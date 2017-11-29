@@ -61,6 +61,7 @@ Resources:
         ScanBots:
           Type: Api
           Properties:
+            Cors: "*"
             Path: /api/v1/bots
             Method: get
         GetBot:

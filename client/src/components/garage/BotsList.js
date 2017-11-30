@@ -82,23 +82,23 @@ export default class BotsList extends Component {
               <th>Name</th>
               <th>Status</th>
               <th>Game</th>
-              <th>%</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {bots.map((item) => {
-              <tr>
-                <td>{item.name}</td>
-                <td>{item.status}</td>
-                <td>{item.gameName}</td>
-                <td>{item.winPercentage}</td>
-                <td>
-                  <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
-                </td>
-              </tr>
+              return(
+                <tr key={item.get("id")}>
+                  <td>{item.get("name")}</td>
+                  <td>{item.get("isQualified")}</td>
+                  <td>{item.get("gameId")}</td>
+                  <td>
+                    <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
+                  </td>
+                </tr>
+              )
             })}
-            <tr>
+            {/* <tr>
               <td>Bot1</td>
               <td>NotQualified</td>
               <td>Reversi</td>
@@ -133,7 +133,7 @@ export default class BotsList extends Component {
               <td>
                 <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

@@ -11,6 +11,9 @@ import BotsList from './BotsList';
 import ResultsList from './ResultsList';
 import RegisterForm from './RegisterForm';
 
+import {
+  Map as IMap, List as IList
+} from 'immutable';
 
 export default class Garage extends Component {
 
@@ -31,11 +34,9 @@ export default class Garage extends Component {
   }
 
   componentWillUpdate() {
-    console.log(this.props);
   }
   render() {
     const { bots, results } = this.props;
-    {console.log(bots)};
     return(
       <div className="garage">
         <div className="over-lay"></div>

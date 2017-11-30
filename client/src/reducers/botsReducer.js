@@ -24,18 +24,26 @@ export const initialState = IMap({
   error: IMap(),
 });
 
-const botToMap = (bot) => IMap({
+const botToMap = (bot) => {
+  console.log("here");
+  IMap({
   id: bot.id,
-  botName: bot.name,
-  // description: bot.description,
-  authorId: bot.authorId,
+  accountId: bot.accountId,
   gameId: bot.gameId,
+  name: bot.name,
   isPrivate: bot.isPrivate,
-  qualified: bot.isQualified,
-  standBy: bot.standBy,
+  isQalified: bot.isQualified,
+  isStandBy: bot.isStandBy,
+  isValid: bot.isValid,
+  isMatching: bot.isMatching,
+  rank: bot.rank,
   repoUrl: bot.repoUrl,
-  matchSummaries: matchSummariesToList(bot.matchSummaries),
-});
+  updatedAt: bot.updatedAt,
+  createdAt: bot.createdAt
+  // matchSummaries: matchSummariesToList(bot.matchSummaries),
+})
+
+};
 
 const matchSummariesToList = (summaries) => {
   let items = IList();
@@ -51,12 +59,14 @@ const matchSummaryToMap = (summary) => IMap({
 });
 
 const getBots = (state, bots) => {
+  console.log(typeof bots);
+  console.log(bots.Items);
+  console.log(typeof bots.Items);
   let items = IList();
-  console.log(bots);
-  bots.prototype.forEach((b, i) => {
+
+  bots.Items.prototype.forEach((b, i) => {
     items = items.set(i, botToMap(b))
   });
-
   return state
     .set('items', items)
     .set('loaded', true)
@@ -84,6 +94,7 @@ const updateBot = (state, bot) => {
 }
 
 export default function reduce(state = initialState, action) {
+  console.log(action.type);
   switch (action.type) {
   case BOTS_REGISTER_BOT_SUCCESS:
     return addBot(state, action.bot);

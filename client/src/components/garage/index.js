@@ -30,9 +30,12 @@ export default class Garage extends Component {
     this.props.onSetup();
   }
 
+  componentWillUpdate() {
+    console.log(this.props);
+  }
   render() {
-    {console.log(this.props)}
     const { bots, results } = this.props;
+    {console.log(bots)};
     return(
       <div className="garage">
         <div className="over-lay"></div>

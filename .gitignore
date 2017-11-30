@@ -17,3 +17,5 @@
 /sam/lambda/*.egg-info
 /sam/lambda/packaged.yml
 /sam/lambda/bundle.zip
+
+/sam/env.json

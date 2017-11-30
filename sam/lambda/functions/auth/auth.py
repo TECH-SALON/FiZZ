@@ -16,11 +16,13 @@ import warrant
 class Cognito:
 
     def __init__(self):
-        # self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
-        # self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
-        # self.client_id = os.getenv("AWS_CLIENT_ID")
-        # self.client_secret = os.getenv("AWS_CLIENT_SECRET")
-        # self.region = os.getenv("AWS_REGION")
+        self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
+        self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
+        self.client_id = os.getenv("AWS_CLIENT_ID")
+        self.region = os.getenv("AWS_REGION")
+
+        if self.identity_pool_id is None or self.user_pool_id is None or self.client_id is None or self.region is None:
+            raise TypeError(f"Environments have None value. you must set variables idp: {self.identity_pool_id}, up:{self.user_pool_id}, cl:{self.client_id}, rg:{self.region}")
 
         self.identity_client = boto3.client('cognito-identity')
         return

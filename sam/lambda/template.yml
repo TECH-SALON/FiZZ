@@ -1,6 +1,20 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: FiZZ Lambda API
+Parameters:
+  AwsRegion:
+    Type: String
+    Description: The region of this model presents.
+  AwsClientId:
+    Type: String
+    Description: The ID of the client uses the Cognito user pool.
+  AwsUserPoolId:
+    Type: String
+    Description: The ID of the Cognito user pool.
+  AwsIdentityPoolId:
+    Type: String
+    Description: The ID of the Cognito Federated Identity.
+
 Resources:
   Accounts:
     Type: AWS::Serverless::Function
@@ -111,6 +125,12 @@ Resources:
       CodeUri: functions/auth
       Handler: functions/auth/auth.handler
       Runtime: python3.6
+      Environment:
+        Variables:
+          AWS_CLIENT_ID: !Ref AwsClientId
+          AWS_USER_POOL_ID: !Ref AwsUserPoolId
+          AWS_IDENTITY_POOL_ID: !Ref AwsIdentityPoolId
+          AWS_REGION: !Ref AwsRegion
       Events:
         Login:
           Type: Api

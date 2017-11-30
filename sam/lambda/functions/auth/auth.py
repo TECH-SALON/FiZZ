@@ -3,7 +3,7 @@ import sys, os
 moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
 sys.path.append(moduledir)
 
-import json
+import simplejson as json
 import boto3
 import traceback
 import botocore
@@ -16,11 +16,15 @@ import warrant
 class Cognito:
 
     def __init__(self):
-        # self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
-        # self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
-        # self.client_id = os.getenv("AWS_CLIENT_ID")
-        # self.client_secret = os.getenv("AWS_CLIENT_SECRET")
-        # self.region = os.getenv("AWS_REGION")
+        self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
+        self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
+        self.client_id = os.getenv("AWS_CLIENT_ID")
+        self.region = os.getenv("AWS_REGION")
+
+        print(repr(f"Info: Env >> User Pool :****{self.user_pool_id[10:15]}****, Client: {self.client_id[:5]}****"))
+
+        if self.identity_pool_id is None or self.user_pool_id is None or self.client_id is None or self.region is None:
+            raise TypeError(f"'NoneType' object is not acceptable. you must set variables idp: {self.identity_pool_id}, up:{self.user_pool_id}, cl:{self.client_id}, rg:{self.region}")
 
         self.identity_client = boto3.client('cognito-identity')
         return
@@ -41,7 +45,7 @@ class Cognito:
             user_pool_region=self.region,
             username=username_or_alias
         )
-        return u.authenticate(password=password)
+        return u.admin_authenticate(password=password)
 
     def get_session(self, id_token):
         return self.identity_client.get_id(
@@ -69,26 +73,26 @@ def login(event, context):
         body = json.loads(event['body'])
 
         # Parameters Check
-        username_or_alias = body['username_or_alias']
+        username_or_alias = body['username']
         password = body['password']
 
-        print(f'Info: User Login Request {username}')
+        print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
         resp = cognito.login(username_or_alias, password)
         auth = resp['AuthenticationResult']
         ret = {
-            'challenge_name': resp['ChallengeName'],
+            'challengeName': resp['ChallengeName'],
             'auth': {
-                'access_token': auth['AccessToken'],
-                'expires_in': auth["ExpiresIn"],
-                'token_type': auth['TokenType'],
-                'id_token': auth['IdToken'],
-                'refresh_token': auth['RefreshToken']
+                'accessToken': auth['AccessToken'],
+                'expiresIn': auth["ExpiresIn"],
+                'tokenType': auth['TokenType'],
+                'idToken': auth['IdToken'],
+                'refreshToken': auth['RefreshToken']
             },
             'session': resp['Session']
         }
 
-        return {'statusCode': 200, 'body': str(ret)}
+        return {'statusCode': 200, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 
@@ -103,7 +107,7 @@ def get_session(event, context):
         if provider == 'google':
             id_token = body['id_token']
             resp = cognito.get_session(id_token)
-            return {'statusCode': 200, 'body': str(resp)}
+            return {'statusCode': 200, 'body': json.dumps(resp)}
         else:
             return {'statusCode': 400, 'body': 'The Provider is not supported'}
     except:
@@ -127,7 +131,7 @@ def sign_up(event, context):
             'userConfirmed': resp['UserConfirmed'],
         }
 
-        return {'statusCode': 201, 'body': str(ret)}
+        return {'statusCode': 201, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 

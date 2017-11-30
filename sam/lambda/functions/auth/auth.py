@@ -3,7 +3,7 @@ import sys, os
 moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
 sys.path.append(moduledir)
 
-import json
+import simplejson as json
 import boto3
 import traceback
 import botocore
@@ -21,8 +21,10 @@ class Cognito:
         self.client_id = os.getenv("AWS_CLIENT_ID")
         self.region = os.getenv("AWS_REGION")
 
+        print(repr(f"Info: Env >> User Pool :****{self.user_pool_id[10:15]}****, Client: {self.client_id[:5]}****"))
+
         if self.identity_pool_id is None or self.user_pool_id is None or self.client_id is None or self.region is None:
-            raise TypeError(f"Environments have None value. you must set variables idp: {self.identity_pool_id}, up:{self.user_pool_id}, cl:{self.client_id}, rg:{self.region}")
+            raise TypeError(f"'NoneType' object is not acceptable. you must set variables idp: {self.identity_pool_id}, up:{self.user_pool_id}, cl:{self.client_id}, rg:{self.region}")
 
         self.identity_client = boto3.client('cognito-identity')
         return
@@ -43,7 +45,7 @@ class Cognito:
             user_pool_region=self.region,
             username=username_or_alias
         )
-        return u.authenticate(password=password)
+        return u.admin_authenticate(password=password)
 
     def get_session(self, id_token):
         return self.identity_client.get_id(

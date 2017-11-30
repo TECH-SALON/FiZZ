@@ -125,6 +125,8 @@ Resources:
       CodeUri: functions/auth
       Handler: functions/auth/auth.handler
       Runtime: python3.6
+      Policies: AmazonCognitoDeveloperAuthenticatedIdentities
+      Timeout: 10
       Environment:
         Variables:
           AWS_CLIENT_ID: !Ref AwsClientId

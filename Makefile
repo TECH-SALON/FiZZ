@@ -131,5 +131,5 @@ db-recreate:
 	./fizz-aws seed_local && \
 	cd ..
 
-# swagger:
-# 	docker run --rm -d -p 8081:8080 -v .: swaggerapi/swagger-editor --name swagger
+swagger:
+	docker run -d -p 8001:8080 --name swagger swaggerapi/swagger-editor

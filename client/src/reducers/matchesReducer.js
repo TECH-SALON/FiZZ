@@ -17,6 +17,7 @@ const initialState = IMap({
 });
 
 const getResults = (state, results) => {
+  console.log(results);
   return state
     .set('results', results)
     .set('loaded', true)

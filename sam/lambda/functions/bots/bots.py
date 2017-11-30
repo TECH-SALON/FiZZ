@@ -1,13 +1,14 @@
 import sys, os
-import json
+
+moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
+sys.path.append(moduledir)
+
+import simplejson as json
 import boto3
 
 import traceback
 from datetime import datetime
 import uuid
-
-moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
-sys.path.append(moduledir)
 
 from pytz import timezone
 
@@ -131,7 +132,7 @@ def scan_bots(event, context):
         resp = {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
             'statusCode': 200,
-            "body": str(bots)
+            "body": json.dumps(bots, use_decimal=True)
         }
         return resp
     except:

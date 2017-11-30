@@ -71,26 +71,26 @@ def login(event, context):
         body = json.loads(event['body'])
 
         # Parameters Check
-        username_or_alias = body['username_or_alias']
+        username_or_alias = body['username']
         password = body['password']
 
-        print(f'Info: User Login Request {username}')
+        print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
         resp = cognito.login(username_or_alias, password)
         auth = resp['AuthenticationResult']
         ret = {
-            'challenge_name': resp['ChallengeName'],
+            'challengeName': resp['ChallengeName'],
             'auth': {
-                'access_token': auth['AccessToken'],
-                'expires_in': auth["ExpiresIn"],
-                'token_type': auth['TokenType'],
-                'id_token': auth['IdToken'],
-                'refresh_token': auth['RefreshToken']
+                'accessToken': auth['AccessToken'],
+                'expiresIn': auth["ExpiresIn"],
+                'tokenType': auth['TokenType'],
+                'idToken': auth['IdToken'],
+                'refreshToken': auth['RefreshToken']
             },
             'session': resp['Session']
         }
 
-        return {'statusCode': 200, 'body': str(ret)}
+        return {'statusCode': 200, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 
@@ -105,7 +105,7 @@ def get_session(event, context):
         if provider == 'google':
             id_token = body['id_token']
             resp = cognito.get_session(id_token)
-            return {'statusCode': 200, 'body': str(resp)}
+            return {'statusCode': 200, 'body': json.dumps(resp)}
         else:
             return {'statusCode': 400, 'body': 'The Provider is not supported'}
     except:
@@ -129,7 +129,7 @@ def sign_up(event, context):
             'userConfirmed': resp['UserConfirmed'],
         }
 
-        return {'statusCode': 201, 'body': str(ret)}
+        return {'statusCode': 201, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 

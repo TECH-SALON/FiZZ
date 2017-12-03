@@ -23,7 +23,7 @@ export function getResults(gameName) {
     let params = new FormData();
     params.append('gameName', gameName);
     api(getState).get(url, params).then( response => {
-      getResultsSuccess(response.data);
+      dispatch(getResultsSuccess(response.data));
     }).catch( error => {
       getResultsFail(error);
     })

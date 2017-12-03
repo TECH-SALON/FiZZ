@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {
   getBots,
-  registerBot,
+  createBot,
   standBot,
 } from '../actions/botsAction';
 
@@ -29,8 +29,8 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(getBots());
       dispatch(getResults());
     },
-    onRegisterBot: (bot) => {
-      dispatch(registerBot(bot))
+    onCreateBot: (bot) => {
+      dispatch(createBot(bot))
     },
     onPracticeBot: (botId) => {
       dispatch(runPractice(botId))

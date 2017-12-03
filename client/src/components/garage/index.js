@@ -19,9 +19,10 @@ export default class Garage extends Component {
 
   static propTypes = {
     bots: PropTypes.object.isRequired,
+    results: PropTypes.object.isRequired,
     onStandBot: PropTypes.func.isRequired,
     onPracticeBot: PropTypes.func.isRequired,
-    onRegisterBot: PropTypes.func.isRequired,
+    onCreateBot: PropTypes.func.isRequired,
     onSetup: PropTypes.func.isRequired
   }
 
@@ -60,7 +61,7 @@ export default class Garage extends Component {
                     <h3>Your Bots</h3>
                   </div>
                   <div className="margin-top-15">
-                    <RegisterForm onRegisterBot={this.props.onRegisterBot}/>
+                    <RegisterForm onCreateBot={this.props.onCreateBot}/>
                   </div>
                   <BotsList bots={bots} onPracticeBot={this.props.onPracticeBot}/>
                 </div>

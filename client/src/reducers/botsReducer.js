@@ -7,11 +7,11 @@ import {
 // } from './matchReducer';
 
 import {
-  BOTS_REGISTER_BOT_SUCCESS,
+  BOTS_CREATE_BOT_SUCCESS,
   BOTS_GET_BOTS_SUCCESS,
   BOTS_STAND_BOT_SUCCESS,
   BOTS_GET_BOT_SUCCESS,
-  BOTS_REGISTER_BOT_FAIL,
+  BOTS_CREATE_BOT_FAIL,
   BOTS_GET_BOTS_FAIL,
   BOTS_GET_BOT_FAIL,
   BOTS_STAND_BOT_FAIL,
@@ -92,13 +92,13 @@ const updateBot = (state, bot) => {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-  case BOTS_REGISTER_BOT_SUCCESS:
+  case BOTS_CREATE_BOT_SUCCESS:
     return addBot(state, action.bot);
   case BOTS_STAND_BOT_SUCCESS:
     return updateBot(state, action.bot);
   case BOTS_GET_BOTS_SUCCESS:
     return getBots(state, action.bots);
-  case BOTS_REGISTER_BOT_FAIL:
+  case BOTS_CREATE_BOT_FAIL:
   case BOTS_GET_BOTS_FAIL:
   case BOTS_STAND_BOT_FAIL:
   case BOTS_GET_BOT_FAIL:

@@ -118,14 +118,14 @@ export default class BotsList extends Component {
             </tr>
           </thead>
           <tbody>
-            {bots.map((item) => {
+            {bots.map((i) => {
               return(
-                <tr key={item.get("id")}>
-                  <td>{item.get("name")}</td>
-                  <td>{item.get("isQualified")}</td>
-                  <td>{item.get("gameId")}</td>
+                <tr key={i.get("id")}>
+                  <td>{i.get("name")}</td>
+                  <td>{i.get("isQualified")}</td>
+                  <td>{i.get("gameId")}</td>
                   <td>
-                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
+                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
                   </td>
                 </tr>
               )

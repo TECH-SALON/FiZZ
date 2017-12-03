@@ -86,6 +86,7 @@ Resources:
         CreateBot:
           Type: Api
           Properties:
+            Cors: "*"
             Path: /api/v1/bots/{gameName}
             Method: post
         UpdateBot:

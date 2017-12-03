@@ -3,7 +3,8 @@ import sys, os
 moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
 sys.path.append(moduledir)
 
-import simplejson as json
+import simplejson
+import json
 import boto3
 
 import traceback
@@ -157,6 +158,8 @@ def create_bot(event, context):
     try:
         db = DB()
         body = json.loads(event['body'])
+        print("body is")
+        print(body)
         gameName = event['pathParameters']['gameName']
         resp, error = db.create(
             accountId=body['accountId'],

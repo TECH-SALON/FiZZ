@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ModalContainer from '../utils/Modal';
 
+import {
+  Map as IMap, List as IList
+} from 'immutable';
+
+
 export default class BotsList extends Component {
   static propTypes = {
     bots: PropTypes.object.isRequired,
@@ -11,12 +16,15 @@ export default class BotsList extends Component {
     this.state = {
       detailModal: false,
       practiceModal: false,
-      item: {
-        name: '',
-        status: '',
-        gameName: '',
-        resultSummary: '',
-        createdAt: ''
+      itemModaled: {
+        name: "",
+        isQualified: "",
+        isValid: "",
+        rank: "",
+        isPrivate: "",
+        gameName: "",
+        createdAt: "",
+        updatedAt: ""
       }
     };
     this.openModal = this.openModal.bind(this);
@@ -26,12 +34,15 @@ export default class BotsList extends Component {
   openModal(modalName, item) {
     this.setState({
       [modalName]: true,
-      item: {
-        name: item.name,
-        status: item.status,
-        gameName: item.gameName,
-        resultSummary: item.resultSummary,
-        createdAt: item.createdAt
+      itemModaled: {
+        name: item.get("name"),
+        isQualified: item.get("isQualified"),
+        isValid: item.get("isValid"),
+        rank: item.get("rank"),
+        isPrivate: item.get("isPrivate"),
+        gameName: item.get("gameId"),
+        createdAt: item.get("createdAt"),
+        updatedAt: item.get("updatedAt")
       }
     })
   }
@@ -41,7 +52,7 @@ export default class BotsList extends Component {
   }
 
   renderModals() {
-    const { item } = this.state;
+    const { itemModaled } = this.state;
     return(
       <div>
         <ModalContainer
@@ -50,13 +61,34 @@ export default class BotsList extends Component {
           title="Bot's detail"
           description="Botの情報。名前やURLを修正できます。"
         >
-          <ul>
-            <li>{item.name}</li>
-            <li>{item.status}</li>
-            <li>{item.gameName}</li>
-            <li>{item.resultSummary}</li>
-            <li>{item.createdAt}</li>
-          </ul>
+          <table className="u-full-width">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{itemModaled.name}</td>
+              </tr>
+              <tr>
+                <th>GameName</th>
+                <td>{itemModaled.gameName}</td>
+              </tr>
+              <tr>
+                <th>Rank</th>
+                <td>{itemModaled.rank}</td>
+              </tr>
+              <tr>
+                <th>isPrivate</th>
+                <td>{itemModaled.isPrivate}</td>
+              </tr>
+              <tr>
+                <th>createdAt</th>
+                <td>{itemModaled.createdAt}</td>
+              </tr>
+              <tr>
+                <th>updatedAt</th>
+                <td>{itemModaled.updatedAt}</td>
+              </tr>
+            </tbody>
+          </table>
           <button className="button-primary">Edit</button>
         </ModalContainer>
         <ModalContainer
@@ -82,23 +114,23 @@ export default class BotsList extends Component {
               <th>Name</th>
               <th>Status</th>
               <th>Game</th>
-              <th>%</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {bots.map((item) => {
-              <tr>
-                <td>{item.name}</td>
-                <td>{item.status}</td>
-                <td>{item.gameName}</td>
-                <td>{item.winPercentage}</td>
-                <td>
-                  <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
-                </td>
-              </tr>
+            {bots.map((i) => {
+              return(
+                <tr key={i.get("id")}>
+                  <td>{i.get("name")}</td>
+                  <td>{i.get("isQualified")}</td>
+                  <td>{i.get("gameId")}</td>
+                  <td>
+                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
+                  </td>
+                </tr>
+              )
             })}
-            <tr>
+            {/* <tr>
               <td>Bot1</td>
               <td>NotQualified</td>
               <td>Reversi</td>
@@ -133,7 +165,7 @@ export default class BotsList extends Component {
               <td>
                 <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

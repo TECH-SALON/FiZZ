@@ -18,7 +18,7 @@ export default class RegisterForm extends Component {
     this.state = {
       modalIsOpen: false,
       botName: "",
-      gameId: 0,
+      gameName: "",
       url: "",
       comment: ""
     };
@@ -46,11 +46,11 @@ export default class RegisterForm extends Component {
     event.preventDefault();
     let bot = {
       name: this.state.botName,
-      gameId: Number(this.state.gameId),
+      gameName: this.state.gameName,
       url: this.state.url,
       comment: this.state.comment
     };
-    this.props.onRegisterBot(bot);
+    this.props.onCreateBot(bot);
     this.setState({
       botName: "",
       gameId: 0,
@@ -74,10 +74,10 @@ export default class RegisterForm extends Component {
             <input name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
             <label htmlFor="repositoryUrl">Repository URL:</label>
             <input name="url" value={this.state.url} onChange={this.handleChange} className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
-            <label htmlFor="gameId">Game name:</label>
-            <select name="gameId" value={this.state.gameId} onChange={this.handleChange} className="u-full-width">
+            <label htmlFor="gameName">Game name:</label>
+            <select name="gameName" value={this.state.gameName} onChange={this.handleChange} className="u-full-width">
               <option>Please select</option>
-              <option value="1">Reversi</option>
+              <option value="Reversi">Reversi</option>
             </select>
             <label htmlFor="botComment">Comment:</label>
             <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>

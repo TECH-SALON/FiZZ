@@ -7,11 +7,11 @@ import {
 // } from './matchReducer';
 
 import {
-  BOTS_REGISTER_BOT_SUCCESS,
+  BOTS_CREATE_BOT_SUCCESS,
   BOTS_GET_BOTS_SUCCESS,
   BOTS_STAND_BOT_SUCCESS,
   BOTS_GET_BOT_SUCCESS,
-  BOTS_REGISTER_BOT_FAIL,
+  BOTS_CREATE_BOT_FAIL,
   BOTS_GET_BOTS_FAIL,
   BOTS_GET_BOT_FAIL,
   BOTS_STAND_BOT_FAIL,
@@ -25,24 +25,23 @@ export const initialState = IMap({
 });
 
 const botToMap = (bot) => {
-  console.log("here");
-  IMap({
-  id: bot.id,
-  accountId: bot.accountId,
-  gameId: bot.gameId,
-  name: bot.name,
-  isPrivate: bot.isPrivate,
-  isQalified: bot.isQualified,
-  isStandBy: bot.isStandBy,
-  isValid: bot.isValid,
-  isMatching: bot.isMatching,
-  rank: bot.rank,
-  repoUrl: bot.repoUrl,
-  updatedAt: bot.updatedAt,
-  createdAt: bot.createdAt
-  // matchSummaries: matchSummariesToList(bot.matchSummaries),
-})
-
+  let mappedBot = IMap({
+    id: bot.id,
+    accountId: bot.accountId,
+    gameId: bot.gameId,
+    name: bot.name,
+    isPrivate: bot.isPrivate,
+    isQualified: bot.isQualified,
+    isStandBy: bot.isStandBy,
+    isValid: bot.isValid,
+    isMatching: bot.isMatching,
+    rank: bot.rank,
+    repoUrl: bot.repoUrl,
+    updatedAt: bot.updatedAt,
+    createdAt: bot.createdAt
+    // matchSummaries: matchSummariesToList(bot.matchSummaries),
+  });
+  return mappedBot;
 };
 
 const matchSummariesToList = (summaries) => {
@@ -59,14 +58,12 @@ const matchSummaryToMap = (summary) => IMap({
 });
 
 const getBots = (state, bots) => {
-  console.log(typeof bots);
-  console.log(bots.Items);
-  console.log(typeof bots.Items);
   let items = IList();
-
-  bots.Items.prototype.forEach((b, i) => {
+  bots.Items.forEach((b, i) => {
     items = items.set(i, botToMap(b))
   });
+
+  // console.log(bots.Items[0].isValid);
   return state
     .set('items', items)
     .set('loaded', true)
@@ -94,15 +91,14 @@ const updateBot = (state, bot) => {
 }
 
 export default function reduce(state = initialState, action) {
-  console.log(action.type);
   switch (action.type) {
-  case BOTS_REGISTER_BOT_SUCCESS:
+  case BOTS_CREATE_BOT_SUCCESS:
     return addBot(state, action.bot);
   case BOTS_STAND_BOT_SUCCESS:
     return updateBot(state, action.bot);
   case BOTS_GET_BOTS_SUCCESS:
     return getBots(state, action.bots);
-  case BOTS_REGISTER_BOT_FAIL:
+  case BOTS_CREATE_BOT_FAIL:
   case BOTS_GET_BOTS_FAIL:
   case BOTS_STAND_BOT_FAIL:
   case BOTS_GET_BOT_FAIL:

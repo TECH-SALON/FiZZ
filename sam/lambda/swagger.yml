@@ -1,0 +1,320 @@
+swagger: "2.0"
+info:
+  description: "FiZZ API"
+  version: "1.0.0"
+  title: "FiZZ API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "y.tsuchiya@tech-salon.com"
+basePath: "/api/v1"
+tags:
+- name: "games"
+- name: "matches"
+- name: "bots"
+- name: "accounts"
+schemes:
+- "https"
+paths:
+  /games/{gameName}/match:
+    post:
+      tags:
+      - "games"
+      summary: "Running the Match"
+      operationId: "RunMatch"
+      description: "Running the Match with automatically chosen opponent bot."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "gameName"
+        in: "path"
+        description: "The name of Game."
+        required: true
+        type: "string"
+      - name: "botId"
+        in: "query"
+        description: "Post bot name as identifer docker image"
+        type: "string"
+        required: true
+      - name: "ruleId"
+        in: "query"
+        description: "Post rule id like 32x32 reversi"
+        type: "string"
+      - name: "range"
+        in: "query"
+        description: "opponent chosen range"
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /games/{gameName}/ranking:
+    get:
+      tags:
+      - "games"
+      summary: "Getting Ranking of the game"
+      operationId: "GetRanking"
+      description: "Returns the Game including Ranking"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "gameName"
+        in: "path"
+        description: "The name of Game."
+        required: true
+        type: "string"
+      - name: "kind"
+        in: "query"
+        description: "the kind of ranking"
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /matches:
+    get:
+      tags:
+      - "matches"
+      summary: "Getting a match history"
+      operationId: "GetResults"
+      description: "Returns an array of Result."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "gameName"
+        in: "query"
+        description: "filtering matches where game name"
+        type: "string"
+      - name: "won"
+        in: "query"
+        description: "1 or 0, for filtering"
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /matches/{id}:
+    get:
+      tags:
+      - "matches"
+      summary: "Getting a match result"
+      operationId: "GetResult"
+      description: "Returns the Result including fights."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "filtering results with resultId"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /matches/{id}/{ext}:
+    get:
+      tags:
+      - "matches"
+      summary: "Getting fights log file"
+      operationId: "GetFightLog"
+      description: "Returns the Result and downloading a file of fights."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "filtering results with resultId"
+        type: "string"
+        required: true
+      - name: "ext"
+        in: "path"
+        description: "ext is one of csv, json"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /bots/{gameName}:
+    post:
+      tags:
+      - "bots"
+      summary: "Creating bot for the game"
+      operationId: "CreateBot"
+      description: "Returns the created Bot"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "gameName"
+        in: "path"
+        description: "The name of Game."
+        type: "string"
+        required: true
+      - name: "url"
+        in: "query"
+        description: "public or private git hub repository url"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /bots:
+    get:
+      tags:
+      - "bots"
+      summary: "Getting list of bot"
+      operationId: "GetBots"
+      description: "Getting list of bot"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "gameName"
+        in: "query"
+        description: "The name of Game."
+        type: "string"
+      - name: "maxId"
+        in: "query"
+        description: "Get a list of bots with ID less than this value"
+        type: "string"
+      - name: "sinceId"
+        in: "query"
+        description: "Get a list of bots with ID greater than this value"
+        type: "string"
+      - name: "limit"
+        in: "query"
+        description: "Maximum number of bots to get (Default 40, Max 80)"
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /bots/{id}:
+    get:
+      tags:
+      - "bots"
+      summary: "Getting a bot"
+      operationId: "GetBot"
+      description: "Returns the Bot"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "filtering bots with botId"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+    put:
+      tags:
+      - "bots"
+      summary: "Standing a bot"
+      operationId: "StandBot"
+      description: "Change a bot into matchable state"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "filtering bots with botId"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /accounts/credentials:
+    get:
+      tags:
+      - "accounts"
+      summary: "Getting credentials"
+      operationId: "GetCredentials"
+      description: "Returns the authenticated user's Account"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /accounts/{userName}:
+    get:
+      tags:
+      - "accounts"
+      summary: "Getting account"
+      operationId: "GetAccount"
+      description: "Returns the Account"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "path"
+        description: "filtering accounts with userName"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"
+  /accounts/{userName}/bots/{gameName}:
+    get:
+      tags:
+      - "accounts"
+      summary: "Getting account bot"
+      operationId: "GetAccountBot"
+      description: "Returns the array of Bots"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "path"
+        description: "filtering bots with userName"
+        type: "string"
+        required: true
+      - name: "gameName"
+        in: "path"
+        description: "filtering bots with gameName"
+        type: "string"
+        required: true
+      responses:
+        200:
+          description: "Success"
+        405:
+          description: "Invalid input"

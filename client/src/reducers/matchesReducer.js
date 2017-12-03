@@ -7,7 +7,7 @@ import {
   MATCHES_GET_RESULTS_FAIL,
   MATCHES_GET_RESULT_SUCCESS,
   MATCHES_GET_RESULT_FAIL
-} from '../actions/gamesAction';
+} from '../actions/matchesAction';
 
 const initialState = IMap({
   results: IList(),
@@ -16,10 +16,24 @@ const initialState = IMap({
   error: IMap(),
 });
 
+const resultToMap = (result) => {
+  let mappedResult = IMap({
+    id: result.id,
+    gameId: result.gameId,
+    rule: result.rule,
+    filter: result.filter,
+    numOfFights: result.numOfFights,
+  });
+  return mappedResult;
+};
+
 const getResults = (state, results) => {
-  console.log(results);
+  let items = IList();
+  results.Items.forEach((r, i) => {
+    items = items.set(i, resultToMap(r))
+  });
   return state
-    .set('results', results)
+    .set('results', items)
     .set('loaded', true)
     .set('isLoading', false);
 }
@@ -29,6 +43,7 @@ export default function reduce(state = initialState, action) {
   case MATCHES_GET_RESULTS_SUCCESS:
     return getResults(state, action.results);
   default:
+  MATCHES_GET_RESULTS_SUCCESS
     return state;
   }
 }

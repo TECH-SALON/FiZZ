@@ -9,6 +9,7 @@ import uuid
 moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
 sys.path.append(moduledir)
 
+import simplejson as json
 from pytz import timezone
 
 # TODO: Check Parameters
@@ -103,7 +104,7 @@ def scan_results(event, context):
         resp = {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
             'statusCode': 200,
-            "body": str(results)
+            "body": json.dumps(results, use_decimal=True)
         }
         return resp
     except:

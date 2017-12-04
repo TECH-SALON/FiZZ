@@ -11,9 +11,9 @@ type GameResult struct {
 	Draw int `json:"Draw"`
 }
 
-func GameMaster(imageName string) (gameResult GameResult, err error)  {
+func GameMaster(url string) (gameResult GameResult, err error)  {
 	gameResult = initializeGameResult()
-	containerName, err := ai.StartAIServer(imageName)
+	containerName, err := ai.StartAIServer(url)
 	err = printErr(err)
 	var result int
 	for countGame := 0; countGame < 5; countGame++ {

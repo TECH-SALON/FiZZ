@@ -6,8 +6,8 @@ import (
 	"log"
 )
 
-func StartAIServer(imageName string) (containerName string, err error) {
-	cmd := exec.Command("sh", "-c", "docker run -d -p 8282:8080 " + imageName)
+func StartAIServer(url string, runtime string) (containerName string, err error) {
+	cmd := exec.Command("sh", "-c", "docker run -d -p 8282:8080 " url)
 	b, err := cmd.Output()
 	containerName = string(b)
 	log.Println(containerName)

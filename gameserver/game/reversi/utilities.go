@@ -1,4 +1,4 @@
-package ReversiGame
+package Reversi
 
 //情報を取得する関数群
 //現在の番で石を打てるPoint型のスライスが入ったスライスを返す

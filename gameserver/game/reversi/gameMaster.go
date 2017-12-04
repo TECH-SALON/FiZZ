@@ -1,4 +1,4 @@
-package ReversiGame
+package Reversi
 
 import (
 	"log"

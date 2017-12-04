@@ -3,21 +3,21 @@ package main
 import (
 	"net/http"
 	"github.com/labstack/echo"
-	"app/api/v1/rest"
+	"github.com/labstack/echo/middleware"
+	"app/api/v1/game"
 )
 
 func main() {
 	e := echo.New()
+
+	e.Use(middleware.CORS())
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	api := e.Group("/api/v1")
 
-	//bots
-	api.GET("/bots", bots.GetBots)
-	api.POST("/bots", bots.RegisterBot)
-	api.GET("/bots/:id", bots.GetBot)
-	api.PUT("/bots/:id", bots.StandBot)
+	api.POST("/reversi", reversi.Play)
 
 	e.Logger.Fatal(e.Start(":5000"))
 }

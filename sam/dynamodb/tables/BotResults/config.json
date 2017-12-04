@@ -1,7 +1,7 @@
 {
   "AttributeDefinitions": [
     {
-      "AttributeName": "resultId",
+      "AttributeName": "id",
       "AttributeType": "S"
     },
     {
@@ -12,7 +12,7 @@
   "KeySchema": [
     {
       "KeyType": "HASH",
-      "AttributeName": "resultId"
+      "AttributeName": "id"
     },
     {
       "KeyType": "RANGE",

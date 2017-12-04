@@ -11,11 +11,13 @@ export default class ResultsList extends Component {
     this.state = {
       detailModal: false,
       practiceModal: false,
-      item: {
-        name: '',
-        status: '',
+      itemModaled: {
+        botName: '',
         gameName: '',
-        resultSummary: '',
+        pointPecentage: '',
+        numOfWin: '',
+        numOfDraw: '',
+        numOfLose: '',
         createdAt: ''
       }
     };
@@ -24,14 +26,17 @@ export default class ResultsList extends Component {
   }
 
   openModal(modalName, item) {
+    console.log(item);
     this.setState({
       [modalName]: true,
-      item: {
-        name: item.name,
-        status: item.status,
-        gameName: item.gameName,
-        resultSummary: item.resultSummary,
-        createdAt: item.createdAt
+      itemModaled: {
+        botName: item.get("botName"),
+        gameName: item.get("gameName"),
+        pointPecentage: item.get("pointPecentage"),
+        numOfWin: item.get("numOfWin"),
+        numOfDraw: item.get("numOfDraw"),
+        numOfLose: item.get("numOfLose"),
+        createdAt: item.get("createdAt")
       }
     })
   }
@@ -41,23 +46,48 @@ export default class ResultsList extends Component {
   }
 
   renderModals() {
-    const { item } = this.state;
+    const { itemModaled } = this.state;
     return(
       <div>
         <ModalContainer
           isOpen={this.state.detailModal}
           onRequestClose={() => this.closeModal("detailModal")}
-          title="Bot's detail"
-          description="Botの情報。名前やURLを修正できます。"
+          title="Result detail"
+          description="対戦結果の詳細"
         >
-          <ul>
-            <li>{item.name}</li>
-            <li>{item.status}</li>
-            <li>{item.gameName}</li>
-            <li>{item.resultSummary}</li>
-            <li>{item.createdAt}</li>
-          </ul>
-          <button className="button-primary">Edit</button>
+          <table className="u-full-width">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{itemModaled.botName}</td>
+              </tr>
+              <tr>
+                <th>GameName</th>
+                <td>{itemModaled.gameName}</td>
+              </tr>
+              <tr>
+                <th>Win%</th>
+                <td>{itemModaled.pointPecentage}</td>
+              </tr>
+              <tr>
+                <th>Win</th>
+                <td>{itemModaled.numOfWin}</td>
+              </tr>
+              <tr>
+                <th>Lose</th>
+                <td>{itemModaled.numOfLose}</td>
+              </tr>
+              <tr>
+                <th>Draw</th>
+                <td>{itemModaled.numOfDraw}</td>
+              </tr>
+              <tr>
+                <th>createdAt</th>
+                <td>{itemModaled.createdAt}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button className="button-primary">LOG</button>
         </ModalContainer>
       </div>
     )
@@ -72,20 +102,20 @@ export default class ResultsList extends Component {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Status</th>
               <th>Game</th>
               <th>%</th>
+              <th>Time</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {results.map((i) => {
               return(
-                <tr key={i.get("id")}>
-                  <td>{i.get("id")}</td>
-                  <td>{i.get("gameId")}</td>
-                  <td></td>
-                  <td></td>
+                <tr key={i.get("resultId")}>
+                  <td>{i.get("botName")}</td>
+                  <td>{i.get("gameName")}</td>
+                  <td>{(i.get("pointPercentage"))*100+"%"}</td>
+                  <td>{i.get("createdAt")}</td>
                   <td>
                     <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", i)}>Detail</button>
                   </td>

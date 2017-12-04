@@ -156,7 +156,7 @@ function seed_tables_local_db(){
 
   db_seeds $bots $1
   db_seeds $acc $1
-  # db_seeds $botresults
+  db_seeds $botresults
   db_seeds $games $1
   db_seeds $results
 }

@@ -32,19 +32,11 @@ paths:
         description: "The name of Game."
         required: true
         type: "string"
-      - name: "botId"
-        in: "query"
-        description: "Post bot name as identifer docker image"
-        type: "string"
+      - in: "body"
+        name: "body"
         required: true
-      - name: "ruleId"
-        in: "query"
-        description: "Post rule id like 32x32 reversi"
-        type: "string"
-      - name: "range"
-        in: "query"
-        description: "opponent chosen range"
-        type: "string"
+        schema:
+          $ref: "#/definitions/Games"
       responses:
         200:
           description: "Success"
@@ -150,7 +142,7 @@ paths:
           description: "Success"
         405:
           description: "Invalid input"
-  /bots/{gameName}:
+  /bots:
     post:
       tags:
       - "bots"
@@ -162,22 +154,16 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "gameName"
-        in: "path"
-        description: "The name of Game."
-        type: "string"
+      - in: "body"
+        name: "body"
         required: true
-      - name: "url"
-        in: "query"
-        description: "public or private git hub repository url"
-        type: "string"
-        required: true
+        schema:
+          $ref: "#/definitions/Bots"
       responses:
         200:
           description: "Success"
         405:
           description: "Invalid input"
-  /bots:
     get:
       tags:
       - "bots"
@@ -318,3 +304,26 @@ paths:
           description: "Success"
         405:
           description: "Invalid input"
+definitions:
+  Games:
+    type: object
+    properties:
+      botId:
+        type: string
+      ruleId:
+        type: string
+      range:
+        type: string
+  Bots:
+    type: object
+    properties:
+      botName:
+        type: string
+      gameName:
+        type: string
+      isPrivate:
+        type: boolean
+      resourceUrl:
+        type: string
+      description:
+        type: string

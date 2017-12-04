@@ -94,9 +94,6 @@ class DB:
 ####################### API #########################
 
 def scan_results(event, context):
-    # Error Handling
-    # Parameters Check
-    # Return Response
     print(event)
     try:
         db = DB()

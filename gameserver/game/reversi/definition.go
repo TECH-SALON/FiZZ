@@ -1,4 +1,4 @@
-package ReversiGame
+package Reversi
 
 const EMPTY int = 0
 const WHITE int = -1

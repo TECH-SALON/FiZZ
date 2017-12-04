@@ -18,7 +18,7 @@ from pytz import timezone
 # TODO: Manage Return Value
 
 class DB:
-    main_table = "Results"
+    main_table = "BotResults"
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
             self.db_client = boto3.resource(
@@ -94,9 +94,6 @@ class DB:
 ####################### API #########################
 
 def scan_results(event, context):
-    # Error Handling
-    # Parameters Check
-    # Return Response
     print(event)
     try:
         db = DB()

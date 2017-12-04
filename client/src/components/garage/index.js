@@ -38,6 +38,7 @@ export default class Garage extends Component {
   }
   render() {
     const { bots, results } = this.props;
+    console.log(results);
     return(
       <div className="garage">
         <div className="over-lay"></div>

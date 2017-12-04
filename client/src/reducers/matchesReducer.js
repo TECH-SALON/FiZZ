@@ -16,13 +16,17 @@ const initialState = IMap({
   error: IMap(),
 });
 
-const resultToMap = (result) => {
+const resultToMap = (r) => {
   let mappedResult = IMap({
-    id: result.id,
-    gameId: result.gameId,
-    rule: result.rule,
-    filter: result.filter,
-    numOfFights: result.numOfFights,
+    resultId: r.resultId,
+    botName: r.botName,
+    gameName: r.gameName,
+    isWinner: r.isWinner,
+    pointPercentage: r.pointPercentage,
+    numOfWin: r.numOfWin,
+    numOfLose: r.numOfLose,
+    numOfDraw: r.numOfDraw,
+    createdAt: r.createdAt,
   });
   return mappedResult;
 };

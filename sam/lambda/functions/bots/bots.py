@@ -133,7 +133,7 @@ def scan_bots(event, context):
         resp = {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
             'statusCode': 200,
-            "body": json.dumps(bots, use_decimal=True)
+            "body": simplejson.dumps(bots, use_decimal=True)
         }
         return resp
     except:

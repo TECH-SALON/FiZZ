@@ -17,7 +17,7 @@ export default class Match extends Component {
     return(
       <Switch>
         <Route exact path="/match" render={() => <Games />}/>
-        <Route path="/match/reversi" render={() => <Reversi bots={this.props.bots} results={this.props.resilts}/>}/>
+        <Route path="/match/reversi" render={() => <Reversi bots={this.props.bots} results={this.props.results}/>}/>
       </Switch>
     )
   }

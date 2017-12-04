@@ -87,7 +87,7 @@ Resources:
           Type: Api
           Properties:
             Cors: "*"
-            Path: /api/v1/bots/{gameName}
+            Path: /api/v1/bots
             Method: post
         UpdateBot:
           Type: Api

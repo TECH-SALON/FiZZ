@@ -14,12 +14,14 @@ RUN apk -v --update add \
 VOLUME /root/.aws
 WORKDIR /go/src/app
 
-COPY . .
-
+ARG gamefile
 ARG s3file
 
-RUN aws s3 cp ${s3file} .
+COPY server.go .
+COPY ${gamefile} .
+# RUN aws s3 cp ${s3file} .
+
 RUN go-wrapper download
 RUN go-wrapper install
 
-CMD["go-wrapper", "run"]
+CMD["app"]

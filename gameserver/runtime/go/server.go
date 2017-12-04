@@ -7,18 +7,10 @@ import (
   "fmt"
 )
 
-type Event struct {
-  EventCode string `json:"code"`
-}
-
-type Context struct {
-  Board [8][8]int `json:"board"`
-}
-
 type Response struct {
-  Store map[string]string `json:"store"`
-  Event map[string]string `json:"event"`
-  Context map[string]string `json:"context"`
+  store map[string]string `json:"store"`
+  action Action `json:"action"`
+  context Context `json:"context"`
 }
 
 func main(){
@@ -48,17 +40,16 @@ func run(w http.ResponseWriter, r *http.Request) {
 			}
 			defer r.Body.Close()
 
-      var event new(Event)
-      var context Context
-      var store = input["store"]
-      context = input["context"]
+      var action *Action = newAction()
+      var store = &input["store"]
+      var context *Context = input["context"]
 
-      handler(&event, &context, &store)
+      handler(action, context, store)
 
-      var response = &Respones{
-        Event: event,
-        Context: context,
-        Store: store
+      var response = Respones{
+        action: *action,
+        context: *context,
+        store: *store
       }
 
 			json.NewEncoder(w).Encode(response)

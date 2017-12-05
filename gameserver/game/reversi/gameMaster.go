@@ -21,7 +21,7 @@ type Response struct {
 type Fight struct {
 	Winner string `json:"winner"`,
 	Summaries []FightSummary `json:"summary"`,
-	EventHistory []EventLog `json:"eventHistory"`
+	ActionHistory []ActionLog `json:"actionHistory"`
 }
 
 type FightSummary struct {
@@ -32,7 +32,7 @@ type FightSummary struct {
 type EventLog struct {
 	Team string `json:"team"`
 	BotCode string `json:"botCode"`
-	EventCode string `json:"event"`
+	ActionCode string `json:"actionCode"`
 	Params map[string]string `json:"params"`
 }
 
@@ -47,19 +47,18 @@ type GameConfig struct {
 var response *Response
 
 func GameMaster(config GameConfig, bots []models.Bot) (Response, err error)  {
-	container, err := ai.StartAIServer(url)
-	err = printErr(err)
 	initialzeResponse(config, bots)
+	containers, err := ai.StartAIServer(bots)
+	err = printErr(err)
 
-	var fight *Fight
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)
 
-		fight = Game() //contextとか
-		response.Fights =
+		fight := Game(config, bots) //contextとか
+		append(response.Fights, fight)
 	}
 
-	err = ai.CloseAIServer(container)
+	err = ai.CloseAIServer(containers)
 	err = printErr(err)
 }
 

@@ -2,29 +2,61 @@ package Game
 
 import (
 	"os/exec"
-	"github.com/pkg/errors"
+	"net/http"
+	"net/url"
+	"encoding/json"
 	"log"
 )
 
-func StartAIServer(url string, runtime string) (containerName string, err error) {
-	cmd := exec.Command("sh", "-c", "docker run -d -p 8282:8080 " url)
-	b, err := cmd.Output()
-	containerName = string(b)
-	log.Println(containerName)
-	if err != nil {
-		errors.Wrap(err, "startAIServer(): cannot start server")
-	} else {
-		log.Println(containerName + " is running")
+func StartAIServer(bots string, runtime string) (containers []Container, errs []error) {
+	var containers []Container
+	var port = 8280
+	var errs []error
+	for i:=0; i<len(bots); i++, port++ {
+		bot := bots[i]
+		c := &Container{}
+		append(errs, c.up(port, bot.Username+":"+bot.Name))
+		append(containers, c)
 	}
-	return containerName, err
 }
 
-func CloseAIServer(containerName string) (err error) {
-	log.Println(containerName, " will be close")
-	cmd := exec.Command("bash", "-c", "docker rm -f " + containerName)
+func CloseAIServer(containers []Container) (errs []error) {
+	var errs []error
+	for i:=0; i < len(containers); i++ {
+		c := containers[i]
+		append(err, c.down())
+	}
+}
+
+type Container struct {
+	name string
+	port string
+	botCode string
+	store map[string]string
+}
+
+func (c *Container)up(port, botCode string) (err error){
+	c.port = port
+	c.botCode = botCode
+	//dockerfileを参照しに行かないといけない
+	cmd := exec.Command("bash", "-c", "docker run -d -p "+c.port+":8080") //fileをrepoからとってきて埋め込む
+	b, err := cmd.Output()
+	c.name = string(b)
+	log.Println(c.name)
+}
+
+func (c *Container)down() (err error){
+	log.Println(c.botCode, " will be closed")
+	cmd := exec.Command("bash", "-c", "docker rm -f " + c.name)
 	err = cmd.Run()
 	if err != nil {
-		errors.Wrap(err, "closeAIServer(): cannot close server")
+		log.Fatal(err)
 	}
-	return err
+}
+
+func (c *Container)play(context) (response map[string]string, err error) {
+	response, err := http.PostForm("http://localhost:"+c.port, url.Values{"context": context, "store": c.store})
+	if err != nil {
+		log.Fatal(err)
+	}
 }

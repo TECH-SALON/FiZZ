@@ -2,12 +2,7 @@ package main
 
 type Context struct {
   board [8][8]int `json:"board"`
-  turn string `json:"turn"`
   history map[string]string `json:"history"`
-}
-
-func (context *Context) mayPlayLocs() [][2]int{
-  return {{0, 0}}
 }
 
 type Action struct {
@@ -21,6 +16,7 @@ func newAction() &Action{
   action.code = "NONE"
   action.x = -1
   action.y = -1
+  return &action
 }
 
 func (action *Action) putDisk(disk [2]int) {

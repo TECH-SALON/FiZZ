@@ -9,7 +9,7 @@ package Reversi
 	3: draw
 */
 
-func Game() int{
+func Game(config *GameConfig, containers []string) *Fight{
   initBoard()
   initMovable()
   var point Point

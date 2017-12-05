@@ -6,7 +6,7 @@ info:
   termsOfService: "http://swagger.io/terms/"
   contact:
     email: "y.tsuchiya@tech-salon.com"
-basePath: "/api/v1"
+basePath: "/fizz-dev/api/v1"
 tags:
 - name: "games"
 - name: "matches"
@@ -155,15 +155,34 @@ paths:
       - "application/json"
       parameters:
       - in: "body"
-        name: "body"
+        name: "bot"
         required: true
         schema:
           $ref: "#/definitions/Bots"
       responses:
-        200:
+        201:
           description: "Success"
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
         405:
           description: "Invalid input"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: 201
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'POST OPTIONS'"
+              method.resposne.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+            passthroughBehavior: when_no_match
+            requestTemplates:
+              application/json: "{\"statusCode\": 201}"
+            type: mock
     get:
       tags:
       - "bots"

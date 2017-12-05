@@ -16,6 +16,15 @@ Parameters:
     Description: The ID of the Cognito Federated Identity.
 
 Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: swagger.yml
+      StageName: fizz-dev
+      Variables:
+        Games: !Ref Games
+        Bots: !Ref Bots
+
   Accounts:
     Type: AWS::Serverless::Function
     Properties:

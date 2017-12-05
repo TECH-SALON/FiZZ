@@ -172,6 +172,7 @@ paths:
         405:
           description: "Invalid input"
       x-amazon-apigateway-integration:
+        type: aws
         responses:
           default:
             statusCode: 201
@@ -182,7 +183,6 @@ paths:
             passthroughBehavior: when_no_match
             requestTemplates:
               application/json: "{\"statusCode\": 201}"
-            type: mock
     get:
       tags:
       - "bots"
@@ -327,6 +327,8 @@ definitions:
   Games:
     type: object
     properties:
+      name:
+        type: string
       botId:
         type: string
       ruleId:
@@ -336,7 +338,7 @@ definitions:
   Bots:
     type: object
     properties:
-      botName:
+      name:
         type: string
       gameName:
         type: string

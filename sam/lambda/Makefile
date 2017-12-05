@@ -37,14 +37,14 @@ bundle:
 
 package:
 	docker-compose run --rm sam package \
-		--template-file template.yml \
+		--template-file lambda/template.yml \
 		--s3-bucket fridev-lambda \
 		--s3-prefix sources \
-		--output-template-file packaged.yml
+		--output-template-file lambda/packaged.yml
 
 deploy:
 	docker-compose run --rm sam deploy \
-		--template-file packaged.yml \
+		--template-file lambda/packaged.yml \
 		--stack-name $(STACK_NAME) \
 		--capabilities CAPABILITY_IAM
 

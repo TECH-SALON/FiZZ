@@ -274,7 +274,7 @@ paths:
           description: "Success"
         405:
           description: "Invalid input"
-  /accounts/{userName}:
+  /accounts/{username}:
     get:
       tags:
       - "accounts"
@@ -286,7 +286,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "userName"
+      - name: "username"
         in: "path"
         description: "filtering accounts with userName"
         type: "string"
@@ -296,7 +296,7 @@ paths:
           description: "Success"
         405:
           description: "Invalid input"
-  /accounts/{userName}/bots/{gameName}:
+  /accounts/{username}/bots:
     get:
       tags:
       - "accounts"
@@ -308,13 +308,13 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "userName"
+      - name: "username"
         in: "path"
         description: "filtering bots with userName"
         type: "string"
         required: true
       - name: "gameName"
-        in: "path"
+        in: "query"
         description: "filtering bots with gameName"
         type: "string"
         required: true

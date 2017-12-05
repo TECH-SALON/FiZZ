@@ -20,7 +20,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       DefinitionUri: swagger.yml
-      StageName: fizz-dev
+      StageName: FizzDev
       Variables:
         Games: !Ref Games
         Bots: !Ref Bots
@@ -47,7 +47,7 @@ Resources:
         GetAccountBots:
           Type: Api
           Properties:
-            Path: /api/v1/accounts/{username}
+            Path: /api/v1/accounts/{username}/bots
             Method: get
 
   Games:
@@ -87,7 +87,6 @@ Resources:
         ScanBots:
           Type: Api
           Properties:
-            Cors: "*"
             Path: /api/v1/bots
             Method: get
         GetBot:
@@ -98,7 +97,6 @@ Resources:
         CreateBot:
           Type: Api
           Properties:
-            Cors: "*"
             Path: /api/v1/bots
             Method: post
         UpdateBot:
@@ -119,7 +117,6 @@ Resources:
         ScanResults:
           Type: Api
           Properties:
-            Cors: "*"
             Path: /api/v1/matches
             Method: get
         GetResult:
@@ -131,7 +128,7 @@ Resources:
           Type: Api
           Properties:
             Path: /api/v1/matches/{resultId}/{ext}
-            Method: put
+            Method: get
 
   Auth:
     Type: AWS::Serverless::Function

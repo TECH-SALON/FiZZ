@@ -19,3 +19,5 @@
 /sam/lambda/bundle.zip
 /sam/lambda/log/*
 !/sam/lambda/log/.keep
+/sam/tmp/*
+!/sam/tmp/.keep

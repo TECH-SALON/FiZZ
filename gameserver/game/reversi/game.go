@@ -1,5 +1,9 @@
 package Reversi
 
+import (
+  ai "app/game"
+)
+
 /*
 	status
 	-1 : error
@@ -9,7 +13,7 @@ package Reversi
 	3: draw
 */
 
-func Game(config *GameConfig, containers []string) *Fight{
+func Game(config *GameConfig, containers []ai.Container) *Fight{
   initBoard()
   initMovable()
   var point Point

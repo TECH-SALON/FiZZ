@@ -44,26 +44,32 @@ type GameConfig struct {
 	NumOfFights int `json:"numOfFights"`
 }
 
-var response *Response
+type Context struct {
+  board [8][8]int `json:"board"`
+  history map[string]string `json:"history"`
+}
 
-func GameMaster(config GameConfig, bots []models.Bot) (Response, err error)  {
-	initialzeResponse(config, bots)
+
+// errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること
+func GameMaster(config GameConfig, bots []models.Bot) (response &Response, err error)  {
+	response := initialzeResponse(config, bots)
 	containers, err := ai.StartAIServer(bots)
 	err = printErr(err)
 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)
 
-		fight := Game(config, bots) //contextとか
+		fight := Game(config, containers)
 		append(response.Fights, fight)
 	}
 
 	err = ai.CloseAIServer(containers)
 	err = printErr(err)
+	return response, err
 }
 
-func initialzeResponse(config GameConfig, bots []models.Bot){
-	response = &Response{
+func initialzeResponse(config GameConfig, bots []models.Bot) (response &Response){
+	response := &Response{
 		Bots: bots,
 		GameName: config.Name,
 		Rule: config.Rule,

@@ -16,7 +16,7 @@ func Play(c echo.Context) error{
 	return c.JSON(http.StatusOK, play(game, bots))
 }
 
-func play(game Reversi.Game, bots []models.Bot) *Response{
-	result, err := Reversi.GameMaster(game, bots)
-	return result
+func play(config Reversi.GameConfig, bots []models.Bot) &Response{
+	response, err := Reversi.GameMaster(config, bots)
+	return response
 }

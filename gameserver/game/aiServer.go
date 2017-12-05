@@ -54,9 +54,15 @@ func (c *Container)down() (err error){
 	}
 }
 
-func (c *Container)play(context) (response map[string]string, err error) {
-	response, err := http.PostForm("http://localhost:"+c.port, url.Values{"context": context, "store": c.store})
+func (c *Container)play(context map[string]string) (response map[string]string, err error) {
+	//contextをjsonにする
+	resp, err := http.PostForm("http://localhost:"+c.port, url.Values{"context": context, "store": c.store})
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	var response map[string]string
+	//responseをjsonからmap[string]stringにする
+	json.Unmarshal([]byte(body), &response)
 }

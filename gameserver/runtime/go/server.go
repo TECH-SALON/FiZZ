@@ -42,14 +42,14 @@ func run(w http.ResponseWriter, r *http.Request) {
 
       var action *Action = newAction()
       var store = &input["store"]
-      var context *Context = input["context"]
+      var context *Context = &input["context"]
 
       handler(action, context, store)
 
       var response = Respones{
-        action: *action,
-        context: *context,
-        store: *store
+        action: &action,
+        context: &context,
+        store: &store
       }
 
 			json.NewEncoder(w).Encode(response)

@@ -1,0 +1,34 @@
+{
+  "bots": [
+    {
+      "id": "7363078e-7ba2-4d51-b720-b94c776cd82d",
+      "name": "bot",
+      "description": "randam ai",
+      "username": "Yukits",
+      "gameName": "Reversi",
+      "isPrivate": true,
+      "isQualified": true,
+      "isStandBy": true,
+      "isValid": true,
+      "resourceUrl": "" "https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0"
+    },
+    {
+      "id": "12386aea-9882-43ef-9b3c-15e6641453fe",
+      "name": "bot",
+      "description": "randam ai",
+      "username": "Yukits2",
+      "gameName": "Reversi",
+      "isPrivate": true,
+      "isQualified": true,
+      "isStandBy": true,
+      "isValid": true,
+      "resourceUrl": "" "https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0"
+    },
+  ],
+  "game": {
+    "name": "Reversi",
+    "rule": "8x8",
+    "filter": "none",
+    "numOfFights": "3"
+  }
+}

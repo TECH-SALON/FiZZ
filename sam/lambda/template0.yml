@@ -20,7 +20,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       DefinitionUri: swagger.yml
-      StageName: fizzdev
+      StageName: FizzDev
       Variables:
         Games: !Ref Games
         Bots: !Ref Bots
@@ -29,7 +29,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/accounts
-      Handler: functions/accounts/accounts.handler
+      # Handler: functions/accounts/accounts.handler
+      Handler: accounts.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -53,7 +54,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/games
-      Handler: functions/games/games.handler
+      # Handler: functions/games/games.handler
+      Handler: games.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -77,7 +79,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/bots
-      Handler: functions/bots/bots.handler
+      # Handler: functions/bots/bots.handler
+      Handler: bots.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -106,32 +109,33 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/results
-      Handler: functions/results/results.handler
+      # Handler: functions/results/results.handler
+      Handler: results.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
         ScanResults:
           Type: Api
           Properties:
-            Cors: "*"
             Path: /api/v1/matches
             Method: get
         GetResult:
           Type: Api
           Properties:
-            Path: /api/v1/matches/{gameName}/{resultId}
+            Path: /api/v1/matches/{resultId}
             Method: get
         GetFightsLog:
           Type: Api
           Properties:
             Path: /api/v1/matches/{resultId}/{ext}
-            Method: put
+            Method: get
 
   Auth:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/auth
-      Handler: functions/auth/auth.handler
+      # Handler: functions/auth/auth.handler
+      Handler: auth.handler
       Runtime: python3.6
       Policies: AmazonCognitoDeveloperAuthenticatedIdentities
       Timeout: 10

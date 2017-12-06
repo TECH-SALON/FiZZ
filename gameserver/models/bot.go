@@ -2,13 +2,15 @@
 package models
 
 type Bot struct {
-  Id bigint `json:"id"`
+  Id string `json:"id"`
   Name string `json:"name"`
   Description string `json:"description"`
-  AccountId bigint `json:"accountId"`
-  GameId bigint `json:"gameId"`
-  IsPrivate bool  `json:"isPrivate"`
-  IsQualified bool `json:"isQualified"`
-  IsStandBy bool `json:"isStandBy"`
-  RepoUrl string `json:"repoUrl"`
+  Username string `json:"username"`
+  GameName string `json:"gameName"`
+  IsPrivate bool  `json:"isPrivate,string"`
+  IsQualified bool `json:"isQualified,string"`
+  IsStandBy bool `json:"isStandBy,string"`
+  IsValid bool `json:"isValid,string"`
+  Runtime string `json:"runtime"`
+  ResourceUrl string `json:"resourceUrl"`
 }

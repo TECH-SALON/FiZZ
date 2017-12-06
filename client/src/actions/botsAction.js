@@ -25,12 +25,9 @@ export const BOTS_STAND_BOT_FAIL = 'BOTS_STAND_BOT_FAIL';
 export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
-    let params = new FormData();
-    params.append('bot', bot);
-    console.log(bot);
-    let url = `${endPoint()}/api/v1/bots/${bot.gameName}`;
-    console.log(url);
-    api(getState).post(url, params).then( response => {
+
+    let url = `/api/v1/bots/${bot.gameName}`;
+    api(getState).post(url, {data: bot}).then( response => {
       createBotSuccess(response.data);
     }).catch( error => {
       createBotFail(error)
@@ -67,7 +64,7 @@ export function scanBots(refresh = false){
     if(!refresh && bots.get('loaded')){
       return
     }
-    let url = `${endPoint()}/api/v1/bots`
+    let url = `/api/v1/bots`
     api(getState).get(url).then( response => {
       let bots = response.data;
       dispatch(scanBotsSuccess(bots));
@@ -102,7 +99,7 @@ export function getBot(id){
   return (dispatch, getState) => {
     dispatch(getBotRequest(id))
 
-    let url = `${endPoint()}/api/v1/bots/${id}`
+    let url = `/api/v1/bots/${id}`
     api(getState).get(url).then( response => {
       getBotSuccess(response.data);
     }).catch( error => {
@@ -142,7 +139,7 @@ export function standBot(id){
       return
     }
 
-    let url = `${endPoint()}/api/v1/bots/${id}`
+    let url = `/api/v1/bots/${id}`
     api(getState).get(url).then( response => {
       standBotSuccess(response.data);
     }).catch( error => {

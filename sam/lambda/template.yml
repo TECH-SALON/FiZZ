@@ -112,7 +112,7 @@ Resources:
         GetResult:
           Type: Api
           Properties:
-            Path: /api/v1/matches/{resultId}
+            Path: /api/v1/matches/{gameName}/{resultId}
             Method: get
         GetFightsLog:
           Type: Api

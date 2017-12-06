@@ -12,8 +12,14 @@
   border-bottom: 1px solid rgba(0,0,0,.12);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  overflow: hidden;
 }
+
 .panel-heading h3 {
   font-size: 28px;
   margin-bottom: 0;
+  float: left;
+}
+.panel-heading .loading {
+  float: right;
 }

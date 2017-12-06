@@ -26,7 +26,9 @@ export default class ResultsList extends Component {
   }
 
   openModal(modalName, item) {
-    console.log(item);
+    let resultId = item.get("resultId");
+    let gameName = item.get("gameName");
+    this.props.onGetResult(resultId, gameName);
     this.setState({
       [modalName]: true,
       itemModaled: {
@@ -94,7 +96,7 @@ export default class ResultsList extends Component {
   }
 
   render() {
-    const { results } = this.props;
+    const { results, resultsLoading } = this.props;
     return(
       <div className="table">
         {this.renderModals()}
@@ -109,6 +111,7 @@ export default class ResultsList extends Component {
             </tr>
           </thead>
           <tbody>
+            {resultsLoading ? <tr><td>Results data is loading now....</td></tr> : null}
             {results.map((i) => {
               return(
                 <tr key={i.get("resultId")}>
@@ -117,7 +120,7 @@ export default class ResultsList extends Component {
                   <td>{(i.get("pointPercentage"))*100+"%"}</td>
                   <td>{i.get("createdAt")}</td>
                   <td>
-                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", i)}>Detail</button>
+                    <button className="button detail-button margin-top-5" onClick={(e) => {this.openModal("detailModal", i)}}>Detail</button>
                   </td>
                 </tr>
               )

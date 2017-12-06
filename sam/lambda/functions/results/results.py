@@ -11,6 +11,7 @@ sys.path.append(moduledir)
 
 import simplejson as json
 from pytz import timezone
+from boto3.dynamodb.conditions import Key, Attr
 
 # TODO: Check Parameters
 # TODO: Validates
@@ -72,15 +73,29 @@ class DB:
         table = self.db_client.Table(table_name)
         try:
             res = table.query(
-                KeyConditionExpression = Key(key).eq(value)
+                KeyConditionExpression = f"{key} = :val",
+                ExpressionAttributeValues = {
+                    ":val": value
+                }
             )
             return res
         except Exception as e:
             print(e.__doc__)
             return e
 
-    def get(self, id):
-        self.query(DB.main_table, 'id', id)
+    def get(self, table_name, resultId, gameName):
+        table = self.db_client.Table(table_name)
+        try:
+            res = table.get_item(
+                Key = {
+                    'id': resultId,
+                    'gameName': gameName
+                }
+            )
+            return res
+        except Exception as e:
+            print(e.__doc__)
+            return e
 
     def scan(self):
         # self.scan()
@@ -109,10 +124,24 @@ def scan_results(event, context):
 
     return {'statusCode': 400, 'body': 'Request Failed'}
 
-def get_results(event, context):
-    # Error Handling
-    # Parameters Check
-    # Return Response
+def get_result(event, context):
+    print(event)
+    resultId = event['pathParameters']['resultId']
+    gameName = event['pathParameters']['gameName']
+    print(gameName)
+    try:
+        db = DB()
+        result = db.get("Results", resultId, "Reversi")
+        print(result)
+        resp = {
+        "headers":  { "Access-Control-Allow-Origin" : "*" },
+        'statusCode': 200,
+        "body": json.dumps(result, use_decimal=True)
+        }
+        return resp
+    except:
+        traceback.print_exc()
+
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 def get_fights_log(event, context):
@@ -122,9 +151,13 @@ def get_fights_log(event, context):
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 def handler(event, context):
+    print(event)
     try:
         if event['httpMethod'] == 'GET':
-            return scan_results(event, context)
+            if 'resultId' in event['pathParameters'].keys():
+                return get_result(event, context)
+            else:
+                return scan_results(event, context)
         elif event['httpMethod'] == 'POST':
             pass
         elif event['httpMethod'] == 'PUT':

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 
 import {
-  getBots,
+  scanBots,
 } from '../actions/botsAction';
 
 import {
@@ -12,21 +12,22 @@ import {
 } from '../actions/gamesAction';
 
 import {
-  getResults
+  scanResults
 } from '../actions/matchesAction';
 
 const mapStateToProps = (state) => {
   return {
     bots: state.getIn(['bots', 'items']),
     ranking: state.getIn(['games', 'ranking']),
-    results: state.getIn(['matches', 'results'])
+    results: state.getIn(['matches', 'results']),
+    resultsLoading: state.getIn(['matches', 'isLoading'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
-      dispatch(getBots());
-      dispatch(getResults('reversi'));
+      dispatch(scanBots());
+      dispatch(scanResults('reversi'));
       dispatch(getRanking('reversi'))
     },
     onMatchRun: (botId) => {

@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Modal from '../utils/Modal';
+import Spinner from 'react-spinkit';
+
 
 import BotsList from './BotsList';
 import ResultsList from './ResultsList';
@@ -36,9 +38,11 @@ export default class Garage extends Component {
 
   componentWillUpdate() {
   }
+
   render() {
-    const { bots, results } = this.props;
-    console.log(results);
+    const { bots, results, botsLoading, resultsLoading } = this.props;
+    let botsLoadingClass = botsLoading ? "visible" : "hidden";
+    let resultsLoadingClass = resultsLoading ? "visible" : "hidden";
     return(
       <div className="garage">
         <div className="over-lay"></div>
@@ -60,19 +64,25 @@ export default class Garage extends Component {
                 <div className="panel">
                   <div className="panel-heading">
                     <h3>Your Bots</h3>
+                    <div className="loading">
+                      <Spinner className={botsLoadingClass} name="double-bounce" color="white" fadeIn="quarter"/>
+                    </div>
                   </div>
                   <div className="margin-top-15">
                     <RegisterForm onCreateBot={this.props.onCreateBot}/>
                   </div>
-                  <BotsList bots={bots} onPracticeBot={this.props.onPracticeBot}/>
+                  <BotsList bots={bots} botsLoading={botsLoading} onPracticeBot={this.props.onPracticeBot}/>
                 </div>
               </div>
               <div className="twelve columns">
                 <div className="panel">
                   <div className="panel-heading">
                     <h3>Your Results</h3>
+                    <div className="loading">
+                      <Spinner className={resultsLoadingClass} name="double-bounce" color="white" fadeIn="quarter"/>
+                    </div>
                   </div>
-                  <ResultsList results={results}/>
+                  <ResultsList results={results} onGetResult={this.props.onGetResult} resultsLoading={resultsLoading}/>
                 </div>
               </div>
             </div>

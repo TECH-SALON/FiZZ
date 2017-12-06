@@ -3,8 +3,8 @@ import {
 } from 'immutable';
 
 import {
-  MATCHES_GET_RESULTS_SUCCESS,
-  MATCHES_GET_RESULTS_FAIL,
+  MATCHES_SCAN_RESULTS_SUCCESS,
+  MATCHES_SCAN_RESULTS_FAIL,
   MATCHES_GET_RESULT_SUCCESS,
   MATCHES_GET_RESULT_FAIL
 } from '../actions/matchesAction';
@@ -44,10 +44,10 @@ const getResults = (state, results) => {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-  case MATCHES_GET_RESULTS_SUCCESS:
+  case MATCHES_SCAN_RESULTS_SUCCESS:
     return getResults(state, action.results);
   default:
-  MATCHES_GET_RESULTS_SUCCESS
+  MATCHES_SCAN_RESULTS_SUCCESS
     return state;
   }
 }

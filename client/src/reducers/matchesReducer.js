@@ -3,14 +3,15 @@ import {
 } from 'immutable';
 
 import {
-  MATCHES_GET_RESULTS_SUCCESS,
-  MATCHES_GET_RESULTS_FAIL,
+  MATCHES_SCAN_RESULTS_SUCCESS,
+  MATCHES_SCAN_RESULTS_FAIL,
   MATCHES_GET_RESULT_SUCCESS,
   MATCHES_GET_RESULT_FAIL
 } from '../actions/matchesAction';
 
 const initialState = IMap({
   results: IList(),
+  participants: IList(),
   loaded: false,
   isLoading: true,
   error: IMap(),
@@ -19,6 +20,7 @@ const initialState = IMap({
 const resultToMap = (r) => {
   let mappedResult = IMap({
     resultId: r.resultId,
+    botId: r.botId,
     botName: r.botName,
     gameName: r.gameName,
     isWinner: r.isWinner,
@@ -31,7 +33,18 @@ const resultToMap = (r) => {
   return mappedResult;
 };
 
-const getResults = (state, results) => {
+const botToMap = (b) => {
+  let mappedBot = IMap({
+    id: b.id,
+    name: b.name,
+    imageUrl: b.imageUrl,
+    username: b.username,
+    description: b.description
+  });
+  return mappedBot;
+}
+
+const scanResults = (state, results) => {
   let items = IList();
   results.Items.forEach((r, i) => {
     items = items.set(i, resultToMap(r))
@@ -42,12 +55,26 @@ const getResults = (state, results) => {
     .set('isLoading', false);
 }
 
+const getResult = (state, result, botId) => {
+  let items = IList();
+  result.Item.bots.forEach((b, i) => {
+    if(b.id != botId) {
+      items = items.push(botToMap(b))
+    } else {
+      return
+    }
+  });
+  return state
+    .set('participants', items)
+}
+
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-  case MATCHES_GET_RESULTS_SUCCESS:
-    return getResults(state, action.results);
+  case MATCHES_SCAN_RESULTS_SUCCESS:
+    return scanResults(state, action.results);
+  case MATCHES_GET_RESULT_SUCCESS:
+    return getResult(state, action.result, action.botId);
   default:
-  MATCHES_GET_RESULTS_SUCCESS
     return state;
   }
 }

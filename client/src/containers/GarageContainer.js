@@ -4,7 +4,7 @@ import Garage from '../components/garage'
 import {connect} from 'react-redux';
 
 import {
-  getBots,
+  scanBots,
   createBot,
   standBot,
 } from '../actions/botsAction';
@@ -14,20 +14,24 @@ import {
 } from '../actions/gamesAction';
 
 import {
-  getResults
+  scanResults,
+  getResult
 } from '../actions/matchesAction';
 
 const mapStateToProps = (state) => {
   return {
     bots: state.getIn(['bots', 'items']),
-    results: state.getIn(['matches', 'results'])
+    botsLoading: state.getIn(['bots', 'isLoading']),
+    results: state.getIn(['matches', 'results']),
+    resultsLoading: state.getIn(['matches', 'isLoading']),
+    participants: state.getIn(['matches', 'participants'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
-      dispatch(getBots());
-      dispatch(getResults());
+      dispatch(scanBots());
+      dispatch(scanResults());
     },
     onCreateBot: (bot) => {
       dispatch(createBot(bot))
@@ -37,6 +41,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onStandBot: (botId) => {
       dispatch(standBot(botId))
+    },
+    onGetResult: (resultId, gameName, botId) => {
+      dispatch(getResult(resultId, gameName, botId))
     }
 });
 

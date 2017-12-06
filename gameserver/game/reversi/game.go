@@ -18,7 +18,10 @@ func Game(config *GameConfig, containers []ai.Container, firstMover int) *Fight{
 
   fight := &new(Fight)
   for i:=0; i<len(containers); i++ {
-    append(fight.Summaries, FightSummary{BotCode: containers[i].botCode})
+    append(fight.Summaries, FightSummary{
+      BotCode: containers[i].botCode,
+      Team: getTeam(i, firstMover)
+    })
   }
 
   //fightにログを追加する
@@ -40,13 +43,15 @@ func Game(config *GameConfig, containers []ai.Container, firstMover int) *Fight{
     //contextの更新
     b := adaptBoard()
     context.board = b
-    context.team = getTeam()
+    context.team = getTeam((turns + firstMover)%2, firstMover)
     append(context.history, b)
 
     resp, err := bot.play(context)
 
     if err != nil {
-      break
+      log.Fatal(err)
+      configureFight(fight, firstMover, "ERROR occurred with "+bot.BotCode)
+      return fight
     }
 
     actionLog := &ActionLog{
@@ -71,24 +76,27 @@ func Game(config *GameConfig, containers []ai.Container, firstMover int) *Fight{
     }
   }
   //fightの設定をおこなって返却
-  result := checkResult()
-  return result
+  configureFight(fight, firstMover, "The game was finished successfully.")
+  return fight
 }
 
-func checkResult() int {
-  blackCount := countColor(BLACK)
-  whiteCount := countColor(WHITE)
-  if blackCount > whiteCount {
-    return 1
-  } else if blackCount < whiteCount {
-    return 2
-  } else {
-    return 3
+func configureFight(fight *Fight, firstMover int, msg string){
+  var winner string
+  var max float32 = 0.0
+  for i:=0; i<len(fight.Summaries); i++{
+    s := fight.Summaries[i]
+    s.PointPercentage = countColor(int(s.Team))/(BOARD_SIZE*BOARD_SIZE)
+    if max < s.PointPercentage {
+      winner = s.BotCode
+      max = s.PointPercentage
+    }
   }
+  fight.Messages = msg
+  fight.Winner = winner
 }
 
-func getTeam(firstMover) string{
-  if (turns+firstMover)%2 == 0{
+func getTeam(index, firstMover) string {
+  if index%2 == firstMover%2{
     return string(BLACK)
   }else{
     return string(WHITE)

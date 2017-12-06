@@ -23,7 +23,8 @@ const mapStateToProps = (state) => {
     bots: state.getIn(['bots', 'items']),
     botsLoading: state.getIn(['bots', 'isLoading']),
     results: state.getIn(['matches', 'results']),
-    resultsLoading: state.getIn(['matches', 'isLoading'])
+    resultsLoading: state.getIn(['matches', 'isLoading']),
+    participants: state.getIn(['matches', 'participants'])
   }
 }
 
@@ -41,8 +42,8 @@ const mapDispatchToProps = (dispatch) => ({
     onStandBot: (botId) => {
       dispatch(standBot(botId))
     },
-    onGetResult: (resultId, gameName) => {
-      dispatch(getResult(resultId, gameName))
+    onGetResult: (resultId, gameName, botId) => {
+      dispatch(getResult(resultId, gameName, botId))
     }
 });
 

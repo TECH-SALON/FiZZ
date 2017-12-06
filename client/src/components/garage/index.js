@@ -40,7 +40,7 @@ export default class Garage extends Component {
   }
 
   render() {
-    const { bots, results, botsLoading, resultsLoading } = this.props;
+    const { bots, results, botsLoading, resultsLoading, participants } = this.props;
     let botsLoadingClass = botsLoading ? "visible" : "hidden";
     let resultsLoadingClass = resultsLoading ? "visible" : "hidden";
     return(
@@ -82,7 +82,12 @@ export default class Garage extends Component {
                       <Spinner className={resultsLoadingClass} name="double-bounce" color="white" fadeIn="quarter"/>
                     </div>
                   </div>
-                  <ResultsList results={results} onGetResult={this.props.onGetResult} resultsLoading={resultsLoading}/>
+                  <ResultsList
+                    results={results}
+                    onGetResult={this.props.onGetResult}
+                    resultsLoading={resultsLoading}
+                    participants={participants}
+                  />
                 </div>
               </div>
             </div>

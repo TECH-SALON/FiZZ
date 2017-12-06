@@ -126,13 +126,11 @@ def scan_results(event, context):
 
 def get_result(event, context):
     print(event)
-    resultId = event['pathParameters']['resultId']
     gameName = event['pathParameters']['gameName']
-    print(gameName)
+    resultId = event['pathParameters']['resultId']
     try:
         db = DB()
         result = db.get("Results", resultId, "Reversi")
-        print(result)
         resp = {
         "headers":  { "Access-Control-Allow-Origin" : "*" },
         'statusCode': 200,

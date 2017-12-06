@@ -1,6 +1,27 @@
 {
   "id": {"S":"2eb4e3f0-f69c-4ad6-99f2-e82166188ce3"},
   "gameName": {"S": "Reversi"},
-  "numOfFights": {"N": 100},
-  "bots": {"M": }
+  "numOfFights": {"N": "100"},
+  "bots": {
+    "L": [
+      {
+        "M": {
+          "id": {"S": "2eb4e3f0-f69c-4ad6-99f2-e82166188ce6"},
+          "name": {"S": "bob"},
+          "imageUrl": {"S": "https://avatars2.githubusercontent.com/u/8210889?s=400&u=465a89296d1d4862b273e8ee520505a15970cc63&v=4"},
+          "username": {"S": "toshi443"},
+          "description": {"S": "hello"}
+        }
+      },
+      {
+        "M": {
+          "id": {"S": "2eb4e3f0-f69c-4ad6-99f2-e82166188c80"},
+          "name": {"S": "bob2"},
+          "imageUrl": {"S": "https://avatars2.githubusercontent.com/u/8210889?s=400&u=465a89296d1d4862b273e8ee520505a15970cc63&v=4"},
+          "username": {"S": "toshi443"},
+          "description": {"S": "hello"}
+        }
+      }
+    ]
+  }
 }

@@ -50,14 +50,13 @@ function scanResultsFail(error){
   }
 }
 
-export function getResult(resultId, gameName) {
+export function getResult(resultId, gameName, botId) {
   return(dispatch, getState) => {
     dispatch(getResultRequest());
     let url = `${endPoint()}/api/v1/matches/${gameName}/${resultId}`;
-    console.log(url);
     api(getState).get(url).then( response => {
-      console.log(response.data);
-      getResultSuccess(response.data);
+      // console.log('here');
+      dispatch(getResultSuccess(response.data, botId));
     }).catch( error => {
       getResultFail(error);
     })
@@ -70,10 +69,11 @@ function getResultRequest(){
   }
 }
 
-function getResultSuccess(){
+function getResultSuccess(result, botId){
   return {
     type: MATCHES_GET_RESULT_SUCCESS,
     result,
+    botId
   }
 }
 

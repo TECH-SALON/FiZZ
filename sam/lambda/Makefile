@@ -1,10 +1,13 @@
 SHELL := /bin/bash
 PY_VERSION := 3.6
 
+include ../../.env.dev
+export $(shell sed 's/=.*//' ../../.env.dev)
+
 export PYTHONUNBUFFERED := 1
 
 export AWS_PROFILE := sandbox
-STACK_NAME := stack-cloudschedule
+STACK_NAME := fizz-backend-dev
 
 BASE := $(shell /bin/pwd)
 VENV_DIR := $(BASE)/.venv
@@ -35,18 +38,21 @@ bundle.local:
 bundle:
 	docker run --rm -v $$PWD:/var/task -it lambci/lambda:build-python3.6 /bin/bash -c 'make clean build bundle.local'
 
+NOW=20171205
+
 package:
 	docker-compose run --rm sam package \
-		--template-file template.yml \
-		--s3-bucket fridev-lambda \
-		--s3-prefix sources \
-		--output-template-file packaged.yml
+		--template-file lambda/template0.yml \
+		--s3-bucket fizz-backend-dev \
+		--s3-prefix deploy/${NOW} \
+		--output-template-file lambda/packaged.yml
 
 deploy:
 	docker-compose run --rm sam deploy \
-		--template-file packaged.yml \
+		--template-file lambda/packaged.yml \
 		--stack-name $(STACK_NAME) \
-		--capabilities CAPABILITY_IAM
+		--capabilities CAPABILITY_IAM \
+		--parameter-overrides AwsRegion=${AWS_REGION} AwsClientId=${AWS_CLIENT_ID} AwsUserPoolId=${AWS_USER_POOL_ID} AwsIdentityPoolId=${AWS_IDENTITY_POOL_ID}
 
 # call this in case of errors
 describe:

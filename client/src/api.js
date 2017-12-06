@@ -1,10 +1,23 @@
 import axios from 'axios';
 
+const endpointdev = "http://localhost:3000";
+const endpoint = "https://localhost:8080";
+
+export const endPoint = () => {
+  if(process.env.NODE_ENV == 'production'){
+    return endpoint;
+  }else {
+    return endpointdev;
+  }
+}
+
 export default getState => axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
+
+  baseURL: `${endPoint()}`,
 
   transformResponse: [function (data) {
     try {
@@ -45,14 +58,3 @@ export const client =  axios.create({
     }
   }],
 })
-
-const endpointdev = "http://localhost:3000";
-const endpoint = "https://localhost:8080";
-
-export const endPoint = () => {
-  if(process.env.NODE_ENV == 'production'){
-    return endpoint;
-  }else {
-    return endpointdev;
-  }
-}

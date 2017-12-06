@@ -1,7 +1,8 @@
 import sys, os
 
-moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
-sys.path.append(moduledir)
+if os.getenv('AWS_SAM_LOCAL'):
+    moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
+    sys.path.append(moduledir)
 
 import simplejson
 import json
@@ -27,7 +28,7 @@ class DB:
         else:
             self.db_client = boto3.resource('dynamodb')
 
-    def validates(item):
+    def validates(self, item):
         # nameはアカウントごとにユニーク
         # それぞれのkeytypeをcheckする
         # if isPrivate is 1 then repoUrl is in FiZZ repo
@@ -40,7 +41,7 @@ class DB:
         # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
         item = {
-            'id': uuid.uuid4(),
+            'id': str(uuid.uuid4()),
             'accountId': accountId,
             'gameId': gameId,
             'name': name,
@@ -158,18 +159,25 @@ def create_bot(event, context):
     try:
         db = DB()
         body = json.loads(event['body'])
-        print("body is")
-        print(body)
-        gameName = event['pathParameters']['gameName']
-        resp, error = db.create(
+        new_bot, error = db.create(
             accountId=body['accountId'],
-            gameId=db.transform_game_name2id(gameName),
+            gameId="eeb4e9f0-f69c-4ad6-99f2-e82166188ce6",
             name=body['name'],
             isPrivate=body['isPrivate'],
             repoUrl=body['repoUrl']
         )
         if error is None:
-            return {'statusCode': 201, 'body': str(resp)}
+            return {
+                "headers":  {
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Method": "POST"
+                },
+                "statusCode": 201,
+                "body": simplejson.dumps(new_bot, use_decimal=True)
+            }
+        else:
+            return {'statusCode': 405, 'body': f'Invalid input {error}'}
     except :
         traceback.print_exc()
 

@@ -38,6 +38,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "./sam:/var/opt"
+      - "${HOME}/.aws:/root/.aws"
     env_file:
       - ./.env.dev
   db:

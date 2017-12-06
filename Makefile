@@ -6,6 +6,8 @@ init:
 run:
 	docker-compose run --rm ${ARG}
 restart:
+	docker-compose restart ${C}
+start-again:
 	docker-compose stop && docker-compose start
 up:
 	docker-compose up -d
@@ -80,14 +82,15 @@ sam:
 sam-help:
 	$(SAM)
 
+TEMP = "lambda/template.yml"
+
 sam-validate:
-	$(SAM) validate
+	$(SAM) validate -t ${TEMP}
 
 FN=bots
 EV=event
 AC=Bots
 
-TEMP = "lambda/template.yml"
 S3 = "fizz-sam-development"
 
 sam-local-generate-event:

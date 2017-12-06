@@ -46,11 +46,13 @@ func Game(config *GameConfig, containers []ai.Container, firstMover int) *Fight{
     context.team = getTeam((turns + firstMover)%2, firstMover)
     append(context.history, b)
 
-    resp, err := bot.play(context)
+    cxt, _ := json.Marshal(context)
+    resp, err := bot.play(string(cxt))
 
     if err != nil {
       log.Fatal(err)
-      configureFight(fight, firstMover, "ERROR occurred with "+bot.BotCode)
+      configureFight(fight, firstMover, "ERROR occurred with "+bot.botCode)
+      fight.winner = containers[(turns + firstMover + 1)%2].botCode
       return fight
     }
 

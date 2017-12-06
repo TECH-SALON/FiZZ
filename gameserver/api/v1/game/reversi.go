@@ -11,12 +11,16 @@ import (
 )
 
 func Play(c echo.Context) error{
-	bots := c.Param("bots")
-	game := c.Param("game")
+	b := c.Param("bots")
+	g := c.Param("config")
+	var bots []models.Bot
+	var game Reversi.GameConfig
+	json.Unmarshal(b, &bots)
+	json.Unmarshal(g, &game)
 	return c.JSON(http.StatusOK, play(game, bots))
 }
 
-func play(config Reversi.GameConfig, bots []models.Bot) &Response{
+func play(config Reversi.GameConfig, bots []models.Bot) *Response{
 	response, err := Reversi.GameMaster(config, bots)
 	return response
 }

@@ -12,11 +12,12 @@ func StartAIServer(bots string, runtime string) (containers []Container, errs []
 	var containers []Container
 	var port = 8280
 	var errs []error
-	for i:=0; i<len(bots); i++, port++ {
+	for i:=0; i<len(bots); i++{
 		bot := bots[i]
 		c := &Container{}
 		append(errs, c.up(port, bot.Username+":"+bot.Name))
 		append(containers, c)
+		port++
 	}
 }
 
@@ -54,17 +55,21 @@ func (c *Container)down() (err error){
 	}
 }
 
-func (c *Container)play(context string) (response map[string]string, err error) {
-	resp, err := http.PostForm("http://localhost:"+c.port, url.Values{"context": encodeJson(context), "store": encodeJson(c.store)})
+func (c *Container)play(context string) (response map[string]interface{}, err error) {
+	v := url.Values{}
+	v.Set("context": context)
+	v.Add("store": encodeJson(c.store))
+	resp, err := http.PostForm("http://localhost:"+c.port, v)
 	if err != nil {
 		log.Fatal(err) //負け
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	decodeJson(body)
+	response := decodeJson(body)
+	c.store = response["store"].(map[string]interface{})
 }
 
-func encodeJson(a map[string]string) string {
+func encodeJson(a map[string]interface{}) string {
 	ret, err := json.Marshal(a)
 	if err != nil {
 		log.Fatal(err)
@@ -73,8 +78,8 @@ func encodeJson(a map[string]string) string {
 	return string(ret)
 }
 
-func decodeJson(j []byte)map[string]string{
-	var response map[string]string
+func decodeJson(j []byte)map[string]interface{}{
+	var response map[string]interface{}
 	json.Unmarshal(j, &response)
 	return response
 }

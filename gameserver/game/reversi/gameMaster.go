@@ -54,7 +54,7 @@ type Context struct {
 
 
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること
-func GameMaster(config GameConfig, bots []models.Bot) (response &Response, err error)  {
+func GameMaster(config GameConfig, bots []models.Bot) (response *Response, err error)  {
 	response := initialzeResponse(config, bots)
 	containers, err := ai.StartAIServer(bots)
 	err = printErr(err)
@@ -62,7 +62,8 @@ func GameMaster(config GameConfig, bots []models.Bot) (response &Response, err e
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)
 
-		fight := Game(config, containers)
+		fight := Game(config, containers, countGame%2)
+		log.Println("%+v\n", fight)
 		append(response.Fights, fight)
 	}
 

@@ -21,18 +21,20 @@ type Response struct {
 type Fight struct {
 	Winner string `json:"winner"`,
 	Summaries []FightSummary `json:"summary"`,
-	ActionHistory []ActionLog `json:"actionHistory"`
+	Logs []ActionLog `json:"logs"`,
+	Messages string `json:"messages"`
 }
 
 type FightSummary struct {
 	BotCode string `json:"botCode"`,
+	Team string `json:"team"`,
 	PointPercentage float32 `json:"pointPercentage"`
 }
 
-type EventLog struct {
-	Team string `json:"team"`
-	BotCode string `json:"botCode"`
-	ActionCode string `json:"actionCode"`
+type ActionLog struct {
+	Team string `json:"team"`,
+	BotCode string `json:"botCode"`,
+	ActionCode string `json:"actionCode"`,
 	Params map[string]string `json:"params"`
 }
 
@@ -45,8 +47,9 @@ type GameConfig struct {
 }
 
 type Context struct {
-  board [8][8]int `json:"board"`
-  history map[string]string `json:"history"`
+  board [8][8]int `json:"board"`,
+	team int `json:"team"`,
+  history []map[string]string `json:"history"`
 }
 
 
@@ -68,7 +71,7 @@ func GameMaster(config GameConfig, bots []models.Bot) (response &Response, err e
 	return response, err
 }
 
-func initialzeResponse(config GameConfig, bots []models.Bot) (response &Response){
+func initialzeResponse(config GameConfig, bots []models.Bot) (response *Response){
 	response := &Response{
 		Bots: bots,
 		GameName: config.Name,

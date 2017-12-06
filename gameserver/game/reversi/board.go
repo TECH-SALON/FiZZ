@@ -30,7 +30,6 @@ func initBoard() {
   colorStorage[WHITE+1] = 2; //WHITEは"-1"のため配列のindexとして使うために"+1"する
   colorStorage[EMPTY+1] = BOARD_SIZE*BOARD_SIZE-4
 
-  //手数は0からで先手は黒
   turns = 0
   currentColor = BLACK
   //更新履歴を全て削除
@@ -43,6 +42,8 @@ func initBoard() {
       }
     }
   }
+
+  initMovable()
 }
 
 func initMovable() {

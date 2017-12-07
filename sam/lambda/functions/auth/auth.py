@@ -39,13 +39,14 @@ class Cognito:
         return u.register(username, password)
 
     def login(self, username_or_alias, password):
+        print("here")
         u = warrant.Cognito(
             self.user_pool_id,
             self.client_id,
             user_pool_region=self.region,
             username=username_or_alias
         )
-        return u.admin_authenticate(password=password)
+        return u.authenticate(password=password)
 
     def get_session(self, id_token):
         return self.identity_client.get_id(
@@ -71,7 +72,8 @@ def login(event, context):
     # Error Handling
     try:
         body = json.loads(event['body'])
-
+        print('body is')
+        print(body)
         # Parameters Check
         username_or_alias = body['username']
         password = body['password']
@@ -79,6 +81,8 @@ def login(event, context):
         print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
         resp = cognito.login(username_or_alias, password)
+        print("resp is")
+        print(resp)
         auth = resp['AuthenticationResult']
         ret = {
             'challengeName': resp['ChallengeName'],

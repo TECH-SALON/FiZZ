@@ -16,10 +16,12 @@ import (
 	3: draw
 */
 
-func Game(config *GameConfig, containers []ai.Container, firstMover int) *Fight{
+func Game(round int, config *GameConfig, containers []ai.Container, firstMover int) *Fight{
   initBoard()
 
-  fight := &Fight{}
+  fight := &Fight{
+    Round: round,
+  }
   for i:=0; i<len(containers); i++ {
     f := &FightSummary{
         BotCode: containers[i].BotCode,

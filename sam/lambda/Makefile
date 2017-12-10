@@ -1,8 +1,8 @@
 SHELL := /bin/bash
 PY_VERSION := 3.6
 
-include ../../.env.dev
-export $(shell sed 's/=.*//' ../../.env.dev)
+# include ../../.env.dev
+# export $(shell sed 's/=.*//' ../../.env.dev)
 
 export PYTHONUNBUFFERED := 1
 

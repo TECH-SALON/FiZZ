@@ -26,7 +26,15 @@ class App extends React.Component {
   }
 }
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  overrides: {
+    MuiPopover: {
+      paper: {
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
+      }
+    }
+  }
+});
 
 ReactDOM.render(
   <App />,

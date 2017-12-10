@@ -77,3 +77,21 @@
 .navbar-fixed .menu-top li a {
   color: #006687;
 }
+.utility-menu li:hover {
+  cursor: pointer;
+}
+.logoutPop {
+  padding: 7px 12px;
+  box-shadow: none;
+}
+.logoutPop a {
+  color: #000;
+  text-decoration: none;
+}
+.logoutPop a:hover {
+  cursor: pointer;
+}
+
+.logout-button a:hover {
+  pointer: cursor;
+}

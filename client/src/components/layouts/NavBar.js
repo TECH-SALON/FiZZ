@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import logoBlue from '../../assets/utils/logo.svg';
 import logoWhite from '../../assets/utils/logo_white.svg';
+import Popover from 'material-ui/Popover';
 import ModalContainer from '../utils/Modal';
 import Signup from '../auth/Signup';
 import Login from '../auth/Login';
+
 
 export default class VisitorNav extends Component {
   constructor(props) {
@@ -15,6 +17,7 @@ export default class VisitorNav extends Component {
     this.state = {
       modalIsOpen: false,
       loginForm: true,
+      logoutPop: false,
       loginUsername: "",
       loginPassword: "",
       signupUsername: "",
@@ -24,6 +27,9 @@ export default class VisitorNav extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
+    this.openLogoutPop = this.openLogoutPop.bind(this);
+    this.closeLogoutPop = this.closeLogoutPop.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentWillMount() {
@@ -73,6 +79,20 @@ export default class VisitorNav extends Component {
     });
   }
 
+  openLogoutPop(event) {
+    this.setState({
+      logoutPop: true,
+      anchorEl: event.currentTarget
+    });
+  }
+  closeLogoutPop(event) {
+    this.setState({
+      logoutPop: false,
+    });
+  }
+  logout() {
+    alert("You logout")
+  }
   handleLogin(event) {
     event.preventDefault();
     let auth = {
@@ -120,13 +140,34 @@ export default class VisitorNav extends Component {
       </ul>
     )
   }
+
   renderUtilityMenu() {
     return(
-      <ul className="utility-menu">
-        <li><i className="material-icons">notifications</i></li>
-        <li><i className="material-icons">account_circle</i></li>
-        <li><i className="material-icons">power_settings_new</i></li>
-      </ul>
+      <div>
+        <ul className="utility-menu">
+          <li><i className="material-icons">notifications</i></li>
+          <li><i className="material-icons">account_circle</i></li>
+          <li><i className="material-icons" onClick={this.openLogoutPop}>power_settings_new</i></li>
+        </ul>
+        <Popover
+          open={this.state.logoutPop}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          onRequestClose={this.closeLogoutPop}
+        >
+          <div className="logoutPop">
+            <a className="logout-button" onClick={this.logout}>Logout</a>
+          </div>
+        </Popover>
+      </div>
+
     )
   }
 

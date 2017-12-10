@@ -42,7 +42,8 @@ export default class MatchForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let id = this.state.botId;
-    this.props.onMatchRun(id);
+    let gameName = this.props.gameName;
+    this.props.onMatchRun(id, gameName);
     this.setState({
       botName: "",
       gameId: 0,

@@ -65,8 +65,11 @@ export default class MatchForm extends Component {
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="botsOption">Select your bot</label>
             <select name="botId" value={this.state.botId} onChange={this.handleChange} className="u-full-width" id="botsOption">
+              <option key="default">Select your bot</option>
               {bots.map((item) => {
-                <option value={item.id}>{item.name}</option>
+                return(
+                  <option key={item.get("id")} value={item.get("id")}>{item.get("name")}</option>
+                )
               })}
             </select>
             <input className="button-primary" type="submit" value="Submit"/>

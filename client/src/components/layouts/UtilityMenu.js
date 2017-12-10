@@ -15,7 +15,6 @@ export default class VisitorNav extends Component {
     };
     this.openProfile = this.openProfile.bind(this);
     this.closeProfile = this.closeProfile.bind(this);
-    this.openLogoutPop = this.openProfile.bind(this);
     this.openLogoutPop = this.openLogoutPop.bind(this);
     this.closeLogoutPop = this.closeLogoutPop.bind(this);
     this.logout = this.logout.bind(this);
@@ -67,32 +66,37 @@ export default class VisitorNav extends Component {
       </div>
     )
   }
+  renderPopOver() {
+    return(
+      <Popover
+        open={this.state.logoutPop}
+        anchorEl={this.state.anchorEl}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        onRequestClose={this.closeLogoutPop}
+      >
+        <div className="logoutPop">
+          <a className="logout-button" onClick={this.logout}>Logout</a>
+        </div>
+      </Popover>
+    )
+  }
   render() {
     return(
       <div>
         {this.renderProfileModal()}
+        {this.renderPopOver()}
         <ul className="utility-menu">
           <li><i className="material-icons">notifications</i></li>
           <li><i className="material-icons" onClick={this.openProfile}>account_circle</i></li>
           <li><i className="material-icons" onClick={this.openLogoutPop}>power_settings_new</i></li>
         </ul>
-        <Popover
-          open={this.state.logoutPop}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          onRequestClose={this.closeLogoutPop}
-        >
-          <div className="logoutPop">
-            <a className="logout-button" onClick={this.logout}>Logout</a>
-          </div>
-        </Popover>
       </div>
     )
   }

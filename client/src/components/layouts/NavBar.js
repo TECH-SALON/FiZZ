@@ -6,13 +6,15 @@ import { Link } from 'react-router-dom';
 import logoBlue from '../../assets/utils/logo.svg';
 import logoWhite from '../../assets/utils/logo_white.svg';
 import ModalContainer from '../utils/Modal';
-
+import Signup from '../auth/Signup';
+import Login from '../auth/Login';
 
 export default class VisitorNav extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
+      loginForm: true,
       loginUsername: "",
       loginPassword: "",
       signupUsername: "",
@@ -21,9 +23,7 @@ export default class VisitorNav extends Component {
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
   }
 
   componentWillMount() {
@@ -102,7 +102,12 @@ export default class VisitorNav extends Component {
     });
   }
 
-
+  toggleForm() {
+    let bool = this.state.loginForm;
+    this.setState({
+      loginForm: !bool,
+    })
+  }
 
   renderTopPageMenu() {
     return(
@@ -111,7 +116,7 @@ export default class VisitorNav extends Component {
         <li><Link to="/garage">Garage</Link></li>
         <li><Link to="/match">Match</Link></li>
         <li><Link to="/docs">Docs</Link></li>
-        <li><a className="login-button" onClick={this.openModal}>Login/SignUp</a></li>
+        <li><a className="login-button" onClick={this.openModal}>Sign in</a></li>
       </ul>
     )
   }
@@ -126,33 +131,18 @@ export default class VisitorNav extends Component {
   }
 
   renderModal() {
-    const { modalIsOpen } = this.state;
+    const { modalIsOpen, loginForm } = this.state;
     return(
       <div>
         <ModalContainer
           isOpen={modalIsOpen}
           onRequestClose={() => this.closeModal()}
-          title="Login/SignUp"
         >
-          <h4>Login</h4>
-          <form onSubmit={this.handleLogin}>
-            <label htmlFor="loginUsername">Username</label>
-            <input name="loginUsername" value={this.state.loginUsername} onChange={this.handleChange} className="u-full-width" type="text" placeholder="Your username is here" id="loginUsername"/>
-            <label htmlFor="loginPassword">Password</label>
-            <input name="loginPassword" value={this.state.loginPassword} onChange={this.handleChange} className="u-full-width" type="password" placeholder="password" id="loginPassword"/>
-            <input className="button-primary" type="submit" value="Login"/>
-          </form>
-          <hr/>
-          <h4>SignUp</h4>
-          <form onSubmit={this.handleSignup}>
-            <label htmlFor="signupUsername">Username</label>
-            <input name="signupUsername" value={this.state.signupUsername} onChange={this.handleChange} className="u-full-width" type="text" placeholder="Your username is here" id="signupUsername"/>
-            <label htmlFor="signupEmail">Password</label>
-            <input name="signupEmail" value={this.state.signupEmail} onChange={this.handleChange} className="u-full-width" type="email" placeholder="email" id="signupEmail"/>
-            <label htmlFor="signupPassword">Password</label>
-            <input name="signupPassword" value={this.state.signupPassword} onChange={this.handleChange} className="u-full-width" type="password" placeholder="password" id="signupPassword"/>
-            <input className="button-primary" type="submit" value="SignUp"/>
-          </form>
+          {loginForm ?
+            <Login onLogin={this.props.onLogin} onToggleForm={this.toggleForm}/>
+            :
+            <Signup onSignup={this.props.onSignup} onToggleForm={this.toggleForm}/>
+          }
         </ModalContainer>
       </div>
     )

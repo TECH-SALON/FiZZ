@@ -47,6 +47,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onSignup: (auth) => {
       dispatch(signup(auth))
+    },
+    onLogout: () => {
+      console.log("loout now")
     }
 });
 

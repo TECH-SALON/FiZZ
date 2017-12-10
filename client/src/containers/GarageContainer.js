@@ -45,6 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
     onGetResult: (resultId, gameName, botId) => {
       dispatch(getResult(resultId, gameName, botId))
     }
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Garage)

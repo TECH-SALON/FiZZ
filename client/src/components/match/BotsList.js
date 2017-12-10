@@ -10,8 +10,7 @@ export default class BotsList extends Component {
       item: {
         name: '',
         status: '',
-        resultSummary: '',
-        createdAt: ''
+        rank: '',
       }
     };
     this.openModal = this.openModal.bind(this);
@@ -22,10 +21,9 @@ export default class BotsList extends Component {
     this.setState({
       modalIsOpen: true,
       item: {
-        name: item.name,
-        status: item.status,
-        resultSummary: item.resultSummary,
-        createdAt: item.createdAt
+        name: item.get("name"),
+        isStandBy: item.get("isStandBy"),
+        rank: item.get("rank")
       }
     })
   }
@@ -39,23 +37,34 @@ export default class BotsList extends Component {
     return(
       <div>
         <ModalContainer
-          isOpen={this.state.detailModal}
-          onRequestClose={() => this.closeModal("detailModal")}
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={() => this.closeModal()}
           title="Bot's detail"
           description="Botの情報。名前やURLを修正できます。"
         >
-          <ul>
-            <li>{item.name}</li>
-            <li>{item.status}</li>
-            <li>{item.resultSummary}</li>
-            <li>{item.createdAt}</li>
-          </ul>
+          <table className="u-full-width">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{item.name}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{item.gameName}</td>
+              </tr>
+              <tr>
+                <th>Rank</th>
+                <td>{item.rank}</td>
+              </tr>
+            </tbody>
+          </table>
           <button className="button-primary">Edit</button>
         </ModalContainer>
       </div>
     )
   }
   render() {
+    const { bots } = this.props;
     return(
       <div className="table">
         {this.renderModal()}
@@ -69,38 +78,16 @@ export default class BotsList extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot2</td>
-              <td>ReversiBot2</td>
-              <td>40%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot3</td>
-              <td>ReversiBot3</td>
-              <td>60%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
+            {bots.map(item => {
+              return(
+                <tr key={item.get("id")}>
+                  <td>{item.get("name")}</td>
+                  <td>{item.get("isStandBy")}</td>
+                  <td>{item.get("rank")}</td>
+                  <td><button className="button detail-button margin-top-5" onClick={(e) => this.openModal(item)}>Detail</button></td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

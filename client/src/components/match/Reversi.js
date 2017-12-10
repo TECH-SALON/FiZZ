@@ -41,7 +41,11 @@ export default class Reversi extends Component {
                 <h3>Match bots</h3>
               </div>
               <div className="margin-top-15">
-                <MatchForm bots={this.props.bots} onMatchRun={this.props.onMatchRun}/>
+                <MatchForm
+                  gameName="reversi"
+                  bots={this.props.bots}
+                  onMatchRun={this.props.onMatchRun}
+                />
               </div>
             </div>
           </div>

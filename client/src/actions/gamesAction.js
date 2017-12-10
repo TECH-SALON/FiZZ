@@ -17,16 +17,16 @@ export const GAMES_GET_RANKING_SUCCESS = 'GAMES_GET_RANKING_SUCCESS';
 export const GAMES_GET_RANKING_FAIL = 'GAMES_GET_RANKING_FAIL';
 
 // run match
-export function runMatch(botId) {
+export function runMatch(botId, gameName) {
   return(dispatch, getState) => {
     dispatch(runMatchRequest(botId));
     let params = new FormData();
     params.append("botId", botId);
     params.append("ruleId", "");
     params.append("range", "");
-    let url = `${endPoint()}/api/v1/games/reversi/match`;
+    let url = `${endPoint()}/api/v1/games/${gameName}/match`;
     api(getState).post(url, params).then( response => {
-      runMatchSuccess(response.data);
+      dispatch(runMatchSuccess(response.data));
     }).catch( error => {
       runMatchFail(error);
     })

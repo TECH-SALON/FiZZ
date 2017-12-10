@@ -1,6 +1,8 @@
 import Match from '../components/match'
 import {connect} from 'react-redux';
-
+import {
+  Map as IMap, List as IList
+} from 'immutable';
 
 import {
   scanBots,
@@ -16,8 +18,18 @@ import {
 } from '../actions/matchesAction';
 
 const mapStateToProps = (state) => {
+  const bots = state.getIn(['bots', 'items']);
+  let reversiBots = IList();
+  bots.forEach( item => {
+    switch (item.get("gameName")) {
+      case "reversi":
+        reversiBots = reversiBots.push(item);
+      default:
+        return
+    }
+  });
   return {
-    bots: state.getIn(['bots', 'items']),
+    reversiBots: reversiBots,
     ranking: state.getIn(['games', 'ranking']),
     results: state.getIn(['matches', 'results']),
     resultsLoading: state.getIn(['matches', 'isLoading'])

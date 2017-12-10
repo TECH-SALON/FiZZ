@@ -29,7 +29,7 @@ const botToMap = (bot) => {
   let mappedBot = IMap({
     id: bot.id,
     accountId: bot.accountId,
-    gameId: bot.gameId,
+    gameName: bot.gameName,
     name: bot.name,
     isPrivate: bot.isPrivate,
     isQualified: bot.isQualified,

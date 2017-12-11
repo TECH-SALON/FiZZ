@@ -112,12 +112,24 @@ sam-bash:
 	docker-compose run --rm --entrypoint bash sam
 
 sam-package:
-	$(SAM) package --template-file ${TEMP} --s3-bucket ${S3} --output-template-file packaged.yml
+	cd sam/lambda && \
+	make package TEMPLATE=${TEMPLATE} && \
+	cd ../..
 
 sam-bundle:
 	cd sam/lambda && \
 	make bundle && \
 	cd ../../
+
+sam-deploy:
+	cd sam/lambda && \
+	make deploy && \
+	cd ../..
+
+sam-release:
+	@make sam-bundle 
+	@make sam-package TEMPLATE=deploy.yml
+	@make sam-deploy
 
 db-init:
 	cd sam && \

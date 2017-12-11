@@ -1,8 +1,6 @@
 SHELL := /bin/bash
 PY_VERSION := 3.6
 
-include ../../.env.dev
-export $(shell sed 's/=.*//' ../../.env.dev)
 
 export PYTHONUNBUFFERED := 1
 
@@ -49,6 +47,12 @@ package:
 		--s3-prefix deploy/${NOW} \
 		--output-template-file lambda/packaged.yml \
 		--region us-east-1
+
+# include ../../.env.dev
+# export
+
+include ../../.env.dev
+export $(shell sed 's/=.*//' ../../.env.dev)
 
 deploy:
 	docker-compose run --rm sam deploy \

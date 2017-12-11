@@ -113,7 +113,7 @@ sam-bash:
 
 sam-package:
 	cd sam/lambda && \
-	make package TEMPLATE=${TEMPLATE} && \
+	make package && \
 	cd ../..
 
 sam-bundle:
@@ -127,8 +127,8 @@ sam-deploy:
 	cd ../..
 
 sam-release:
-	@make sam-bundle 
-	@make sam-package TEMPLATE=deploy.yml
+	@make sam-bundle
+	@make sam-package
 	@make sam-deploy
 
 db-init:

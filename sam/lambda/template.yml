@@ -28,8 +28,8 @@ Resources:
   Accounts:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/accounts
-      Handler: functions/accounts/accounts.handler
+      CodeUri: bundle.zip
+      Handler: functions.accounts.accounts.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -43,7 +43,7 @@ Resources:
   Games:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/games
+      CodeUri: bundle.zip
       Handler: functions/games/games.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
@@ -58,8 +58,8 @@ Resources:
   Bots:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/bots
-      Handler: functions/bots/bots.handler
+      CodeUri: bundle.zip
+      Handler: functions.bots.bots.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -73,8 +73,8 @@ Resources:
   Results:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/results
-      Handler: functions/results/results.handler
+      CodeUri: bundle.zip
+      Handler: functions.results.results.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -88,8 +88,8 @@ Resources:
   Auth:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/auth
-      Handler: functions/auth/auth.handler
+      CodeUri: bundle.zip
+      Handler: functions.auth.auth.handler
       Runtime: python3.6
       Policies: AmazonCognitoDeveloperAuthenticatedIdentities
       Timeout: 10

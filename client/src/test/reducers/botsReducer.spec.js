@@ -42,10 +42,13 @@ describe('bots reducer', () => {
   //TODO resultSummariesのテストを行うこと
 
   it('should handle BOTS_REGISTER_BOT_SUCCESS', () => {
+
   });
   it('should handle BOTS_GET_BOT_SUCCESS', () => {
+
   });
   it('should handle BOTS_STAND_BOT_SUCCESS', () => {
+
   });
   it('should handle ERRORs', () => {
   });

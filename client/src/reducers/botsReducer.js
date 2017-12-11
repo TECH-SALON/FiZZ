@@ -8,11 +8,12 @@ import {
 
 import {
   BOTS_CREATE_BOT_SUCCESS,
-  BOTS_GET_BOTS_SUCCESS,
+  BOTS_SCAN_BOTS_SUCCESS,
+  BOTS_SCAN_BOTS_REQUEST,
   BOTS_STAND_BOT_SUCCESS,
   BOTS_GET_BOT_SUCCESS,
   BOTS_CREATE_BOT_FAIL,
-  BOTS_GET_BOTS_FAIL,
+  BOTS_SCAN_BOTS_FAIL,
   BOTS_GET_BOT_FAIL,
   BOTS_STAND_BOT_FAIL,
 } from '../actions/botsAction';
@@ -28,7 +29,7 @@ const botToMap = (bot) => {
   let mappedBot = IMap({
     id: bot.id,
     accountId: bot.accountId,
-    gameId: bot.gameId,
+    gameName: bot.gameName,
     name: bot.name,
     isPrivate: bot.isPrivate,
     isQualified: bot.isQualified,
@@ -57,7 +58,7 @@ const matchSummaryToMap = (summary) => IMap({
   result: summary.result
 });
 
-const getBots = (state, bots) => {
+const scanBots = (state, bots) => {
   let items = IList();
   bots.Items.forEach((b, i) => {
     items = items.set(i, botToMap(b))
@@ -96,10 +97,10 @@ export default function reduce(state = initialState, action) {
     return addBot(state, action.bot);
   case BOTS_STAND_BOT_SUCCESS:
     return updateBot(state, action.bot);
-  case BOTS_GET_BOTS_SUCCESS:
-    return getBots(state, action.bots);
+  case BOTS_SCAN_BOTS_SUCCESS:
+    return scanBots(state, action.bots);
   case BOTS_CREATE_BOT_FAIL:
-  case BOTS_GET_BOTS_FAIL:
+  case BOTS_SCAN_BOTS_FAIL:
   case BOTS_STAND_BOT_FAIL:
   case BOTS_GET_BOT_FAIL:
     return state.set('error', action.error);

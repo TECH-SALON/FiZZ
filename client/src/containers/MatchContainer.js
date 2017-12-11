@@ -1,9 +1,11 @@
 import Match from '../components/match'
 import {connect} from 'react-redux';
-
+import {
+  Map as IMap, List as IList
+} from 'immutable';
 
 import {
-  getBots,
+  scanBots,
 } from '../actions/botsAction';
 
 import {
@@ -12,21 +14,32 @@ import {
 } from '../actions/gamesAction';
 
 import {
-  getResults
+  scanResults
 } from '../actions/matchesAction';
 
 const mapStateToProps = (state) => {
+  const bots = state.getIn(['bots', 'items']);
+  let reversiBots = IList();
+  bots.forEach( item => {
+    switch (item.get("gameName")) {
+      case "reversi":
+        reversiBots = reversiBots.push(item);
+      default:
+        return
+    }
+  });
   return {
-    bots: state.getIn(['bots', 'items']),
+    reversiBots: reversiBots,
     ranking: state.getIn(['games', 'ranking']),
-    results: state.getIn(['matches', 'results'])
+    results: state.getIn(['matches', 'results']),
+    resultsLoading: state.getIn(['matches', 'isLoading'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     onSetup: () => {
-      dispatch(getBots());
-      dispatch(getResults('reversi'));
+      dispatch(scanBots());
+      dispatch(scanResults('reversi'));
       dispatch(getRanking('reversi'))
     },
     onMatchRun: (botId) => {

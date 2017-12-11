@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ModalContainer from '../utils/Modal';
+import Spinner from 'react-spinkit';
 
 import {
   Map as IMap, List as IList
@@ -104,7 +105,7 @@ export default class BotsList extends Component {
   }
 
   render() {
-    const { bots } = this.props;
+    const { bots, botsLoading } = this.props;
     return(
       <div className="table">
         {this.renderModals()}
@@ -118,6 +119,7 @@ export default class BotsList extends Component {
             </tr>
           </thead>
           <tbody>
+            {botsLoading ? <tr><td>Data is loading now....</td></tr> : null}
             {bots.map((i) => {
               return(
                 <tr key={i.get("id")}>
@@ -130,42 +132,6 @@ export default class BotsList extends Component {
                 </tr>
               )
             })}
-            {/* <tr>
-              <td>Bot1</td>
-              <td>NotQualified</td>
-              <td>Reversi</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={(item) => this.openModal("detailModal", item)}>Detail</button> <button className="practice-button margin-top-5" onClick={(item) => this.openModal("practiceModal", item)}>Practice</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot2</td>
-              <td>NotQualified</td>
-              <td>Reversi</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot3</td>
-              <td>NotQualified</td>
-              <td>Reversi</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot4</td>
-              <td>NotQualified</td>
-              <td>Reversi</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal("detailModal")}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.openModal("practiceModal")}>Practice</button>
-              </td>
-            </tr> */}
           </tbody>
         </table>
       </div>

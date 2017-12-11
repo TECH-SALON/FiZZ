@@ -1,9 +1,9 @@
 import api, {endPoint} from '../api';
 
-export const MATCHES_GET_RESULTS = 'MATCHES_GET_RESULTS';
-export const MATCHES_GET_RESULTS_REQUEST = 'MATCHES_GET_RESULTS_REQUEST';
-export const MATCHES_GET_RESULTS_SUCCESS = 'MATCHES_GET_RESULTS_SUCCESS';
-export const MATCHES_GET_RESULTS_FAIL = 'MATCHES_GET_RESULTS_FAIL';
+export const MATCHES_SCAN_RESULTS = 'MATCHES_SCAN_RESULTS';
+export const MATCHES_SCAN_RESULTS_REQUEST = 'MATCHES_SCAN_RESULTS_REQUEST';
+export const MATCHES_SCAN_RESULTS_SUCCESS = 'MATCHES_SCAN_RESULTS_SUCCESS';
+export const MATCHES_SCAN_RESULTS_FAIL = 'MATCHES_SCAN_RESULTS_FAIL';
 
 export const MATCHES_GET_RESULT = 'MATCHES_GET_RESULT';
 export const MATCHES_GET_RESULT_REQUEST = 'MATCHES_GET_RESULT_REQUEST';
@@ -16,65 +16,64 @@ export const MATCHES_GET_FIGHTS_LOG_SUCCESS = 'MATCHES_GET_FIGHTS_LOG_SUCCESS';
 export const MATCHES_GET_FIGHTS_LOG_FAIL = 'MATCHES_GET_FIGHTS_LOG_FAIL';
 
 
-export function getResults(gameName) {
+export function scanResults() {
   return(dispatch, getState) => {
-    dispatch(getResultsRequest(gameName));
+    dispatch(scanResultsRequest());
     let url = `${endPoint()}/api/v1/matches`;
-    let params = new FormData();
-    params.append('gameName', gameName);
-    api(getState).get(url, params).then( response => {
-      dispatch(getResultsSuccess(response.data));
+    // let params = new FormData();
+    // params.append('gameName', gameName);
+    api(getState).get(url).then( response => {
+      dispatch(scanResultsSuccess(response.data));
     }).catch( error => {
-      getResultsFail(error);
+      scanResultsFail(error);
     })
   }
 }
 
-function getResultsRequest(){
+function scanResultsRequest(){
   return {
-    type: MATCHES_GET_RESULTS_REQUEST,
+    type: MATCHES_SCAN_RESULTS_REQUEST,
   }
 }
 
-function getResultsSuccess(results){
+function scanResultsSuccess(results){
   return {
-    type: MATCHES_GET_RESULTS_SUCCESS,
+    type: MATCHES_SCAN_RESULTS_SUCCESS,
     results
   }
 }
 
-function getResultsFail(error){
+function scanResultsFail(error){
   return {
-    type: MATCHES_GET_RESULTS_FAIL,
+    type: MATCHES_SCAN_RESULTS_FAIL,
     error,
   }
 }
 
-export function getResult() {
+export function getResult(resultId, gameName, botId) {
   return(dispatch, getState) => {
-    // dispatch(runMatchRequest(botId));
-    let params = new FormData();
-    // params.append('botId', botId);
-    // let url = "/api/v1/games/reversi/match";
-    // api(getState).post(url, params).then( response => {
-    //   getResultSuccess(response.data);
-    // }).catch( error => {
-    //   getResultFail(error);
-    // })
+    dispatch(getResultRequest());
+    let url = `${endPoint()}/api/v1/matches/${gameName}/${resultId}`;
+    api(getState).get(url).then( response => {
+      // console.log('here');
+      dispatch(getResultSuccess(response.data, botId));
+    }).catch( error => {
+      getResultFail(error);
+    })
   }
 }
 
 function getResultRequest(){
   return {
     type: MATCHES_GET_RESULT_REQUEST,
-    bot,
   }
 }
 
-function getResultSuccess(){
+function getResultSuccess(result, botId){
   return {
     type: MATCHES_GET_RESULT_SUCCESS,
-    bot,
+    result,
+    botId
   }
 }
 

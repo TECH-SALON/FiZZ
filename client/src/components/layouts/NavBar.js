@@ -5,7 +5,12 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import logoBlue from '../../assets/utils/logo.svg';
 import logoWhite from '../../assets/utils/logo_white.svg';
-
+import Popover from 'material-ui/Popover';
+import ModalContainer from '../utils/Modal';
+import TopPageMenu from './TopPageMenu';
+import UtilityMenu from './UtilityMenu';
+import Signup from '../auth/Signup';
+import Login from '../auth/Login';
 
 
 export default class VisitorNav extends Component {
@@ -18,7 +23,7 @@ export default class VisitorNav extends Component {
       this.adjustNav(600, logoWhite, logoBlue);
     }
   }
-  
+
   isTopPage() {
     if (location.pathname == "/") {
       return true
@@ -39,25 +44,9 @@ export default class VisitorNav extends Component {
       }
     }
   }
-  renderTopPageMenu() {
-    return(
-      <ul className="top-page-menu">
-        <li><Link to="/">Top</Link></li>
-        <li><Link to="/garage">Garage</Link></li>
-        <li><Link to="/match">Match</Link></li>
-        <li><Link to="/docs">Docs</Link></li>
-      </ul>
-    )
-  }
-  renderUtilityMenu() {
-    return(
-      <ul className="utility-menu">
-        <li><i className="material-icons">notifications</i></li>
-        <li><i className="material-icons">account_circle</i></li>
-        <li><i className="material-icons">power_settings_new</i></li>
-      </ul>
-    )
-  }
+
+
+
   render() {
     return(
       <div id="navbar" className="navbar">
@@ -70,7 +59,7 @@ export default class VisitorNav extends Component {
             </Link>
           </div>
           <div className="menu-top">
-            { this.isTopPage() ? this.renderTopPageMenu() : this.renderUtilityMenu()}
+            { this.isTopPage() ? <TopPageMenu onSignup={this.props.onSignup}/> : <UtilityMenu onLogout={this.props.onLogout}/>}
           </div>
         </div>
       </div>

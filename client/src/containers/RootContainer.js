@@ -11,6 +11,11 @@ import MatchContainer from './MatchContainer';
 import DocsContainer from './DocsContainer';
 
 
+import {
+  login,
+  signup
+} from '../actions/authAction';
+
 class RootContainer extends Component {
   componentWillMount() {
     let location = this.props.location
@@ -18,7 +23,7 @@ class RootContainer extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar onLogin={this.props.onLogin} onSignup={this.props.onSignup}/>
         <Switch>
             <Route exact path="/" component={TopPage}/>
             <Route path="/garage" component={GarageContainer}/>
@@ -36,4 +41,17 @@ function select(state) {
   }
 }
 
-export default connect(select)(RootContainer);
+const mapDispatchToProps = (dispatch) => ({
+    onLogin: (auth) => {
+      dispatch(login(auth))
+    },
+    onSignup: (auth) => {
+      dispatch(signup(auth))
+    },
+    onLogout: () => {
+      console.log("loout now")
+    }
+});
+
+
+export default connect(select, mapDispatchToProps)(RootContainer);

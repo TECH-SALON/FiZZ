@@ -6,10 +6,10 @@ export const BOTS_CREATE_BOT_REQUEST = 'BOTS_CREATE_BOT_REQUEST';
 export const BOTS_CREATE_BOT_SUCCESS = 'BOTS_CREATE_BOT_SUCCESS';
 export const BOTS_CREATE_BOT_FAIL = 'BOTS_CREATE_BOT_FAIL';
 
-export const BOTS_GET_BOTS = 'BOTS_GET_BOTS';
-export const BOTS_GET_BOTS_REQUEST = 'BOTS_GET_BOTS_REQUEST';
-export const BOTS_GET_BOTS_SUCCESS = 'BOTS_GET_BOTS_SUCCESS';
-export const BOTS_GET_BOTS_FAIL = 'BOTS_GET_BOTS_FAIL';
+export const BOTS_SCAN_BOTS = 'BOTS_SCAN_BOTS';
+export const BOTS_SCAN_BOTS_REQUEST = 'BOTS_SCAN_BOTS_REQUEST';
+export const BOTS_SCAN_BOTS_SUCCESS = 'BOTS_SCAN_BOTS_SUCCESS';
+export const BOTS_SCAN_BOTS_FAIL = 'BOTS_SCAN_BOTS_FAIL';
 
 export const BOTS_GET_BOT = 'BOTS_GET_BOT';
 export const BOTS_GET_BOT_REQUEST = 'BOTS_GET_BOT_REQUEST';
@@ -57,9 +57,9 @@ function createBotFail(error){
 }
 
 //get bots
-export function getBots(refresh = false){
+export function scanBots(refresh = false){
   return (dispatch, getState) => {
-    dispatch(getBotsRequest());
+    dispatch(scanBotsRequest());
     const bots = getState().get('bots');
     if(!refresh && bots.get('loaded')){
       return
@@ -67,29 +67,29 @@ export function getBots(refresh = false){
     let url = `/api/v1/bots`
     api(getState).get(url).then( response => {
       let bots = response.data;
-      dispatch(getBotsSuccess(bots));
+      dispatch(scanBotsSuccess(bots));
     }).catch( error => {
-      getBotsFail(error)
+      scanBotsFail(error)
     });
   }
 }
 
-function getBotsRequest(){
+function scanBotsRequest(){
   return {
-    type: BOTS_GET_BOTS_REQUEST,
+    type: BOTS_SCAN_BOTS_REQUEST,
   }
 }
 
-function getBotsSuccess(bots){
+function scanBotsSuccess(bots){
   return {
-    type: BOTS_GET_BOTS_SUCCESS,
+    type: BOTS_SCAN_BOTS_SUCCESS,
     bots,
   }
 }
 
-function getBotsFail(error){
+function scanBotsFail(error){
   return {
-    type: BOTS_GET_BOTS_FAIL,
+    type: BOTS_SCAN_BOTS_FAIL,
     error,
   }
 }

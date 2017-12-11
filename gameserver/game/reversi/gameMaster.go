@@ -19,10 +19,12 @@ type Response struct {
 }
 
 type Fight struct {
+	Round int `json:round`
 	Winner string `json:"winner"`
 	Summaries []FightSummary `json:"summary"`
 	Logs []ActionLog `json:"logs"`
 	Messages string `json:"messages"`
+	totalSpan int `json:"totalSpan"`
 }
 
 type FightSummary struct {
@@ -36,6 +38,7 @@ type ActionLog struct {
 	BotCode string `json:"botCode"`
 	ActionCode string `json:"actionCode"`
 	Params map[string]string `json:"params"`
+	Span int `json:"span"`
 }
 
 // game configuration
@@ -63,7 +66,7 @@ func GameMaster(config *GameConfig, bots []models.Bot) (response *Response, err 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)
 
-		fight := Game(config, containers, countGame%2)
+		fight := Game(countGame+1, config, containers, countGame%2)
 		log.Println("%+v\n", fight)
 		response.Fights = append(response.Fights, *fight)
 	}

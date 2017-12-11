@@ -33,21 +33,12 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
-        GetCredentials:
+        AccountsProxy:
           Type: Api
           Properties:
-            Path: /api/v1/accounts/credentials
-            Method: get
-        GetAccount:
-          Type: Api
-          Properties:
-            Path: /api/v1/accounts/{username}
-            Method: get
-        GetAccountBots:
-          Type: Api
-          Properties:
-            Path: /api/v1/accounts/{username}/bots
-            Method: get
+            RestApiId: !RefApiGatewayApi
+            Path: /api/v1/accounts/{proxy+}
+            Method: ANY
 
   Games:
     Type: AWS::Serverless::Function
@@ -57,21 +48,12 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
-        RunMatch:
+        GamesProxy:
           Type: Api
           Properties:
-            Path: /api/v1/games/{gameName}/match
-            Method: post
-        FinishMatch:
-          Type: Api
-          Properties:
-            Path: /api/v1/games/{gameName}/finish
-            Method: post
-        GetRanking:
-          Type: Api
-          Properties:
-            Path: /api/v1/games/{gameName}/ranking
-            Method: get
+            RestApiId: !RefApiGatewayApi
+            Path: /api/v1/games/{proxy+}
+            Method: ANY
 
   Bots:
     Type: AWS::Serverless::Function
@@ -81,26 +63,12 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
-        ScanBots:
+        BotsProxy:
           Type: Api
           Properties:
-            Path: /api/v1/bots
-            Method: get
-        GetBot:
-          Type: Api
-          Properties:
-            Path: /api/v1/bots/{botId}
-            Method: get
-        CreateBot:
-          Type: Api
-          Properties:
-            Path: /api/v1/bots
-            Method: post
-        UpdateBot:
-          Type: Api
-          Properties:
-            Path: /api/v1/bots/{botId}
-            Method: put
+            RestApiId: !RefApiGatewayApi
+            Path: /api/v1/bots/{proxy+}
+            Method: ANY
 
   Results:
     Type: AWS::Serverless::Function
@@ -110,22 +78,12 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
-        ScanResults:
+        ResultsProxy:
           Type: Api
           Properties:
-            Cors: "*"
-            Path: /api/v1/matches
-            Method: get
-        GetResult:
-          Type: Api
-          Properties:
-            Path: /api/v1/matches/{resultId}/{gameName}
-            Method: get
-        GetFightsLog:
-          Type: Api
-          Properties:
-            Path: /api/v1/matches/{resultId}/{ext}
-            Method: put
+            RestApiId: !Ref ApiGatewayApi
+            Path: /api/v1/matches/{proxy+}
+            Method: ANY
 
   Auth:
     Type: AWS::Serverless::Function

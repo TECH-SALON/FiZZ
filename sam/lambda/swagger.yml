@@ -1,350 +1,251 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: "FiZZ API"
-  version: "1.0.0"
-  title: "FiZZ API"
-  termsOfService: "http://swagger.io/terms/"
+  description: FiZZ API
+  version: 1.0.0
+  title: FiZZ API
+  termsOfService: 'http://swagger.io/terms/'
   contact:
-    email: "y.tsuchiya@tech-salon.com"
-basePath: "/fizz-dev/api/v1"
-tags:
-- name: "games"
-- name: "matches"
-- name: "bots"
-- name: "accounts"
+    email: y.tsuchiya@tech-salon.com
+basePath: /fizzdev/api/v1
 schemes:
-- "https"
+  - https
 paths:
-  /games/{gameName}/match:
-    post:
-      tags:
-      - "games"
-      summary: "Running the Match"
-      operationId: "RunMatch"
-      description: "Running the Match with automatically chosen opponent bot."
-      consumes:
-      - "application/json"
+  '/games/{proxy+}':
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-auth:
+        type: token
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "gameName"
-        in: "path"
-        description: "The name of Game."
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/Games"
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /games/{gameName}/ranking:
-    get:
-      tags:
-      - "games"
-      summary: "Getting Ranking of the game"
-      operationId: "GetRanking"
-      description: "Returns the Game including Ranking"
+        - name: proxy+
+          in: path
+          required: true
+          type: string
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: >-
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Games}/invocations
+        httpMethod: POST
+        type: aws_proxy
+    options:
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
-      parameters:
-      - name: "gameName"
-        in: "path"
-        description: "The name of Game."
-        required: true
-        type: "string"
-      - name: "kind"
-        in: "query"
-        description: "the kind of ranking"
-        type: "string"
+        - application/json
       responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /matches:
-    get:
-      tags:
-      - "matches"
-      summary: "Getting a match history"
-      operationId: "GetResults"
-      description: "Returns an array of Result."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "gameName"
-        in: "query"
-        description: "filtering matches where game name"
-        type: "string"
-      - name: "won"
-        in: "query"
-        description: "1 or 0, for filtering"
-        type: "string"
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /matches/{id}:
-    get:
-      tags:
-      - "matches"
-      summary: "Getting a match result"
-      operationId: "GetResult"
-      description: "Returns the Result including fights."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "filtering results with resultId"
-        type: "string"
-        required: true
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /matches/{id}/{ext}:
-    get:
-      tags:
-      - "matches"
-      summary: "Getting fights log file"
-      operationId: "GetFightLog"
-      description: "Returns the Result and downloading a file of fights."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "filtering results with resultId"
-        type: "string"
-        required: true
-      - name: "ext"
-        in: "path"
-        description: "ext is one of csv, json"
-        type: "string"
-        required: true
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /bots:
-    post:
-      tags:
-      - "bots"
-      summary: "Creating bot for the game"
-      operationId: "CreateBot"
-      description: "Returns the created Bot"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "bot"
-        required: true
-        schema:
-          $ref: "#/definitions/Bots"
-      responses:
-        201:
-          description: "Success"
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Empty'
           headers:
-            Access-Control-Allow-Headers:
-              type: string
             Access-Control-Allow-Origin:
               type: string
             Access-Control-Allow-Methods:
               type: string
-        405:
-          description: "Invalid input"
+            Access-Control-Allow-Headers:
+              type: string
       x-amazon-apigateway-integration:
-        type: aws
         responses:
           default:
-            statusCode: 201
+            statusCode: 200
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'POST OPTIONS'"
-              method.resposne.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            passthroughBehavior: when_no_match
-            requestTemplates:
-              application/json: "{\"statusCode\": 201}"
-    get:
-      tags:
-      - "bots"
-      summary: "Getting list of bot"
-      operationId: "GetBots"
-      description: "Getting list of bot"
-      consumes:
-      - "application/json"
+              method.response.header.Access-Control-Allow-Methods: '''DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'''
+              method.response.header.Access-Control-Allow-Headers: >-
+                'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+  '/matches/{proxy+}':
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-auth:
+        type: token
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "gameName"
-        in: "query"
-        description: "The name of Game."
-        type: "string"
-      - name: "maxId"
-        in: "query"
-        description: "Get a list of bots with ID less than this value"
-        type: "string"
-      - name: "sinceId"
-        in: "query"
-        description: "Get a list of bots with ID greater than this value"
-        type: "string"
-      - name: "limit"
-        in: "query"
-        description: "Maximum number of bots to get (Default 40, Max 80)"
-        type: "number"
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /bots/{id}:
-    get:
-      tags:
-      - "bots"
-      summary: "Getting a bot"
-      operationId: "GetBot"
-      description: "Returns the Bot"
+        - name: proxy+
+          in: path
+          required: true
+          type: string
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: >-
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Matches}/invocations
+        httpMethod: POST
+        type: aws_proxy
+    options:
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Empty'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'''
+              method.response.header.Access-Control-Allow-Headers: >-
+                'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+  '/bots/{proxy+}':
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-auth:
+        type: token
+      produces:
+        - application/json
       parameters:
-      - name: "id"
-        in: "path"
-        description: "filtering bots with botId"
-        type: "string"
-        required: true
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-    put:
-      tags:
-      - "bots"
-      summary: "Standing a bot"
-      operationId: "StandBot"
-      description: "Change a bot into matchable state"
+        - name: proxy+
+          in: path
+          required: true
+          type: string
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: >-
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Bots}/invocations
+        httpMethod: POST
+        type: aws_proxy
+    options:
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Empty'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'''
+              method.response.header.Access-Control-Allow-Headers: >-
+                'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+  '/accounts/{proxy+}':
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-auth:
+        type: token
+      produces:
+        - application/json
       parameters:
-      - name: "id"
-        in: "path"
-        description: "filtering bots with botId"
-        type: "string"
-        required: true
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /accounts/credentials:
-    get:
-      tags:
-      - "accounts"
-      summary: "Getting credentials"
-      operationId: "GetCredentials"
-      description: "Returns the authenticated user's Account"
+        - name: proxy+
+          in: path
+          required: true
+          type: string
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: >-
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Accounts}/invocations
+        httpMethod: POST
+        type: aws_proxy
+    options:
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /accounts/{username}:
-    get:
-      tags:
-      - "accounts"
-      summary: "Getting account"
-      operationId: "GetAccount"
-      description: "Returns the Account"
-      consumes:
-      - "application/json"
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Empty'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'''
+              method.response.header.Access-Control-Allow-Headers: >-
+                'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+  '/auth/{proxy+}':
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-auth:
+        type: token
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "username"
-        in: "path"
-        description: "filtering accounts with userName"
-        type: "string"
-        required: true
-      responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
-  /accounts/{username}/bots:
-    get:
-      tags:
-      - "accounts"
-      summary: "Getting account bot"
-      operationId: "GetAccountBot"
-      description: "Returns the array of Bots"
+        - name: proxy+
+          in: path
+          required: true
+          type: string
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: >-
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Auth}/invocations
+        httpMethod: POST
+        type: aws_proxy
+    options:
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "filtering bots with userName"
-        type: "string"
-        required: true
-      - name: "gameName"
-        in: "query"
-        description: "filtering bots with gameName"
-        type: "string"
-        required: true
+        - application/json
       responses:
-        200:
-          description: "Success"
-        405:
-          description: "Invalid input"
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Empty'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'''
+              method.response.header.Access-Control-Allow-Headers: >-
+                'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
 definitions:
-  Games:
+  Empty:
     type: object
-    properties:
-      name:
-        type: string
-      botId:
-        type: string
-      ruleId:
-        type: string
-      range:
-        type: string
-  Bots:
-    type: object
-    properties:
-      name:
-        type: string
-      gameName:
-        type: string
-      isPrivate:
-        type: boolean
-      resourceUrl:
-        type: string
-      description:
-        type: string
+    title: Empty Schema

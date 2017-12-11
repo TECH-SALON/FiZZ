@@ -20,7 +20,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       DefinitionUri: swagger.yml
-      StageName: FizzDev
+      StageName: fizzdev
       Variables:
         Games: !Ref Games
         Bots: !Ref Bots

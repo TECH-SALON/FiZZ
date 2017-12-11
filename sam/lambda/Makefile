@@ -45,14 +45,16 @@ package:
 		--template-file lambda/template0.yml \
 		--s3-bucket fizz-backend-dev \
 		--s3-prefix deploy/${NOW} \
-		--output-template-file lambda/packaged.yml
+		--output-template-file lambda/packaged.yml \
+		--region us-east-1
 
 deploy:
 	docker-compose run --rm sam deploy \
 		--template-file lambda/packaged.yml \
 		--stack-name $(STACK_NAME) \
 		--capabilities CAPABILITY_IAM \
-		--parameter-overrides AwsRegion=${AWS_REGION} AwsClientId=${AWS_CLIENT_ID} AwsUserPoolId=${AWS_USER_POOL_ID} AwsIdentityPoolId=${AWS_IDENTITY_POOL_ID}
+		--parameter-overrides AwsRegion=${AWS_REGION} AwsClientId=${AWS_CLIENT_ID} AwsUserPoolId=${AWS_USER_POOL_ID} AwsIdentityPoolId=${AWS_IDENTITY_POOL_ID} \
+		--region us-east-1
 
 # call this in case of errors
 describe:

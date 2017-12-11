@@ -45,7 +45,7 @@ class Cognito:
             user_pool_region=self.region,
             username=username_or_alias
         )
-        return u.admin_authenticate(password=password)
+        return u.authenticate(password=password)
 
     def get_session(self, id_token):
         return self.identity_client.get_id(

@@ -40,7 +40,7 @@ bundle:
 
 NOW=20171205
 
-TEMPLATE=template0.yml
+TEMPLATE=template.yml
 
 package:
 	docker-compose run --rm sam package \

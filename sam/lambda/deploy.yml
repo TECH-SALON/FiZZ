@@ -1,0 +1,107 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FiZZ Lambda API
+Parameters:
+  AwsClientId:
+    Type: String
+    Description: The ID of the client uses the Cognito user pool.
+  AwsUserPoolId:
+    Type: String
+    Description: The ID of the Cognito user pool.
+  AwsIdentityPoolId:
+    Type: String
+    Description: The ID of the Cognito Federated Identity.
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: swagger.yml
+      StageName: fizzdev
+      Variables:
+        Games: !Ref Games
+        Bots: !Ref Bots
+        Auth: !Ref Auth
+        Accounts: !Ref Accounts
+        Matches: !Ref Results
+
+  Accounts:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bundle.zip
+      Handler: functions.accounts.accounts.handler
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        AccountsProxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/accounts/{proxy+}
+            Method: ANY
+
+  Games:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bundle.zip
+      Handler: functions/games/games.handler
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GamesProxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/games/{proxy+}
+            Method: ANY
+
+  Bots:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bundle.zip
+      Handler: functions.bots.bots.handler
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        BotsProxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/bots/{proxy+}
+            Method: ANY
+
+  Results:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bundle.zip
+      Handler: functions.results.results.handler
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        ResultsProxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/matches/{proxy+}
+            Method: ANY
+
+  Auth:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bundle.zip
+      Handler: functions.auth.auth.handler
+      Runtime: python3.6
+      Policies: AmazonCognitoDeveloperAuthenticatedIdentities
+      Timeout: 10
+      Environment:
+        Variables:
+          AWS_CLIENT_ID: !Ref AwsClientId
+          AWS_USER_POOL_ID: !Ref AwsUserPoolId
+          AWS_IDENTITY_POOL_ID: !Ref AwsIdentityPoolId
+      Events:
+        AuthProxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/auth/{proxy+}
+            Method: ANY

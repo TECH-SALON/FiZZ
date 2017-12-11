@@ -2,9 +2,6 @@ AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: FiZZ Lambda API
 Parameters:
-  AwsRegion:
-    Type: String
-    Description: The region of this model presents.
   AwsClientId:
     Type: String
     Description: The ID of the client uses the Cognito user pool.
@@ -24,6 +21,9 @@ Resources:
       Variables:
         Games: !Ref Games
         Bots: !Ref Bots
+        Auth: !Ref Auth
+        Accounts: !Ref Accounts
+        Matches: !Ref Results
 
   Accounts:
     Type: AWS::Serverless::Function
@@ -36,7 +36,7 @@ Resources:
         AccountsProxy:
           Type: Api
           Properties:
-            RestApiId: !RefApiGatewayApi
+            RestApiId: !Ref ApiGateway
             Path: /api/v1/accounts/{proxy+}
             Method: ANY
 
@@ -51,7 +51,7 @@ Resources:
         GamesProxy:
           Type: Api
           Properties:
-            RestApiId: !RefApiGatewayApi
+            RestApiId: !Ref ApiGateway
             Path: /api/v1/games/{proxy+}
             Method: ANY
 
@@ -66,7 +66,7 @@ Resources:
         BotsProxy:
           Type: Api
           Properties:
-            RestApiId: !RefApiGatewayApi
+            RestApiId: !Ref ApiGateway
             Path: /api/v1/bots/{proxy+}
             Method: ANY
 
@@ -81,7 +81,7 @@ Resources:
         ResultsProxy:
           Type: Api
           Properties:
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !Ref ApiGateway
             Path: /api/v1/matches/{proxy+}
             Method: ANY
 
@@ -98,20 +98,10 @@ Resources:
           AWS_CLIENT_ID: !Ref AwsClientId
           AWS_USER_POOL_ID: !Ref AwsUserPoolId
           AWS_IDENTITY_POOL_ID: !Ref AwsIdentityPoolId
-          AWS_REGION: !Ref AwsRegion
       Events:
-        Login:
+        AuthProxy:
           Type: Api
           Properties:
-            Path: /api/v1/auth/login
-            Method: post
-        SignUp:
-          Type: Api
-          Properties:
-            Path: /api/v1/auth/signup
-            Method: post
-        Session:
-          Type: Api
-          Properties:
-            Path: /api/v1/auth/session
-            Method: get
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/auth/{proxy+}
+            Method: ANY

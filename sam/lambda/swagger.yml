@@ -17,14 +17,14 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: proxy+
+        - name: proxy
           in: path
           required: true
           type: string
       responses: {}
       x-amazon-apigateway-integration:
         uri: >-
-          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Games}/invocations
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Games}/invocations
         httpMethod: POST
         type: aws_proxy
     options:
@@ -64,14 +64,14 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: proxy+
+        - name: proxy
           in: path
           required: true
           type: string
       responses: {}
       x-amazon-apigateway-integration:
         uri: >-
-          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Matches}/invocations
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Matches}/invocations
         httpMethod: POST
         type: aws_proxy
     options:
@@ -111,14 +111,14 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: proxy+
+        - name: proxy
           in: path
           required: true
           type: string
       responses: {}
       x-amazon-apigateway-integration:
         uri: >-
-          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Bots}/invocations
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Bots}/invocations
         httpMethod: POST
         type: aws_proxy
     options:
@@ -158,14 +158,14 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: proxy+
+        - name: proxy
           in: path
           required: true
           type: string
       responses: {}
       x-amazon-apigateway-integration:
         uri: >-
-          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Accounts}/invocations
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Accounts}/invocations
         httpMethod: POST
         type: aws_proxy
     options:
@@ -205,14 +205,14 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: proxy+
+        - name: proxy
           in: path
           required: true
           type: string
       responses: {}
       x-amazon-apigateway-integration:
         uri: >-
-          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<<accountId>>:function:${stageVariables.Auth}/invocations
+          arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Auth}/invocations
         httpMethod: POST
         type: aws_proxy
     options:

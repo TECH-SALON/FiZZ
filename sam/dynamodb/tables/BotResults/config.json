@@ -1,22 +1,22 @@
 {
   "AttributeDefinitions": [
     {
-      "AttributeName": "id",
+      "AttributeName": "username",
       "AttributeType": "S"
     },
     {
-      "AttributeName": "botId",
+      "AttributeName": "botName#createdAt",
       "AttributeType": "S"
     }
   ],
   "KeySchema": [
     {
       "KeyType": "HASH",
-      "AttributeName": "id"
+      "AttributeName": "username"
     },
     {
       "KeyType": "RANGE",
-      "AttributeName": "botId"
+      "AttributeName": "botName#createdAt"
     }
   ],
   "ProvisionedThroughput": {

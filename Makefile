@@ -128,8 +128,9 @@ sam-bundle:
 
 include .env.dev
 export $(shell sed 's/=.*//' .env.dev)
+STACK_NAME := fizz-backend-dev
 
-deploy:
+sam-deploy:
 	docker-compose run --rm sam deploy \
 		--template-file lambda/packaged.yml \
 		--stack-name $(STACK_NAME) \

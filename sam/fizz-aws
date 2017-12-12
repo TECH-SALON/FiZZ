@@ -73,6 +73,25 @@ function create_local_dynamo_db() {
   # fi
 }
 
+function create_remote_dynamo_db() {
+  local table_dir=${1%/}
+  echo $table_dir
+  local table_name=$(basename $table_dir)
+  echo $table_name
+
+  if [ $# -eq 2 ]; then
+    aws --profile $2 dynamodb create-table \
+      --table-name $table_name \
+      --cli-input-json "file://${table_dir}/config.json" \
+      --region us-east-1
+  else
+    aws dynamodb create-table \
+      --table-name $table_name \
+      --cli-input-json "file://${table_dir}/config.json" \
+      --region us-east-1
+  fi
+}
+
 function create_local_db() {
   local bots="${PWD}/dynamodb/tables/Bots"
   local acc="${PWD}/dynamodb/tables/Accounts"
@@ -86,6 +105,22 @@ function create_local_db() {
   create_local_dynamo_db $botresults $1
   create_local_dynamo_db $bots $1
   create_local_dynamo_db $results $1
+  echo "Done"
+}
+
+function create_remote_db() {
+  local bots="${PWD}/dynamodb/tables/Bots"
+  local acc="${PWD}/dynamodb/tables/Accounts"
+  local botresults="${PWD}/dynamodb/tables/BotResults"
+  local games="${PWD}/dynamodb/tables/Games"
+  local results="${PWD}/dynamodb/tables/Results"
+
+  echo "Creating tables..."
+  create_remote_dynamo_db $games $1
+  create_remote_dynamo_db $acc $1
+  create_remote_dynamo_db $botresults $1
+  create_remote_dynamo_db $bots $1
+  create_remote_dynamo_db $results $1
   echo "Done"
 }
 
@@ -124,13 +159,6 @@ function drop_local_db() {
     aws dynamodb delete-table --table-name "Games" --endpoint-url http://localhost:8000
     aws dynamodb delete-table --table-name "Results" --endpoint-url http://localhost:8000
   fi
-}
-
-function create_accounts () {
-  aws dynamodb create-table --endpoint-url http://localhost:8000 \
-  --table-name Accounts --attribute-definitions AttributeName=cognitoId,AttributeType=S AttributeName=username,AttributeType=S \
-  --key-schema AttributeName=cognitoId,KeyType=HASH AttributeName=username,KeyType=RANGE \
-  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
 }
 
 function db_seeds(){
@@ -194,6 +222,9 @@ case "$action" in
     ;;
   create_local_with_profile)
     create_local_db $2
+    ;;
+  create_db_remote)
+    create_remote_db $2
     ;;
   *)
     help

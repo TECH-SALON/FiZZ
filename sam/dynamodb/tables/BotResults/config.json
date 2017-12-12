@@ -7,6 +7,10 @@
     {
       "AttributeName": "botName#createdAt",
       "AttributeType": "S"
+    },
+    {
+      "AttributeName": "updatedAt",
+      "AttributeType": "S"
     }
   ],
   "KeySchema": [
@@ -22,5 +26,27 @@
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 5,
     "WriteCapacityUnits": 5
-  }
+  },
+  "GlobalSecondaryIndexes":[
+    {
+      "IndexName": "BotResultsRecentsIndex",
+      "KeySchema": [
+        {
+          "KeyType": "HASH",
+          "AttributeName": "username"
+        },
+        {
+          "KeyType": "RANGE",
+          "AttributeName": "updatedAt"
+        }
+      ],
+      "Projection":{
+          "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    }
+  ]
 }

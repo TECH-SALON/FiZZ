@@ -92,6 +92,11 @@ function create_remote_dynamo_db() {
   fi
 }
 
+function create_botresult(){
+  local botresults="${PWD}/dynamodb/tables/BotResults"
+  create_remote_dynamo_db $botresults $1
+}
+
 function create_local_db() {
   local bots="${PWD}/dynamodb/tables/Bots"
   local acc="${PWD}/dynamodb/tables/Accounts"
@@ -223,8 +228,11 @@ case "$action" in
   create_local_with_profile)
     create_local_db $2
     ;;
-  create_db_remote)
+  create_remote)
     create_remote_db $2
+    ;;
+  create_botresult)
+    create_botresult $2
     ;;
   *)
     help

@@ -158,5 +158,8 @@ db-recreate:
 	./fizz-aws seed_local && \
 	cd ..
 
+db-create-remote:
+	cd sam && ./fizz-aws create_remote ${PROFILE} && cd ..
+
 swagger:
 	docker run -d -p 8001:8080 --name swagger swaggerapi/swagger-editor

@@ -33,13 +33,28 @@ export default class BotsList extends Component {
   }
 
   formatStatus(item) {
-    if(item.get("isStandBy")) {
-      return "is standby"
-    } else if(item.get("isQualified")) {
-      return "is qualified"
+    if(IMap.isMap(item)) {
+      if(item.get("isStandBy")) {
+        return "is standby";
+      } else if(item.get("isQualified")) {
+        return "is qualified";
+      } else if(item.get("isValid")){
+        return "is valid";
+      } else {
+        return "is not valid"
+      }
     } else {
-      return "is not valid"
+      if(item.isStandBy) {
+        return "is standby"
+      } else if(item.isQualified) {
+        return "is qualified";
+      } else if(item.isValid) {
+        return "is valid";
+      } else {
+        return "is not valid";
+      }
     }
+
   }
 
   openModal(modalName, item) {
@@ -47,6 +62,7 @@ export default class BotsList extends Component {
       [modalName]: true,
       itemModaled: {
         name: item.get("name"),
+        isStandBy: item.get("isValid"),
         isQualified: item.get("isQualified"),
         isValid: item.get("isValid"),
         rank: item.get("rank"),
@@ -83,12 +99,16 @@ export default class BotsList extends Component {
                 <td>{itemModaled.gameName}</td>
               </tr>
               <tr>
+                <th>Status</th>
+                <td>{this.formatStatus(itemModaled)}</td>
+              </tr>
+              <tr>
                 <th>Rank</th>
                 <td>{itemModaled.rank}</td>
               </tr>
               <tr>
                 <th>isPrivate</th>
-                <td>{itemModaled.isPrivate}</td>
+                <td>{itemModaled.isPrivate ? "Private" : "Public"}</td>
               </tr>
               <tr>
                 <th>createdAt</th>

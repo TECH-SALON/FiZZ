@@ -48,7 +48,7 @@ export default class Garage extends Component {
         <div className="over-lay"></div>
         <div className="contents-body">
           <div className="container">
-            <div className="row margin-top-25">
+            {/* <div className="row margin-top-25">
               <h1 className="page-title">Garage</h1>
               <div className="page-menu">
                 <ul>
@@ -57,7 +57,7 @@ export default class Garage extends Component {
                   <li><Link to="/docs">Docs</Link></li>
                 </ul>
               </div>
-            </div>
+            </div> */}
             <div className="row margin-top-25">
               {/* Bots一覧及びアクション群 */}
               <div className="twelve columns">

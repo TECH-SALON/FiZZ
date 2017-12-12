@@ -32,6 +32,16 @@ export default class BotsList extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  formatStatus(item) {
+    if(item.get("isStandBy")) {
+      return "is standby"
+    } else if(item.get("isQualified")) {
+      return "is qualified"
+    } else {
+      return "is not valid"
+    }
+  }
+
   openModal(modalName, item) {
     this.setState({
       [modalName]: true,
@@ -41,7 +51,7 @@ export default class BotsList extends Component {
         isValid: item.get("isValid"),
         rank: item.get("rank"),
         isPrivate: item.get("isPrivate"),
-        gameName: item.get("gameId"),
+        gameName: item.get("gameName"),
         createdAt: item.get("createdAt"),
         updatedAt: item.get("updatedAt")
       }
@@ -121,11 +131,12 @@ export default class BotsList extends Component {
           <tbody>
             {botsLoading ? <tr><td>Data is loading now....</td></tr> : null}
             {bots.map((i) => {
+              let status = this.formatStatus(i);
               return(
                 <tr key={i.get("id")}>
                   <td>{i.get("name")}</td>
-                  <td>{i.get("isQualified")}</td>
-                  <td>{i.get("gameId")}</td>
+                  <td>{status}</td>
+                  <td>{i.get("gameName")}</td>
                   <td>
                     <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
                   </td>

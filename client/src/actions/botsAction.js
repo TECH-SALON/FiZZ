@@ -25,9 +25,12 @@ export const BOTS_STAND_BOT_FAIL = 'BOTS_STAND_BOT_FAIL';
 export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
-
-    let url = `/api/v1/bots/${bot.gameName}`;
-    api(getState).post(url, {data: bot}).then( response => {
+    let url = `${endPoint()}/api/v1/bots/${bot.gameName}`;
+    let params = new FormData();
+    params.append("bot", bot);
+    console.log(url);
+    api(getState).post(url, params).then( response => {
+      console.log(response);
       createBotSuccess(response.data);
     }).catch( error => {
       createBotFail(error)

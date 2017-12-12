@@ -60,9 +60,9 @@ export default class TopPageMenu extends Component {
   }
   render() {
     return(
-      <div>
+      <div className="top-page-menu">
         {this.renderModal()}
-        <ul className="top-page-menu">
+        <ul>
           <li><Link to="/">Top</Link></li>
           <li><Link to="/garage">Garage</Link></li>
           <li><Link to="/match">Match</Link></li>

@@ -121,10 +121,21 @@ sam-bundle:
 	make bundle && \
 	cd ../../
 
-sam-deploy:
-	cd sam/lambda && \
-	make deploy && \
-	cd ../..
+# sam-deploy:
+# 	cd sam/lambda && \
+# 	make deploy && \
+# 	cd ../..
+
+include .env.dev
+export $(shell sed 's/=.*//' .env.dev)
+
+deploy:
+	docker-compose run --rm sam deploy \
+		--template-file lambda/packaged.yml \
+		--stack-name $(STACK_NAME) \
+		--capabilities CAPABILITY_IAM \
+		--parameter-overrides AwsClientId=${AWS_CLIENT_ID} AwsUserPoolId=${AWS_USER_POOL_ID} AwsIdentityPoolId=${AWS_IDENTITY_POOL_ID} \
+		--region us-east-1
 
 sam-release:
 	@make sam-bundle

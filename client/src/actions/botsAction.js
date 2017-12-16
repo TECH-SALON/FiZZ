@@ -28,7 +28,6 @@ export function createBot(bot){
     let url = `${endPoint()}/api/v1/bots/${bot.gameName}`;
     let params = new FormData();
     params.append("bot", bot);
-    console.log(url);
     api(getState).post(url, params).then( response => {
       console.log(response);
       createBotSuccess(response.data);

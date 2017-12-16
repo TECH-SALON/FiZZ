@@ -1,0 +1,134 @@
+#main-nav  {
+  position: absolute;
+  height: 60px;
+  width: 100%;
+  background-color: rgba(0,0,0,0);
+  z-index: 10;
+}
+#main-nav .logo {
+  padding-top: 15px;
+  float: left;
+  width: 150px;
+}
+
+/*utility-menu*/
+
+#main-nav .utility-menu {
+  padding-top: 1px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+#main-nav .utility-menu ul {
+  list-style: none;
+}
+#main-nav .utility-menu li {
+  font-size: 12px;
+  line-height: 16px;
+  float: left;
+  width: 90px;
+  height: 70px;
+  color: #fff;
+  background-color: rgba(51,51,51,0.7);
+  text-align: center;
+  margin-right: 15px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+#main-nav .utility-menu a {
+  text-decoration: none;
+  color: #eceff1;
+}
+#main-nav .utility-menu a:hover {
+  text-decoration: underline;
+}
+#main-nav .utility-menu i {
+  color: #eceff1;
+  padding-top: 9px;
+  font-size: 32px;
+}
+
+#main-nav .utility-menu li:last-child {
+  margin-right: 0px;
+}
+
+/*profile-menu*/
+#main-nav .profile-menu {
+  position: absolute;
+  text-align: center;
+  padding-top: 15px;
+  top: 0;
+  right: 0;
+}
+
+#main-nav .profile-menu .avator-icon img {
+  border-radius: 50%;
+  width: 50px;
+}
+
+#main-nav .profile-menu i {
+  color: #eceff1;
+  line-height: 10px;
+}
+
+/*profile-menu-list*/
+
+.profile-menu-list {
+  width: 130px;
+}
+
+.profile-menu-list ul {
+  list-style: none;
+  margin-top: 18px;
+}
+
+.profile-menu-list li {
+  font-size: 16px;
+  padding: 5px 20px 5px 20px;
+}
+
+.profile-menu-list li:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+.profile-menu-list i {
+  padding-right: 7px;
+  vertical-align: -6px;
+}
+
+
+
+
+
+
+
+
+
+
+
+#main-nav .utility-nav li {
+  float: left;
+  text-align: center;
+  padding-right: 25px;
+}
+
+.
+
+
+.logoutPop {
+  padding: 7px 12px;
+  box-shadow: none;
+}
+.logoutPop a {
+  color: #000;
+  text-decoration: none;
+}
+.logoutPop a:hover {
+  cursor: pointer;
+}
+
+.logout-button a:hover {
+  pointer: cursor;
+}

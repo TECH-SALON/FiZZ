@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import Spinner from 'react-spinkit';
 
-
 import BotsList from './BotsList';
 import ResultsList from './ResultsList';
 import RegisterForm from './RegisterForm';
@@ -58,7 +57,7 @@ export default class Garage extends Component {
                 </ul>
               </div>
             </div> */}
-            <div className="row margin-top-25">
+            <div className="row margin-top-50">
               {/* Bots一覧及びアクション群 */}
               <div className="twelve columns">
                 <div className="panel">

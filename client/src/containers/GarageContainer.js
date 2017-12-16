@@ -7,6 +7,7 @@ import {
   scanBots,
   createBot,
   standBot,
+  editBot
 } from '../actions/botsAction';
 
 import {
@@ -38,6 +39,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onPracticeBot: (botId) => {
       dispatch(runPractice(botId))
+    },
+    onBotEdited: (bot) => {
+      dispatch(editBot(bot))
     },
     onStandBot: (botId) => {
       dispatch(standBot(botId))

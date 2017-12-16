@@ -53,12 +53,17 @@
 }
 
 /*profile-menu*/
+
 #main-nav .profile-menu {
   position: absolute;
   text-align: center;
   padding-top: 15px;
   top: 0;
   right: 0;
+}
+
+#main-nav .profile-menu:hover {
+  cursor: pointer;
 }
 
 #main-nav .profile-menu .avator-icon img {

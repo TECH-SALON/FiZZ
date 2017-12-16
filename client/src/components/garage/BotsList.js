@@ -15,8 +15,9 @@ export default class BotsList extends Component {
   constructor() {
     super();
     this.state = {
-      detailModal: false,
+      botModal: false,
       practiceModal: false,
+      editModal: false,
       itemModaled: {
         name: "",
         isQualified: "",
@@ -26,10 +27,18 @@ export default class BotsList extends Component {
         gameName: "",
         createdAt: "",
         updatedAt: ""
-      }
+      },
+      itemEdited: {
+        name: "",
+        isPrivate: ""
+      },
+      isEditing: false
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.editBot = this.editBot.bind(this);
   }
 
   formatStatus(item) {
@@ -54,7 +63,19 @@ export default class BotsList extends Component {
         return "is not valid";
       }
     }
+  }
 
+  handleChange(event) {
+    this.setState({
+      itemEdited: {
+        [event.target.name]: event.target.value
+      }
+    });
+  }
+
+  editBot() {
+    let item = this.state.itemEdited;
+    this.props.onBotEdited(item);
   }
 
   openModal(modalName, item) {
@@ -74,63 +95,92 @@ export default class BotsList extends Component {
     })
   }
 
+  toggleEdit() {
+    const {isEditing, itemModaled} = this.state;
+    if(!isEditing) {
+      this.setState({
+        itemEdited: {
+          name: itemModaled.name,
+          isPrivate: itemModaled.isPrivate
+        },
+      })
+    };
+    this.setState({
+      isEditing: !isEditing
+    })
+  }
+
   closeModal(modalName) {
     this.setState({[modalName]: false});
   }
 
-  renderModals() {
-    const { itemModaled } = this.state;
+
+  renderPracticeModal() {
+    const { practiceModal } = this.state;
+    <ModalContainer
+      isOpen={practiceModal}
+      onRequestClose={() => this.closeModal("practiceModal")}
+      title="Practice your bot"
+      description="このbotを練習試合させますか？ボタンを押すと練習が始まります。結果は結果一覧リストに表示されます。"
+    >
+      <button onClick={(item) => this.props.onPracticeBot(item.botId)} className="button-primary">YES</button>
+    </ModalContainer>
+  }
+
+  renderBotModal() {
+    const { botModal, itemModaled, itemEdited, isEditing } = this.state;
     return(
-      <div>
-        <ModalContainer
-          isOpen={this.state.detailModal}
-          onRequestClose={() => this.closeModal("detailModal")}
-          title="Bot's detail"
-          description="Botの情報。名前やURLを修正できます。"
-        >
-          <table className="u-full-width">
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <td>{itemModaled.name}</td>
-              </tr>
-              <tr>
-                <th>GameName</th>
-                <td>{itemModaled.gameName}</td>
-              </tr>
-              <tr>
-                <th>Status</th>
-                <td>{this.formatStatus(itemModaled)}</td>
-              </tr>
-              <tr>
-                <th>Rank</th>
-                <td>{itemModaled.rank}</td>
-              </tr>
-              <tr>
-                <th>isPrivate</th>
-                <td>{itemModaled.isPrivate ? "Private" : "Public"}</td>
-              </tr>
-              <tr>
-                <th>createdAt</th>
-                <td>{itemModaled.createdAt}</td>
-              </tr>
-              <tr>
-                <th>updatedAt</th>
-                <td>{itemModaled.updatedAt}</td>
-              </tr>
-            </tbody>
-          </table>
-          <button className="button-primary">Edit</button>
-        </ModalContainer>
-        <ModalContainer
-          isOpen={this.state.practiceModal}
-          onRequestClose={() => this.closeModal("practiceModal")}
-          title="Practice your bot"
-          description="このbotを練習試合させますか？ボタンを押すと練習が始まります。結果は結果一覧リストに表示されます。"
-        >
-          <button onClick={(item) => this.props.onPracticeBot(item.botId)} className="button-primary">YES</button>
-        </ModalContainer>
-      </div>
+      <ModalContainer
+        isOpen={botModal}
+        onRequestClose={() => this.closeModal("botModal")}
+        title="Bot's detail"
+        description="Botの情報。名前やURLを修正できます。"
+      >
+        <table className="u-full-width">
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <td>{isEditing ?
+                <input name="name" type="text" value={itemEdited.name} onChange={this.handleChange}/>
+                : itemModaled.name}
+              </td>
+            </tr>
+            <tr>
+              <th>isPrivate</th>
+              <td>{itemModaled.isPrivate ? "Private" : "Public"}</td>
+            </tr>
+            <tr>
+              <th>GameName</th>
+              <td>{itemModaled.gameName}</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>{this.formatStatus(itemModaled)}</td>
+            </tr>
+            <tr>
+              <th>Rank</th>
+              <td>{itemModaled.rank}</td>
+            </tr>
+
+            <tr>
+              <th>createdAt</th>
+              <td>{itemModaled.createdAt}</td>
+            </tr>
+            <tr>
+              <th>updatedAt</th>
+              <td>{itemModaled.updatedAt}</td>
+            </tr>
+          </tbody>
+        </table>
+        {isEditing ?
+          <div>
+            <button className="button-primary" onClick={this.editBot}>Save</button>
+            <button className="button-primary" onClick={this.toggleEdit}>Cansel</button>
+          </div>
+          : <button className="button-primary" onClick={this.toggleEdit}>Edit</button>
+        }
+
+      </ModalContainer>
     )
   }
 
@@ -138,7 +188,8 @@ export default class BotsList extends Component {
     const { bots, botsLoading } = this.props;
     return(
       <div className="table">
-        {this.renderModals()}
+        {this.renderBotModal()}
+        {this.renderPracticeModal()}
         <table className="u-full-width">
           <thead>
             <tr>
@@ -158,7 +209,7 @@ export default class BotsList extends Component {
                   <td>{status}</td>
                   <td>{i.get("gameName")}</td>
                   <td>
-                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("detailModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
+                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("botModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
                   </td>
                 </tr>
               )

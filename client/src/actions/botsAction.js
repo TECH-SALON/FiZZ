@@ -21,6 +21,11 @@ export const BOTS_STAND_BOT_REQUEST = 'BOTS_STAND_BOT_REQUEST';
 export const BOTS_STAND_BOT_SUCCESS = 'BOTS_STAND_BOT_SUCCESS';
 export const BOTS_STAND_BOT_FAIL = 'BOTS_STAND_BOT_FAIL';
 
+export const BOTS_EDIT_BOT = 'BOTS_EDIT_BOT';
+export const BOTS_EDIT_BOT_REQUEST = 'BOTS_EDIT_BOT_REQUEST';
+export const BOTS_EDIT_BOT_SUCCESS = 'BOTS_EDIT_BOT_SUCCESS';
+export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
+
 //create bot
 export function createBot(bot){
   return (dispatch, getState) => {
@@ -167,6 +172,41 @@ function standBotSuccess(bot){
 function standBotFail(error){
   return {
     type: BOTS_STAND_BOT_FAIL,
+    error,
+  }
+}
+
+
+//Edit bot
+
+export function editBot(bot){
+  return (dispatch, getState) => {
+    dispatch(editBotRequest(bot));
+    console.log(bot);
+    // api(getState).get(url).then( response => {
+    //   editBotSuccess(response.data);
+    // }).catch( error => {
+    //   editBotFail(error)
+    // });
+  }
+}
+
+function editBotRequest(){
+  return {
+    type: BOTS_EDIT_BOT_REQUEST,
+  }
+}
+
+function editBotSuccess(bot){
+  return {
+    type: BOTS_EDIT_BOT_SUCCESS,
+    bot,
+  }
+}
+
+function editBotFail(error){
+  return {
+    type: BOTS_EDIT_BOT_FAIL,
     error,
   }
 }

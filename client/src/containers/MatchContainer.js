@@ -19,8 +19,10 @@ import {
 
 const mapStateToProps = (state) => {
   const bots = state.getIn(['bots', 'items']);
+  const results = state.getIn(['matches', 'results']);
   let reversiBots = IList();
-  bots.forEach( item => {
+  let reversiResults = IList();
+  bots.forEach(item => {
     switch (item.get("gameName")) {
       case "reversi":
         reversiBots = reversiBots.push(item);
@@ -28,10 +30,18 @@ const mapStateToProps = (state) => {
         return
     }
   });
+  results.forEach(item => {
+    switch (item.get("gameName")) {
+      case "reversi":
+        reversiResults = reversiResults.push(item);
+      default:
+        return
+    }
+  });
   return {
     reversiBots: reversiBots,
     ranking: state.getIn(['games', 'ranking']),
-    results: state.getIn(['matches', 'results']),
+    reversiResults: reversiResults,
     resultsLoading: state.getIn(['matches', 'isLoading'])
   }
 }

@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import Spinner from 'react-spinkit';
 
-
 import BotsList from './BotsList';
 import ResultsList from './ResultsList';
 import RegisterForm from './RegisterForm';
@@ -48,17 +47,7 @@ export default class Garage extends Component {
         <div className="over-lay"></div>
         <div className="contents-body">
           <div className="container">
-            <div className="row margin-top-25">
-              <h1 className="page-title">Garage</h1>
-              <div className="page-menu">
-                <ul>
-                  <li><Link to="/garage">Garage</Link></li>
-                  <li><Link to="/match">Match</Link></li>
-                  <li><Link to="/docs">Docs</Link></li>
-                </ul>
-              </div>
-            </div>
-            <div className="row margin-top-25">
+            <div className="row margin-top-50">
               {/* Bots一覧及びアクション群 */}
               <div className="twelve columns">
                 <div className="panel">
@@ -71,7 +60,11 @@ export default class Garage extends Component {
                   <div className="margin-top-15">
                     <RegisterForm onCreateBot={this.props.onCreateBot}/>
                   </div>
-                  <BotsList bots={bots} botsLoading={botsLoading} onPracticeBot={this.props.onPracticeBot}/>
+                  <BotsList
+                    bots={bots}
+                    botsLoading={botsLoading}
+                    onBotEdited={this.props.onBotEdited}
+                    onPracticeBot={this.props.onPracticeBot}/>
                 </div>
               </div>
               <div className="twelve columns">

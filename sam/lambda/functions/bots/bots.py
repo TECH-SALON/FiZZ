@@ -156,6 +156,9 @@ def get_bot(event, context):
 #POST /api/v1/bots/:gameName
 def create_bot(event, context):
     print(event)
+    print(event['body'])
+    print(type(event['body']))
+    print(json.loads(event['body']))
     try:
         db = DB()
         body = json.loads(event['body'])

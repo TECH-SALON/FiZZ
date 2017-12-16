@@ -59,6 +59,7 @@ const matchSummaryToMap = (summary) => IMap({
 });
 
 const scanBots = (state, bots) => {
+  console.log(bots);
   let items = IList();
   bots.Items.forEach((b, i) => {
     items = items.set(i, botToMap(b))

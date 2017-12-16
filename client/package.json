@@ -47,7 +47,7 @@
     "json-loader": "^0.5.7",
     "material-ui": "^1.0.0-beta.17",
     "material-ui-icons": "^1.0.0-beta.10",
-    "node-sass": "^4.6.0",
+    "node-sass": "^4.7.2",
     "path": "^0.12.7",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^2.0.6",

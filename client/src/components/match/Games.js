@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch, Link} from 'react-router-dom';
+import reversiCover from '../../assets/games/reversi/reversi_cover.svg';
+
 
 export default class Games extends Component {
   static propTypes = {
@@ -16,19 +18,12 @@ export default class Games extends Component {
     return(
       <div className="games">
         <div className="games-back-image"></div>
-        <div className="row margin-top-25">
-          <h1 className="page-title">Match</h1>
-          <div className="page-menu">
-            <ul>
-              <li><Link to="/garage">Garage</Link></li>
-              <li><Link to="/match">Match</Link></li>
-              <li><Link to="/docs">Docs</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="row margin-top-25">
+        <div className="row margin-top-50">
           <div className="four columns">
             <div className="panel">
+              <div className="panel-image">
+                <img src={reversiCover}/>
+              </div>
               <div className="panel-heading">
                 <h3>Reversi</h3>
               </div>

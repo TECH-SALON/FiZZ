@@ -20,6 +20,7 @@ export default class Reversi extends Component {
 
   render() {
     const { bots, results } = this.props;
+    console.log(results);
     return(
       <div className="reversi">
         <div className="reversi-back-image"></div>

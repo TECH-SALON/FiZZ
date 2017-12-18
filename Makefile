@@ -165,4 +165,14 @@ swagger:
 	docker run -d -p 8001:8080 --name swagger swaggerapi/swagger-editor
 
 apig-add-permission:
-	aws lambda add-permission --cli-input-json "file://${PWD}/sam/apigateway/${AC}/${FILE}.json"
+	aws --profile default lambda add-permission --cli-input-json "file://${PWD}/sam/apigateway/${AC}/${FILE}.json"
+
+# apig-add-permission-all:
+# 	# @make apig-add-permission AC=accounts FILE=proxy
+# 	# @make apig-add-permission AC=auth FILE=proxy
+# 	@make apig-add-permission AC=bots FILE=proxy
+# 	@make apig-add-permission AC=games FILE=proxy
+# 	@make apig-add-permission AC=results FILE=proxy
+# 	# @make apig-add-permission AC=bots FILE=root
+# 	@make apig-add-permission AC=games FILE=root
+# 	@make apig-add-permission AC=results FILE=root

@@ -128,6 +128,7 @@ class DB:
 #GET /api/v1/bots
 def scan_bots(event, context):
     print(event)
+    print("hero")
     try:
         db = DB()
         bots = db.scan('accountId')
@@ -213,8 +214,12 @@ def update_bot(event, context):
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
-            if 'botId' in event['pathParameters'].keys():
-                return get_bot(event, context)
+            print("here")
+            if event['pathParameters']:
+                if 'botId' in event['pathParameters'].keys():
+                    return get_bot(event, context)
+                else:
+                    pass
             else:
                 return scan_bots(event, context)
         elif event['httpMethod'] == 'POST':

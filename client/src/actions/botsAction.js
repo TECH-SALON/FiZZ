@@ -30,11 +30,10 @@ export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
 export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
-    let url = `${endPoint()}/api/v1/bots/${bot.gameName}`;
+    let url = `https://dlqe499rya.execute-api.us-east-1.amazonaws.com/fizzdev/bots/${bot.gameName}`;
     let params = new FormData();
     params.append("bot", bot);
     api(getState).post(url, params).then( response => {
-      console.log(response);
       createBotSuccess(response.data);
     }).catch( error => {
       createBotFail(error)
@@ -71,8 +70,9 @@ export function scanBots(refresh = false){
     if(!refresh && bots.get('loaded')){
       return
     }
-    let url = `/api/v1/bots`
+    let url = `https://dlqe499rya.execute-api.us-east-1.amazonaws.com/fizzdev/bots`;
     api(getState).get(url).then( response => {
+      console.log(response);
       let bots = response.data;
       dispatch(scanBotsSuccess(bots));
     }).catch( error => {

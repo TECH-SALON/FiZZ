@@ -46,10 +46,10 @@ func run(w http.ResponseWriter, r *http.Request) {
 
       handler(action, context, store)
 
-      var response = Respones{
-        action: &action,
-        context: &context,
-        store: &store
+      var response = Response{
+        action: action,
+        context: context,
+        store: store,
       }
 
 			json.NewEncoder(w).Encode(response)

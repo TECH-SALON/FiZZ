@@ -3,5 +3,5 @@
     "StatementId": "apigateway-test-2",
     "Action": "lambda:InvokeFunction",
     "Principal": "apigateway.amazonaws.com",
-    "SourceArn": "arn:aws:execute-api:us-east-1:720955889916:dlqe499rya/*/*/games/*"
+    "SourceArn": "arn:aws:execute-api:us-east-1:720955889916:dlqe499rya/*/*/games"
 }

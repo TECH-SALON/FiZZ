@@ -1,7 +1,7 @@
 {
-    "FunctionName": "fizz-backend-dev-Accounts-WSPUOSOLPDMA",
+    "FunctionName": "fizz-backend-dev-Auth-19CH62CVZZF3V",
     "StatementId": "apigateway-test-2",
     "Action": "lambda:InvokeFunction",
     "Principal": "apigateway.amazonaws.com",
-    "SourceArn": "arn:aws:execute-api:us-east-1:720955889916:dlqe499rya/*/*/accounts/*"
+    "SourceArn": "arn:aws:execute-api:us-east-1:720955889916:dlqe499rya/*/*/auth/*"
 }

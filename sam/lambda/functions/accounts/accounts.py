@@ -109,11 +109,11 @@ def get_account_bots(event, context):
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
-            break
+            pass
         elif event['httpMethod'] == 'POST':
-            break
+            pass
         elif event['httpMethod'] == 'PUT':
-            break
+            pass
         return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
         print(e)

@@ -97,9 +97,9 @@ def run_match(event, context):
         if 'botId' in body.keys():
             botId = body['botId']
             if 'ruleId' in body.keys():
-                break
+                pass
             if 'filter' in body.keys():
-                break
+                pass
             # Return Response
 
         else:
@@ -125,11 +125,11 @@ def get_ranking(event, context):
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
-            break
+            pass
         elif event['httpMethod'] == 'POST':
-            break
+            pass
         elif event['httpMethod'] == 'PUT':
-            break
+            pass
         return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
         print(e)

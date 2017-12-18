@@ -153,9 +153,9 @@ def handler(event, context):
             pass
         elif event['httpMethod'] == 'POST':
             path = event['path']
-            if path == '/api/v1/auth/signup':
+            if path == '/auth/signup':
                 return sign_up(event, context)
-            elif path == '/api/v1/auth/login':
+            elif path == '/auth/login':
                 return login(event, context)
             elif path == '/auth/refresh'
         elif event['httpMethod'] == 'PUT':

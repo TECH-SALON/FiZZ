@@ -57,6 +57,8 @@ jssh:
 	$(JS) bash
 jest:
 	$(JS) yarn test
+webpack:
+	$(JS) yarn build
 
 yarn-install:
 	make jsrn

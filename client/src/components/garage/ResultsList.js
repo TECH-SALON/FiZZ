@@ -139,7 +139,6 @@ export default class ResultsList extends Component {
 
   render() {
     const { results, resultsLoading } = this.props;
-    console.log(results);
     return(
       <div className="table">
         {this.renderModals()}

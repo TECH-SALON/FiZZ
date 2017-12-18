@@ -84,7 +84,7 @@ class DB:
 
         if success:
             updates = {}
-            for k, v in item:
+            for k, v in item.items():
                 if v is not None:
                     updates[k] = { 'Action': 'PUT', 'Value': v}
 

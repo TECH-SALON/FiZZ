@@ -46,7 +46,8 @@ class Cognito:
             user_pool_region=self.region,
             username=username_or_alias
         )
-        return u.authenticate(password=password)
+        u.admin_authenticate(password=password)
+        return u
 
     def get_session(self, id_token):
         return self.identity_client.get_id(
@@ -80,20 +81,10 @@ def login(event, context):
 
         print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
-        resp = cognito.login(username_or_alias, password)
-        print("resp is")
-        print(resp)
-        auth = resp['AuthenticationResult']
+        auth = cognito.login(username_or_alias, password)
         ret = {
-            'challengeName': resp['ChallengeName'],
-            'auth': {
-                'accessToken': auth['AccessToken'],
-                'expiresIn': auth["ExpiresIn"],
-                'tokenType': auth['TokenType'],
-                'idToken': auth['IdToken'],
-                'refreshToken': auth['RefreshToken']
-            },
-            'session': resp['Session']
+            'tokenType': auth.token_type,
+            'idToken': auth.id_token
         }
 
         return {'statusCode': 200, 'body': json.dumps(ret)}

@@ -4,7 +4,7 @@
   "accountId": {"S": "ap-northeast-1:38209be3-04b3-46f1-bedd-7ef7a72f9eef"},
   "resultId": {"S": "2eb4e3f0-f69c-4ad6-99f2-e82166188ce3"},
   "botName": {"S": "sample Bot"},
-  "gameName": {"S": "Reversi"},
+  "gameName": {"S": "reversi"},
   "isWinner": {"BOOL": true},
   "pointPercentage": {"N": "0.8"},
   "numOfWin": {"N": "10"},

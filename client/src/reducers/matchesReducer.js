@@ -19,6 +19,7 @@ const initialState = IMap({
 
 const resultToMap = (r) => {
   let mappedResult = IMap({
+    id: r.id,
     resultId: r.resultId,
     botId: r.botId,
     botName: r.botName,

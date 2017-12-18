@@ -22,10 +22,9 @@ export default class ResultsList extends Component {
     this.setState({
       modalIsOpen: true,
       result: {
-        name: item.name,
-        opponent: item.opponent,
-        winPercentage: item.winPercentage,
-        createdAt: item.createdAt
+        name: item.get("botName"),
+        winPercentage: item.get("pointPercentage"),
+        createdAt: item.get("createdAt")
       }
     })
   }
@@ -46,7 +45,6 @@ export default class ResultsList extends Component {
         >
           <ul>
             <li>{result.name}</li>
-            <li>{result.opponent}</li>
             <li>{result.winPercentage}</li>
             <li>{result.createdAt}</li>
           </ul>
@@ -55,6 +53,7 @@ export default class ResultsList extends Component {
     )
   }
   render() {
+    const { results } = this.props;
     return(
       <div className="table">
         {this.renderModal()}
@@ -62,44 +61,24 @@ export default class ResultsList extends Component {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Opponent</th>
               <th>Win%</th>
+              <th>Time</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Bot1</td>
-              <td>ReversiBot</td>
-              <td>30%</td>
-              <td>
-                <button className="button detail-button margin-top-5" onClick={() => this.openModal()}>Detail</button>
-              </td>
-            </tr>
+            {results.map(item => {
+              return(
+                <tr key={item.get("id")}>
+                  <td>{item.get("botName")}</td>
+                  <td>{item.get("pointPercentage")*100+"%"}</td>
+                  <td>{item.get("createdAt")}</td>
+                  <td>
+                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal(item)}>Detail</button>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

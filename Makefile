@@ -164,10 +164,5 @@ db-create-remote:
 swagger:
 	docker run -d -p 8001:8080 --name swagger swaggerapi/swagger-editor
 
-apig-add-perm:
-	aws lambda add-permission \
-		--function-name ${FN} \
-		--statement-id ${STATE} \
-		--action lambda:InvokeFunction \
-		--principal apigateway.amazonaws.com \
-		--source-arn ${ARN}
+apig-add-permission:
+	aws lambda add-permission --cli-input-json "file://${PWD}/sam/apigateway/${AC}/${FILE}.json"

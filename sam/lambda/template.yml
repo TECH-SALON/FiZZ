@@ -33,6 +33,12 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
+        AccountsRoot:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/accounts
+            Method: any
         AccountsProxy:
           Type: Api
           Properties:
@@ -44,10 +50,16 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: bundle.zip
-      Handler: functions/games/games.handler
+      Handler: functions.games.games.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
+        GamesRoot:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/games
+            Method: any
         GamesProxy:
           Type: Api
           Properties:
@@ -63,6 +75,12 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
+        BotsRoot:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/bots
+            Method: any
         BotsProxy:
           Type: Api
           Properties:
@@ -78,12 +96,18 @@ Resources:
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Events:
+        MatchesRoot:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/v1/matches
+            Method: any
         ResultsProxy:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGateway
             Path: /api/v1/matches/{proxy+}
-            Method: ANY
+            Method: any
 
   Auth:
     Type: AWS::Serverless::Function
@@ -105,3 +129,13 @@ Resources:
             RestApiId: !Ref ApiGateway
             Path: /api/v1/auth/{proxy+}
             Method: ANY
+Outputs:
+  ApiUrl:
+    Description: URL of API endpoint
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref ApiGateway
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/fizzdev/api/v1'

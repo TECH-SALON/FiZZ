@@ -1,26 +1,52 @@
 {
   "AttributeDefinitions": [
     {
-      "AttributeName": "id",
+      "AttributeName": "username",
       "AttributeType": "S"
     },
     {
-      "AttributeName": "botId",
+      "AttributeName": "botName#createdAt",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "updatedAt",
       "AttributeType": "S"
     }
   ],
   "KeySchema": [
     {
       "KeyType": "HASH",
-      "AttributeName": "id"
+      "AttributeName": "username"
     },
     {
       "KeyType": "RANGE",
-      "AttributeName": "botId"
+      "AttributeName": "botName#createdAt"
     }
   ],
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 5,
     "WriteCapacityUnits": 5
-  }
+  },
+  "GlobalSecondaryIndexes":[
+    {
+      "IndexName": "BotResultsRecentsIndex",
+      "KeySchema": [
+        {
+          "KeyType": "HASH",
+          "AttributeName": "username"
+        },
+        {
+          "KeyType": "RANGE",
+          "AttributeName": "updatedAt"
+        }
+      ],
+      "Projection":{
+          "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    }
+  ]
 }

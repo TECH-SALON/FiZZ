@@ -29,24 +29,37 @@ class Cognito:
         self.identity_client = boto3.client('cognito-identity')
         return
 
-    def sign_up(self, username, email, password):
-        u = warrant.Cognito(
-            self.user_pool_id,
-            self.client_id,
-            user_pool_region=self.region
-        )
-        u.add_base_attributes(email=email)
-        return u.register(username, password)
-
-    def login(self, username_or_alias, password):
-        print("here")
+    def client(username=None, id_token=None, refresh_token=None, access_token=None):
         u = warrant.Cognito(
             self.user_pool_id,
             self.client_id,
             user_pool_region=self.region,
-            username=username_or_alias
+            username=username,
+            id_token=id_token,
+            refresh_token=refresh_token,
+            access_token=access_token
         )
-        return u.authenticate(password=password)
+        return u
+
+    def return_auth(auth):
+        ret = {
+            'tokenType': auth.token_type,
+            'idToken': auth.id_token,
+            'access_token': auth.access_token,
+            'refreshToken': auth.refresh_token
+        }
+        return ret
+
+
+    def sign_up(self, username, email, password):
+        u = client()
+        u.add_base_attributes(email=email)
+        return u.register(username, password)
+
+    def login(self, username_or_alias, password):
+        u = client(username=username_or_alias)
+        u.admin_authenticate(password=password)
+        return self.return_auth(u)
 
     def get_session(self, id_token):
         return self.identity_client.get_id(
@@ -66,6 +79,11 @@ class Cognito:
             }
         return self.identity_client.get_credentials_for_identity(**params)
 
+    def refresh(self, refresh_token, access_token):
+        u = client(refresh_token=refresh_token, access_token=access_token)
+        u.check_token()
+        return self.return_auth(u)
+
 ####################### API #########################
 
 def login(event, context):
@@ -80,21 +98,7 @@ def login(event, context):
 
         print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
-        resp = cognito.login(username_or_alias, password)
-        print("resp is")
-        print(resp)
-        auth = resp['AuthenticationResult']
-        ret = {
-            'challengeName': resp['ChallengeName'],
-            'auth': {
-                'accessToken': auth['AccessToken'],
-                'expiresIn': auth["ExpiresIn"],
-                'tokenType': auth['TokenType'],
-                'idToken': auth['IdToken'],
-                'refreshToken': auth['RefreshToken']
-            },
-            'session': resp['Session']
-        }
+        ret = cognito.login(username_or_alias, password)
 
         return {'statusCode': 200, 'body': json.dumps(ret)}
     except:
@@ -103,17 +107,18 @@ def login(event, context):
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 
-def get_session(event, context):
+def refresh(event, context):
     try:
         body = json.loads(event['body'])
 
-        provider = body['provider']
-        if provider == 'google':
-            id_token = body['id_token']
-            resp = cognito.get_session(id_token)
-            return {'statusCode': 200, 'body': json.dumps(resp)}
-        else:
-            return {'statusCode': 400, 'body': 'The Provider is not supported'}
+        # header?
+        access_token = body['access_token']
+        refresh_token = body['refresh_token']
+
+        cognito = Cognito()
+        resp = cognito.refresh(refresh_token, access_token)
+
+        return {'statusCode': 200, 'body': json.dumps(resp)}
     except:
         traceback.print_exc()
     return {'statusCode': 400, 'body': 'Request Failed'}
@@ -147,13 +152,15 @@ def handler(event, context):
         if event['httpMethod'] == 'GET':
             pass
         elif event['httpMethod'] == 'POST':
-            if event['path'] == '/api/v1/auth/signup':
+            path = event['path']
+            if path == '/auth/signup':
                 return sign_up(event, context)
-            elif event['path'] == '/api/v1/auth/login':
+            elif path == '/auth/login':
                 return login(event, context)
+            elif path == '/auth/refresh'
         elif event['httpMethod'] == 'PUT':
             pass
         return {'statusCode': 400, 'body': 'Request Failed'}
     except BaseException as e:
-        print(e)
+        traceback.print_exc()
         return {'statusCode': 500, 'body': 'Request Failed'}

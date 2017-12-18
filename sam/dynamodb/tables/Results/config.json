@@ -3,20 +3,12 @@
     {
       "AttributeName": "id",
       "AttributeType": "S"
-    },
-    {
-      "AttributeName": "gameName",
-      "AttributeType": "S"
     }
   ],
   "KeySchema": [
     {
       "KeyType": "HASH",
       "AttributeName": "id"
-    },
-    {
-      "KeyType": "RANGE",
-      "AttributeName": "gameName"
     }
   ],
   "ProvisionedThroughput": {

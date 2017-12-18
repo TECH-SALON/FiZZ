@@ -15,10 +15,9 @@ type Context struct {
 
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること
 func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.Response, err error)  {
-	var containers []ai.Container
 	response = initialzeResponse(config, bots)
-	containers, errs = ai.StartAIServer(bots)
-	utils.printErrs(errs)
+	containers, errs := ai.StartAIServer(bots)
+	utils.PrintErrs(errs)
 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)
@@ -27,16 +26,13 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 		log.Println("%+v\n", fight)
 		response.Fights = append(response.Fights, *fight)
 	}
-	utils.printErrs(ai.CloseAIServer(containers))
+	utils.PrintErrs(ai.CloseAIServer(containers))
 	return
 }
 
-func initialzeResponse(config *models.GameConfig, bots []models.Bot) (response *models.Response){
-	response = &models.Response{
+func initialzeResponse(config *models.GameConfig, bots []models.Bot) (*models.Response){
+	return &models.Response{
 		Bots: bots,
-		GameName: config.Name,
-		Rule: config.Rule,
-		Filter: config.Filter,
+		Config: config,
 	}
-	return
 }

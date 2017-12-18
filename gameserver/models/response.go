@@ -1,12 +1,11 @@
 package models
 
 type Response struct {
-	Bots []models.Bot `json:"bots"`
-	GameName string `json:"gameName"`
-	Config GameConfig `json:"config"`
+	Bots []Bot `json:"bots"`
+	Config *GameConfig `json:"config"`
 	Fights []Fight `json:"fights"`
-	StartContext Context `json:"startContext"`
-	EndContext Context `json:"endContext"`
+	StartContext *Context `json:"startContext"`
+	EndContext *Context `json:"endContext"`
 	Error string `json:"error"`
 }
 

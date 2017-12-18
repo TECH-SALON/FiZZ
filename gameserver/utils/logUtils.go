@@ -1,6 +1,10 @@
 package utils
 
-func printErr(err error) (_ error) {
+import (
+  "log"
+)
+
+func PrintErr(err error) (_ error) {
 	if err != nil {
 		log.Println(err)
 	}
@@ -8,8 +12,8 @@ func printErr(err error) (_ error) {
 	return err
 }
 
-func printErrs(errs []error) {
+func PrintErrs(errs []error) {
 	for i:=0; i<len(errs); i++ {
-		printErr(errs[i])
+		PrintErr(errs[i])
 	}
 }

@@ -183,11 +183,15 @@ export function editBot(bot){
   return (dispatch, getState) => {
     dispatch(editBotRequest(bot));
     console.log(bot);
-    // api(getState).get(url).then( response => {
-    //   editBotSuccess(response.data);
-    // }).catch( error => {
-    //   editBotFail(error)
-    // });
+    let url = `${endPoint()}/api/v1/bots/${bot.id}`;
+    let params = new FormData();
+    params.append("bot", bot);
+
+    api(getState).put(url, bot).then( response => {
+      editBotSuccess(response.data);
+    }).catch( error => {
+      editBotFail(error)
+    });
   }
 }
 

@@ -16,9 +16,10 @@ export default class BotsList extends Component {
     super();
     this.state = {
       botModal: false,
-      practiceModal: false,
+      checkModal: false,
       editModal: false,
       itemModaled: {
+        id: "",
         name: "",
         isQualified: "",
         isValid: "",
@@ -29,6 +30,7 @@ export default class BotsList extends Component {
         updatedAt: ""
       },
       itemEdited: {
+        id: "",
         name: "",
         isPrivate: ""
       },
@@ -82,6 +84,7 @@ export default class BotsList extends Component {
     this.setState({
       [modalName]: true,
       itemModaled: {
+        id: item.get("id"),
         name: item.get("name"),
         isStandBy: item.get("isValid"),
         isQualified: item.get("isQualified"),
@@ -100,6 +103,7 @@ export default class BotsList extends Component {
     if(!isEditing) {
       this.setState({
         itemEdited: {
+          id: itemModaled.id,
           name: itemModaled.name,
           isPrivate: itemModaled.isPrivate
         },
@@ -114,17 +118,44 @@ export default class BotsList extends Component {
     this.setState({[modalName]: false});
   }
 
+  renderCheckModalContent(item) {
+    const { isQualified, isValid } = item;
+    if(isQualified) {
+      return(
+        <p>This bot is qualified.</p>
+      )
+    } else if(isValid) {
+      return(
+        <p>This bot is valid but not qualified.</p>
+      )
+    } else {
+      return(
+        <p>This bot is not valid.</p>
+      )
+    }
+  }
 
-  renderPracticeModal() {
-    const { practiceModal } = this.state;
-    <ModalContainer
-      isOpen={practiceModal}
-      onRequestClose={() => this.closeModal("practiceModal")}
-      title="Practice your bot"
-      description="このbotを練習試合させますか？ボタンを押すと練習が始まります。結果は結果一覧リストに表示されます。"
-    >
-      <button onClick={(item) => this.props.onPracticeBot(item.botId)} className="button-primary">YES</button>
-    </ModalContainer>
+  renderCheckModal() {
+    const checkModal = this.state.checkModal;
+    const item = this.state.itemModaled;
+    let status = this.formatStatus(item);
+    return(
+      <ModalContainer
+        isOpen={checkModal}
+        onRequestClose={() => this.closeModal("practiceModal")}
+        title="Check this bot's code status."
+        description=""
+      >
+        {this.renderCheckModalContent(item)}
+        <p>Your bot status {status}.</p>
+        <p>Please check your code.</p>
+        <button onClick={(item) => this.props.onPracticeBot(item.botId)} className="button-primary">Check code validity</button>
+        <hr/>
+        <p>Your bot status is not qualified.</p>
+        <p>Please practice and get qualification.</p>
+        <button onClick={(item) => this.props.onPracticeBot(item.botId)} className="button-primary">Check bot quality</button>
+      </ModalContainer>
+    )
   }
 
   renderBotModal() {
@@ -189,7 +220,7 @@ export default class BotsList extends Component {
     return(
       <div className="table">
         {this.renderBotModal()}
-        {this.renderPracticeModal()}
+        {this.renderCheckModal()}
         <table className="u-full-width">
           <thead>
             <tr>
@@ -209,7 +240,7 @@ export default class BotsList extends Component {
                   <td>{status}</td>
                   <td>{i.get("gameName")}</td>
                   <td>
-                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("botModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={() => this.renderPracticeModal(item)}>Practice</button>
+                    <button className="button detail-button margin-top-5" onClick={(e) => this.openModal("botModal", i)}>Detail</button> <button className="practice-button margin-top-5" onClick={(e) => this.openModal("checkModal", i)}>CodeCheck</button>
                   </td>
                 </tr>
               )

@@ -136,10 +136,12 @@ case "$action" in
     ;;
   docker-interact)
     docker_build
-    docker run --rm -it -p 1001:8080 --name fz fz-goruntimei bash
+    docker run --rm -it -p 1001:8080 --name fz fz-goruntimei ./start.sh sample
     ;;
-  clone-sample)
+  sample)
     clone https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0
+    build
+    # bash
     ;;
   *)
     ;;

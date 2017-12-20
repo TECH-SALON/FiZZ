@@ -17,7 +17,7 @@ func newAction() *Action{
   action.code = "NONE"
   action.x = -1
   action.y = -1
-  return &action
+  return action
 }
 
 func (action *Action) putDisk(disk [2]int) {

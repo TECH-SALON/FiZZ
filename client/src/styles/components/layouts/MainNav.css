@@ -35,6 +35,9 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+#main-nav .utility-menu .current-page {
+  background-color: rgba(216, 44, 122, 0.8);
+}
 #main-nav .utility-menu a {
   text-decoration: none;
   color: #eceff1;

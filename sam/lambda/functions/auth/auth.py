@@ -41,7 +41,7 @@ class Cognito:
         )
         return u
 
-    def return_auth(auth):
+    def return_auth(self, auth):
         ret = {
             'tokenType': auth.token_type,
             'idToken': auth.id_token,
@@ -57,7 +57,7 @@ class Cognito:
         return u.register(username, password)
 
     def login(self, username_or_alias, password):
-        u = client(username=username_or_alias)
+        u = self.client(username=username_or_alias)
         u.admin_authenticate(password=password)
         return self.return_auth(u)
 
@@ -95,7 +95,8 @@ def login(event, context):
         # Parameters Check
         username_or_alias = body['username']
         password = body['password']
-
+        print(username_or_alias)
+        print(password)
         print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
         ret = cognito.login(username_or_alias, password)
@@ -132,12 +133,16 @@ def sign_up(event, context):
         username = body['username']
         email = body['email']
         password = body['password']
+
         print(f'Info: User SignUp Request {username}:{email}')
         cognito = Cognito()
         resp = cognito.sign_up(username, email, password)
         ret = {
-            'userConfirmed': resp['UserConfirmed'],
+            "headers":  { "Access-Control-Allow-Origin" : "*" },
+            'statusCode': 200,
+            "body": json.dumps(resp['UserConfirmed'])
         }
+
         return {'statusCode': 201, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
@@ -155,7 +160,7 @@ def handler(event, context):
             print(path)
             if path == '/api/v1/auth/signup':
                 return sign_up(event, context)
-            elif path == '/auth/login':
+            elif path == '/api/v1/auth/login':
                 return login(event, context)
             elif path == '/auth/refresh':
                 pass

@@ -13,14 +13,12 @@ export const AUTH_SIGHUP_FAIL = 'AUTH_SIGHUP_FAIL';
 export function login(auth) {
   return(dispatch, getState) => {
     dispatch(loginRequest());
-    let params = new FormData();
-    // params.append('botId', botId);
-    // let url = "/api/v1/games/reversi/match";
-    // api(getState).post(url, params).then( response => {
-    //   loginSuccess(response.data);
-    // }).catch( error => {
-    //   loginFail(error);
-    // })
+    let url = `${endPoint()}/api/v1/auth/login`;
+    api(getState).post(url, auth).then( response => {
+      loginSuccess(response.data);
+    }).catch( error => {
+      loginFail(error);
+    })
   }
 }
 
@@ -48,7 +46,9 @@ export function signup(auth) {
   return(dispatch, getState) => {
     dispatch(signupRequest());
     let url = `${endPoint()}/api/v1/auth/signup`;
-    api(getState).post(url, auth).then( response => {
+    let params = new FormData();
+    params.append("auth", auth);
+    api(getState).post(url, params).then( response => {
       signupSuccess(response.data);
     }).catch( error => {
       signupFail(error);

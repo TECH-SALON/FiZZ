@@ -16,6 +16,7 @@ import Login from '../auth/Login';
 export default class NavBar extends Component {
   constructor(props) {
     super(props);
+    console.log(location);
   }
 
   isTopPage() {

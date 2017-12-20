@@ -16,9 +16,18 @@ type Context struct {
 
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること
 func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.Response, err error)  {
+
+	log.Println("Duel! Reversi")
 	response = initialzeResponse(config, bots)
 	containers, errs := ai.StartAIServer(bots)
 	utils.PrintErrs(errs)
+
+	log.Println(config)
+	log.Println(bots)
+
+	if config == nil || len(bots) == 0 {
+		return
+	}
 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)

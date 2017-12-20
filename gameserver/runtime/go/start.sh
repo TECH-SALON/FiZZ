@@ -99,7 +99,7 @@ case "$action" in
   up)
     container_id
     shift 1
-    clone $@ # <container name>
+    clone $@
     build
     run
     ;;
@@ -135,7 +135,11 @@ case "$action" in
     docker_run_command_named 1010 fz-goruntime $@
     ;;
   docker-interact)
-    docker run --rm -it -p 1001:8080 -name fz fz-goruntimei bash
+    docker_build
+    docker run --rm -it -p 1001:8080 --name fz fz-goruntimei bash
+    ;;
+  clone-sample)
+    clone https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0
     ;;
   *)
     ;;

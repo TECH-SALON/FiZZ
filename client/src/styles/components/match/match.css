@@ -5,6 +5,10 @@
   color: #eceff1;
 }
 
+.match .contents-body {
+  padding-bottom: 900px;
+}
+
 .match .page-title {
   float: left;
   font-size: 36px;

@@ -19,6 +19,7 @@ import {
 class RootContainer extends Component {
   componentWillMount() {
     let location = this.props.location
+    console.log(location.pathname);
   }
   render() {
     return (

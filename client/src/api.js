@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const endpointdev = "http://localhost:3000";
-const endpoint = "https://localhost:8080";
+const endpoint = "https://dlqe499rya.execute-api.us-east-1.amazonaws.com/fizzdev";
 
 export const endPoint = () => {
   if(process.env.NODE_ENV == 'production'){

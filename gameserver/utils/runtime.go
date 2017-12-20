@@ -6,11 +6,12 @@ import (
 )
 
 func GetRuntimeUrl(runtime string) string {
-  if runtime == "go" {
-    pwd() + "/go/"
-  }else if runtime == "js" {
+  url := pwd() + "/" + runtime
+  return url
+}
 
-  }
+func GetRuntimeImageName(runtime string) string {
+  return "fz-"+runtime+"runtimei"
 }
 
 func pwd() string {

@@ -43,7 +43,8 @@ func Game(round int, config *models.GameConfig, containers []ai.Container, first
     context.Board = b
     context.Team = getTeam((turns + firstMover)%2, firstMover)
     context.History = append(context.History, b)
-    context.MayPlayLocs = getMayPlayLocs()
+    teamint, _ := strconv.Atoi(context.Team)
+    context.MayPlayLocs = getMayPlayLocs(teamint)
 
     cxt, _ := json.Marshal(context)
     resp, err := bot.Play(string(cxt))
@@ -140,7 +141,8 @@ func getMayPlayLocs(team int) [][2]int{
   var ret [][2]int
   points := movablePos[turns]
   for i:=0; i < len(points); i++ {
-    ret = append(ret, [points[i].x - 1, points[i].y - 1])
+    value := [2]int{points[i].x - 1, points[i].y - 1}
+    ret = append(ret, value)
   }
   return ret
 }

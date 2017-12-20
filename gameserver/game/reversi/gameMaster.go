@@ -11,6 +11,7 @@ type Context struct {
   Board [8][8]int `json:"board"`
 	Team string `json:"team"`
   History [][8][8]int `json:"history"`
+  MayPlayLocs [][2]int `json:"mayPlayLocs"`
 }
 
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること

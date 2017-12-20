@@ -2,7 +2,8 @@ package main
 
 type Context struct {
   board [8][8]int `json:"board"`
-  history map[string]string `json:"history"`
+  team string `json:"team"`
+  history [][8][8]int `json:"history"`
   mayPlayLocs [][2]int `json:"mayPlayLocs"`
 }
 

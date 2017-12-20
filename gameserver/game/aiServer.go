@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"app/models"
+	"app/utils"
 	"log"
 )
 
@@ -14,9 +15,8 @@ func StartAIServer(bots []models.Bot) (containers []Container, errs []error) {
 	port := 8280
 	for i:=0; i<len(bots); i++{
 		bot := bots[i]
-		runtime := bot.Runtime
 		c := &Container{}
-		errs = append(errs, c.up(runtime, string(port), bot.Username+":"+bot.Name))
+		errs = append(errs, c.up(string(port), &bot))
 		containers = append(containers, *c)
 		port++
 	}
@@ -37,16 +37,23 @@ type Container struct {
 	BotCode string
 	store map[string]string
 	runtime string
+	resUrl string
 }
 
-func (c *Container)up(runtime, port, botCode string) (err error){
+func (c *Container)up(port string, bot *models.Bot) (err error){
 	c.port = port
-	c.BotCode = botCode
+	c.BotCode = bot.Username+":"+bot.Name
+	c.name = bot.Username+"."+bot.Name
+	c.resUrl = bot.ResourceUrl
+	c.runtime = bot.Runtime
 	//dockerfileを参照しに行かないといけない
-	cmd := exec.Command("bash", "-c", "docker run -d -p "+c.port+":8080") //fileをrepoからとってきて埋め込む
+	imageName := utils.GetRuntimeImageName(c.runtime)
+	cmd := exec.Command("bash", "-c", "docker run -d -p "+c.port+":8080 --name "+c.name+" "+imageName+" ./start.sh up "+c.resUrl) //fileをrepoからとってきて埋め込む
 	b, err := cmd.Output()
-	c.name = string(b)
-	log.Println(c.name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(b)
 	return
 }
 

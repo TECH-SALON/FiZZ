@@ -10,6 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - "./gameserver:/go/src/app"
       - "go:/go"
+    command: /go/src/app/app
     env_file:
       - ./.env.dev
     tty: true

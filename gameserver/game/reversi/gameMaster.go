@@ -3,65 +3,31 @@ package Reversi
 import (
 	"log"
 	"app/models"
+	"app/utils"
 	ai "app/game"
 )
-
-// game response
-type Response struct {
-	Bots []models.Bot `json:"bots"`
-	GameName string `json:"gameName"`
-	Rule string `json:"rule"`
-	Filter string `json:"filter"`
-	Fights []Fight `json:"fights"`
-	StartContext Context `json:"startContext"`
-	EndContext Context `json:"endContext"`
-	Error string `json:"error"`
-}
-
-type Fight struct {
-	Round int `json:round`
-	Winner string `json:"winner"`
-	Summaries []FightSummary `json:"summary"`
-	Logs []ActionLog `json:"logs"`
-	Messages string `json:"messages"`
-	totalSpan int `json:"totalSpan"`
-}
-
-type FightSummary struct {
-	BotCode string `json:"botCode"`
-	Team string `json:"team"`
-	PointPercentage float32 `json:"pointPercentage"`
-}
-
-type ActionLog struct {
-	Team string `json:"team"`
-	BotCode string `json:"botCode"`
-	ActionCode string `json:"actionCode"`
-	Params map[string]string `json:"params"`
-	Span int `json:"span"`
-}
-
-// game configuration
-type GameConfig struct {
-	Name string `json:"name"`
-	Rule string `json:"rule"`
-	Filter string `json:"filter"`
-	NumOfFights int `json:"numOfFights,string"`
-}
 
 type Context struct {
   Board [8][8]int `json:"board"`
 	Team string `json:"team"`
   History [][8][8]int `json:"history"`
+  MayPlayLocs [][2]int `json:"mayPlayLocs"`
 }
 
-
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること
-func GameMaster(config *GameConfig, bots []models.Bot) (response *Response, err error)  {
-	var containers []ai.Container
+func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.Response, err error)  {
+
+	log.Println("Duel! Reversi")
 	response = initialzeResponse(config, bots)
-	containers, _ = ai.StartAIServer(bots)
-	// err = printErr(err)
+	containers, errs := ai.StartAIServer(bots)
+	utils.PrintErrs(errs)
+
+	log.Println(config)
+	log.Println(bots)
+
+	if config == nil || len(bots) == 0 {
+		return
+	}
 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Println(countGame)
@@ -70,26 +36,13 @@ func GameMaster(config *GameConfig, bots []models.Bot) (response *Response, err 
 		log.Println("%+v\n", fight)
 		response.Fights = append(response.Fights, *fight)
 	}
-
-	_ = ai.CloseAIServer(containers)
-	// err = printErr(err)
+	utils.PrintErrs(ai.CloseAIServer(containers))
 	return
 }
 
-func initialzeResponse(config *GameConfig, bots []models.Bot) (response *Response){
-	response = &Response{
+func initialzeResponse(config *models.GameConfig, bots []models.Bot) (*models.Response){
+	return &models.Response{
 		Bots: bots,
-		GameName: config.Name,
-		Rule: config.Rule,
-		Filter: config.Filter,
+		Config: config,
 	}
-	return
-}
-
-func printErr(err error) (_ error) {
-	if err != nil {
-		log.Println(err)
-	}
-	err = nil
-	return err
 }

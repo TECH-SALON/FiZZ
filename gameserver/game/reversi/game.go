@@ -2,6 +2,7 @@ package Reversi
 
 import (
   ai "app/game"
+  "app/models"
   "encoding/json"
   "log"
   "strconv"
@@ -16,19 +17,10 @@ import (
 	3: draw
 */
 
-func Game(round int, config *GameConfig, containers []ai.Container, firstMover int) *Fight{
-  initBoard()
+func Game(round int, config *models.GameConfig, containers []ai.Container, firstMover int) *models.Fight{
 
-  fight := &Fight{
-    Round: round,
-  }
-  for i:=0; i<len(containers); i++ {
-    f := &FightSummary{
-        BotCode: containers[i].BotCode,
-        Team: getTeam(i, firstMover),
-    }
-    fight.Summaries = append(fight.Summaries, *f)
-  }
+  initBoard()
+  fight := initFight(round, containers, firstMover)
 
   //fightにログを追加する
   //勝ち負け判定
@@ -51,6 +43,8 @@ func Game(round int, config *GameConfig, containers []ai.Container, firstMover i
     context.Board = b
     context.Team = getTeam((turns + firstMover)%2, firstMover)
     context.History = append(context.History, b)
+    teamint, _ := strconv.Atoi(context.Team)
+    context.MayPlayLocs = getMayPlayLocs(teamint)
 
     cxt, _ := json.Marshal(context)
     resp, err := bot.Play(string(cxt))
@@ -64,7 +58,7 @@ func Game(round int, config *GameConfig, containers []ai.Container, firstMover i
       return fight
     }
 
-    actionLog := &ActionLog{
+    actionLog := &models.ActionLog{
       BotCode: bot.BotCode,
       Team: context.Team,
       Params: map[string]string {
@@ -81,6 +75,7 @@ func Game(round int, config *GameConfig, containers []ai.Container, firstMover i
     point.y, _ = strconv.Atoi(action["y"])
     point.color, _ = strconv.Atoi(context.Team)
 
+    //gameが1始まりっぽいのでインクリメントしてる
     point.x++
     point.y++
 
@@ -93,7 +88,22 @@ func Game(round int, config *GameConfig, containers []ai.Container, firstMover i
   return fight
 }
 
-func configureFight(fight *Fight, firstMover int, msg string){
+func initFight(round int, containers []ai.Container, firstMover int) *models.Fight{
+  //initialize fight and fightsummary
+  fight := &models.Fight{
+    Round: round,
+  }
+  for i:=0; i<len(containers); i++ {
+    f := &models.FightSummary{
+        BotCode: containers[i].BotCode,
+        Team: getTeam(i, firstMover),
+    }
+    fight.Summaries = append(fight.Summaries, *f)
+  }
+  return fight
+}
+
+func configureFight(fight *models.Fight, firstMover int, msg string){
   var winner string
   var max float32 = 0.0
   for i:=0; i<len(fight.Summaries); i++{
@@ -123,6 +133,16 @@ func adaptBoard() [8][8]int{
     for y:=1;y<=BOARD_SIZE;y++{
       ret[x-1][y-1] = board[x][y]
     }
+  }
+  return ret
+}
+
+func getMayPlayLocs(team int) [][2]int{
+  var ret [][2]int
+  points := movablePos[turns]
+  for i:=0; i < len(points); i++ {
+    value := [2]int{points[i].x - 1, points[i].y - 1}
+    ret = append(ret, value)
   }
   return ret
 }

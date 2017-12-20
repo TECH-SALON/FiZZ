@@ -6,19 +6,22 @@ import (
 	"app/game/reversi"
   "github.com/labstack/echo"
 	"app/models"
+	"log"
 )
 
 func Play(c echo.Context) error{
 	b := c.Param("bots")
 	g := c.Param("config")
+	log.Println(b)
+	log.Println(g)
 	var bots []models.Bot
-	var game *Reversi.GameConfig
+	var game *models.GameConfig
 	json.Unmarshal([]byte(b), bots)
 	json.Unmarshal([]byte(g), game)
 	return c.JSON(http.StatusOK, play(game, bots))
 }
 
-func play(config *Reversi.GameConfig, bots []models.Bot) *Reversi.Response{
+func play(config *models.GameConfig, bots []models.Bot) *models.Response{
 	response, _ := Reversi.GameMaster(config, bots)
 	return response
 }

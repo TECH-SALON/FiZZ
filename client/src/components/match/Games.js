@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch, Link} from 'react-router-dom';
-import reversiCover from '../../assets/games/reversi/reversi_cover.svg';
+import reversiImage from '../../assets/games/reversi/reversi_image.svg';
+import shogiImage from '../../assets/games/shogi/shogi_image2.svg';
+import pazzle2048Image from '../../assets/games/pazzle2048/pazzle2048_2.svg';
 
 
 export default class Games extends Component {
@@ -18,13 +20,13 @@ export default class Games extends Component {
     return(
       <div className="games">
         <div className="games-back-image"></div>
-        <div className="row margin-top-50">
+        <div className="row margin-top-150">
           <div className="four columns">
-            <div className="panel">
-              <div className="panel-image">
-                <img src={reversiCover}/>
+            <div className="games-index">
+              <div className="index-image">
+                <img src={reversiImage}/>
               </div>
-              <div className="panel-heading">
+              <div className="index-heading">
                 <h3>Reversi</h3>
               </div>
               <div className="margin-top-15">
@@ -33,8 +35,11 @@ export default class Games extends Component {
             </div>
           </div>
           <div className="four columns">
-            <div className="panel">
-              <div className="panel-heading">
+            <div className="games-index">
+              <div className="index-image">
+                <img src={shogiImage}/>
+              </div>
+              <div className="index-heading">
                 <h3>Coming soon</h3>
               </div>
               <div className="margin-top-15">
@@ -42,8 +47,11 @@ export default class Games extends Component {
             </div>
           </div>
           <div className="four columns">
-            <div className="panel">
-              <div className="panel-heading">
+            <div className="games-index">
+              <div className="index-image">
+                <img src={pazzle2048Image}/>
+              </div>
+              <div className="index-heading">
                 <h3>Coming soon</h3>
               </div>
               <div className="margin-top-15">

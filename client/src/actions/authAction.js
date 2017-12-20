@@ -1,4 +1,4 @@
-import api from '../api';
+import api, {endPoint} from '../api';
 
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_LOGIN_REQUEST = 'AUTH_LOGIN_REQUEST';
@@ -47,14 +47,12 @@ function loginFail(error){
 export function signup(auth) {
   return(dispatch, getState) => {
     dispatch(signupRequest());
-    let params = new FormData();
-    // params.append('botId', botId);
-    // let url = "/api/v1/games/reversi/match";
-    // api(getState).post(url, params).then( response => {
-    //   signupSuccess(response.data);
-    // }).catch( error => {
-    //   signupFail(error);
-    // })
+    let url = `${endPoint()}/api/v1/auth/signup`;
+    api(getState).post(url, auth).then( response => {
+      signupSuccess(response.data);
+    }).catch( error => {
+      signupFail(error);
+    })
   }
 }
 

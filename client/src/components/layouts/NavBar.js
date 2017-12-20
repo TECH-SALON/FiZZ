@@ -29,7 +29,7 @@ export default class NavBar extends Component {
   render() {
     return(
       <div id="navbar">
-        { this.isTopPage() ? <TopPageNav /> : <MainNav /> }
+        { this.isTopPage() ? <TopPageNav onSignup={this.props.onSignup} onLogin={this.props.onLogin}/> : <MainNav /> }
       </div>
     )
   }

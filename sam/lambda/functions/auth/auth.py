@@ -29,7 +29,7 @@ class Cognito:
         self.identity_client = boto3.client('cognito-identity')
         return
 
-    def client(username=None, id_token=None, refresh_token=None, access_token=None):
+    def client(self, username=None, id_token=None, refresh_token=None, access_token=None):
         u = warrant.Cognito(
             self.user_pool_id,
             self.client_id,
@@ -52,7 +52,7 @@ class Cognito:
 
 
     def sign_up(self, username, email, password):
-        u = client()
+        u = self.client()
         u.add_base_attributes(email=email)
         return u.register(username, password)
 
@@ -125,39 +125,40 @@ def refresh(event, context):
 
 
 def sign_up(event, context):
+    print("hello")
     try:
         body = json.loads(event['body'])
-
         # Parameters Check
         username = body['username']
         email = body['email']
         password = body['password']
-
         print(f'Info: User SignUp Request {username}:{email}')
         cognito = Cognito()
         resp = cognito.sign_up(username, email, password)
         ret = {
             'userConfirmed': resp['UserConfirmed'],
         }
-
         return {'statusCode': 201, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 
     return {'statusCode': 400, 'body': 'Request Failed'}
 
-
 def handler(event, context):
+    print("hello.imhere")
+    print(event)
     try:
         if event['httpMethod'] == 'GET':
             pass
         elif event['httpMethod'] == 'POST':
             path = event['path']
-            if path == '/auth/signup':
+            print(path)
+            if path == '/api/v1/auth/signup':
                 return sign_up(event, context)
             elif path == '/auth/login':
                 return login(event, context)
-            elif path == '/auth/refresh'
+            elif path == '/auth/refresh':
+                pass
         elif event['httpMethod'] == 'PUT':
             pass
         return {'statusCode': 400, 'body': 'Request Failed'}

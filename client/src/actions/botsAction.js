@@ -70,7 +70,7 @@ export function scanBots(refresh = false){
     if(!refresh && bots.get('loaded')){
       return
     }
-    let url = `https://dlqe499rya.execute-api.us-east-1.amazonaws.com/fizzdev/bots`;
+    let url = `${endPoint()}/api/v1/bots`;
     api(getState).get(url).then( response => {
       console.log(response);
       let bots = response.data;

@@ -26,6 +26,7 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 	log.Println(bots)
 
 	if config == nil || len(bots) == 0 {
+		log.Fatal("Invalid parameters")
 		return
 	}
 

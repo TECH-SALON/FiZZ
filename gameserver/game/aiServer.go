@@ -48,6 +48,7 @@ func (c *Container)up(port string, bot *models.Bot) (err error){
 	c.runtime = bot.Runtime
 	//dockerfileを参照しに行かないといけない
 	imageName := utils.GetRuntimeImageName(c.runtime)
+	log.Println(imageName)
 	cmd := exec.Command("bash", "-c", "docker run -d -p "+c.port+":8080 --name "+c.name+" "+imageName+" ./start.sh up "+c.resUrl) //fileをrepoからとってきて埋め込む
 	b, err := cmd.Output()
 	if err != nil {

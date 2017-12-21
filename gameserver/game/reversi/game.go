@@ -1,11 +1,12 @@
 package Reversi
 
 import (
-  ai "app/game"
-  "app/models"
-  "encoding/json"
   "log"
   "strconv"
+
+  ai "app/game"
+  "app/models"
+  "app/utils"
 )
 
 /*
@@ -46,8 +47,7 @@ func Game(round int, config *models.GameConfig, containers []ai.Container, first
     teamint, _ := strconv.Atoi(context.Team)
     context.MayPlayLocs = getMayPlayLocs(teamint)
 
-    cxt, _ := json.Marshal(context)
-    resp, err := bot.Play(string(cxt))
+    resp, err := bot.Play(utils.EncodeJson(context))
 
     action := resp["action"].(map[string]string)
 

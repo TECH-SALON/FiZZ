@@ -2,7 +2,6 @@ package Game
 
 import (
 	"log"
-	"os/exec"
 	"net/http"
 	"net/url"
 	"io/ioutil"
@@ -12,6 +11,7 @@ import (
 )
 
 type Container struct {
+	id string
 	name string
 	port string
 	BotCode string
@@ -20,7 +20,6 @@ type Container struct {
 	resUrl string
   startAt string
   endAt string
-	manager *DockerManager
 }
 
 func (c *Container)up(port string, bot *models.Bot) (err error){
@@ -30,15 +29,15 @@ func (c *Container)up(port string, bot *models.Bot) (err error){
 	c.resUrl = bot.ResourceUrl
 	c.runtime = bot.Runtime
 
-	dockerManager.Invoke(c)
-
+	err = dockerManager.Invoke(c)
 	return
 }
 
 func (c *Container)down() (err error){
 	log.Println(c.BotCode, " will be closed")
-	cmd := exec.Command("bash", "-c", "docker rm -f " + c.name)
-	err = cmd.Run()
+
+	err = dockerManager.Destroy(c)
+
 	if err != nil {
 		log.Fatal(err)
 	}

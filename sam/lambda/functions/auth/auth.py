@@ -45,7 +45,7 @@ class Cognito:
         ret = {
             'tokenType': auth.token_type,
             'idToken': auth.id_token,
-            'access_token': auth.access_token,
+            'accessToken': auth.access_token,
             'refreshToken': auth.refresh_token
         }
         return ret
@@ -58,7 +58,7 @@ class Cognito:
 
     def login(self, username_or_alias, password):
         u = self.client(username=username_or_alias)
-        u.admin_authenticate(password=password)
+        u.authenticate(password=password)
         return self.return_auth(u)
 
     def get_session(self, id_token):
@@ -90,17 +90,21 @@ def login(event, context):
     # Error Handling
     try:
         body = json.loads(event['body'])
-        print('body is')
-        print(body)
         # Parameters Check
         username_or_alias = body['username']
         password = body['password']
-        print(username_or_alias)
-        print(password)
         print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
         ret = cognito.login(username_or_alias, password)
-
+        return {
+            "headers":  {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Method": "POST"
+            },
+            "statusCode": 200,
+            "body": json.dumps(ret, use_decimal=True)
+        }
         return {'statusCode': 200, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
@@ -150,19 +154,17 @@ def sign_up(event, context):
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 def handler(event, context):
-    print("hello.imhere")
     print(event)
+    proxy = event['pathParameters']['proxy']
     try:
         if event['httpMethod'] == 'GET':
             pass
         elif event['httpMethod'] == 'POST':
-            path = event['path']
-            print(path)
-            if path == '/api/v1/auth/signup':
+            if proxy == 'signup':
                 return sign_up(event, context)
-            elif path == '/api/v1/auth/login':
+            elif proxy == 'login':
                 return login(event, context)
-            elif path == '/auth/refresh':
+            elif path == 'refresh':
                 pass
         elif event['httpMethod'] == 'PUT':
             pass

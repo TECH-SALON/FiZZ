@@ -37,21 +37,11 @@ class DB:
         error = {}
         return (True, error)
 
-    def create(self, accountId, gameId, name, isPrivate, repoUrl):
+    def create(self, botCode):
         # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
         item = {
-            'id': str(uuid.uuid4()),
-            'accountId': accountId,
-            'gameId': gameId,
-            'name': name,
-            'isPrivate': isPrivate,
-            'isQualified': False,
-            'isStandBy': False,
-            'repoUrl': repoUrl,
-            'rank': -1,
-            'isMatching': False,
-            'isValid': False,
+            'botCode': botCode,
             'updatedAt': utc,
             'createdAt': utc
         }
@@ -157,18 +147,13 @@ def get_bot(event, context):
 #POST /api/v1/bots/:gameName
 def create_bot(event, context):
     print(event)
-    print(event['body'])
-    print(type(event['body']))
-    print(json.loads(event['body']))
     try:
         db = DB()
         body = json.loads(event['body'])
+        username = body['username']
+        botName = body['botName']
         new_bot, error = db.create(
-            accountId=body['accountId'],
-            gameId="eeb4e9f0-f69c-4ad6-99f2-e82166188ce6",
-            name=body['name'],
-            isPrivate=body['isPrivate'],
-            repoUrl=body['repoUrl']
+            botCode = username+botName
         )
         if error is None:
             return {

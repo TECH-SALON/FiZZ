@@ -30,10 +30,14 @@ export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
 export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
-    let url = `https://dlqe499rya.execute-api.us-east-1.amazonaws.com/fizzdev/bots/${bot.gameName}`;
-    let params = new FormData();
-    params.append("bot", bot);
-    api(getState).post(url, params).then( response => {
+    let url = `${endPoint()}/bots`;
+    let testBot;
+    testBot = {
+      username: "username",
+      botName: "botName"
+    };
+    api(getState).post(url, testBot).then( response => {
+      console.log(response);
       createBotSuccess(response.data);
     }).catch( error => {
       createBotFail(error)

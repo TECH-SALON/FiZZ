@@ -1,5 +1,5 @@
 {
-   "body":"{\"username\": \"fizz2\", \"email\": \"sample3@test.local\",\"password\": \"password\"}",
+   "body":"{\"username\": \"fizz3\", \"email\": \"sample3@test.local\",\"password\": \"Passw0rd\"}",
    "resource":"/{proxy+}",
    "requestContext":{
       "resourceId":"123456",
@@ -47,7 +47,7 @@
       "Accept-Encoding":"gzip, deflate, sdch"
    },
    "pathParameters":{
-      "proxy":"/examplepath"
+      "proxy":"signup"
    },
    "httpMethod":"POST",
    "stageVariables":{

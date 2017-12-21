@@ -1,6 +1,7 @@
 // ログインしていないユーザー向けのナビゲーションメニュー
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
 
 export default class Login extends Component {
   constructor(props) {
@@ -35,6 +36,10 @@ export default class Login extends Component {
     });
   }
 
+  responseGoogle(response){
+    console.log(response);
+  }
+
   render() {
     return(
       <div className="login-form">
@@ -45,6 +50,13 @@ export default class Login extends Component {
         <button>Google</button><span>　</span>
         <button>Facebook</button><span>　</span>
         <button>Twitter</button>
+        <GoogleLogin
+          clientId="897071335358-9dqqmar2u5c4fbo48kujh92jbb58amu9.apps.googleusercontent.com"
+          buttonText="Login"
+          redirectUri="https://fizz.auth.us-east-1.amazoncognito.com/oauth2/idpresponse"
+          onSuccess={this.responseGoogle}
+          onFailure={this.responseGoogle}
+        />
         <hr/>
         <p>Use your FiZZ username and password</p>
         <form onSubmit={this.handleLogin}>

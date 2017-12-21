@@ -13,9 +13,11 @@ export const AUTH_SIGHUP_FAIL = 'AUTH_SIGHUP_FAIL';
 export function login(auth) {
   return(dispatch, getState) => {
     dispatch(loginRequest());
-    let url = `${endPoint()}/api/v1/auth/login`;
+    let url = `${endPoint()}/auth/login`;
+    console.log(url);
     api(getState).post(url, auth).then( response => {
-      loginSuccess(response.data);
+      console.log(response.data);
+      dispatch(loginSuccess(response.data));
     }).catch( error => {
       loginFail(error);
     })
@@ -28,9 +30,10 @@ function loginRequest(){
   }
 }
 
-function loginSuccess(){
+function loginSuccess(tokens){
   return {
     type: AUTH_LOGIN_SUCCESS,
+    tokens
   }
 }
 
@@ -45,10 +48,10 @@ function loginFail(error){
 export function signup(auth) {
   return(dispatch, getState) => {
     dispatch(signupRequest());
-    let url = `${endPoint()}/api/v1/auth/signup`;
-    let params = new FormData();
-    params.append("auth", auth);
-    api(getState).post(url, params).then( response => {
+    let url = `${endPoint()}/auth/signup`;
+    console.log(url);
+    api(getState).post(url, auth).then( response => {
+      console.log(response);
       signupSuccess(response.data);
     }).catch( error => {
       signupFail(error);

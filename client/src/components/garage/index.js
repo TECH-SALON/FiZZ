@@ -27,8 +27,8 @@ export default class Garage extends Component {
     onSetup: PropTypes.func.isRequired
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   componentWillMount(){

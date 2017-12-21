@@ -22,6 +22,20 @@ export default class MainMenu extends Component {
     this.logout = this.logout.bind(this);
   }
 
+  checkCurrentPath() {
+    console.log(location);
+    switch(location.pathname){
+      case "/garage":
+        return "garage"
+      case "/match":
+        return "match"
+      case "/docs":
+        return "docs"
+      default:
+        return
+    }
+  }
+
   openProfile() {
     this.setState({
       profileMenu: false,
@@ -71,16 +85,6 @@ export default class MainMenu extends Component {
   }
   renderProfileMenu() {
     return(
-      // <Menu
-      //   id="simple-menu"
-      //   anchorEl={this.state.anchorEl}
-      //   open={this.state.profileMenu}
-      //   onRequestClose={this.closeProfileMenu}
-      // >
-      //   <MenuItem onClick={() => {this.openProfile(); this.closeProfileMenu()}}>Profile</MenuItem>
-      //   <MenuItem onClick={this.handleRequestClose}>My account</MenuItem>
-      //   <MenuItem onClick={this.handleRequestClose}>Logout</MenuItem>
-      // </Menu>
       <Popover
         open={this.state.profileMenu}
         anchorEl={this.state.anchorEl}
@@ -122,9 +126,9 @@ export default class MainMenu extends Component {
           </div>
           <div className="utility-menu">
             <ul>
-              <li><Link to="/garage"><i className="material-icons">home</i><br/>GARAGE</Link></li>
-              <li><Link to="/match"><i className="material-icons">videogame_asset</i><br/>GAMES</Link></li>
-              <li><Link to="/docs"><i className="material-icons">description</i><br/>DOCS</Link></li>
+              <li className={this.checkCurrentPath() == "garage" ? "current-page" : ""}><Link to="/garage"><i className="material-icons">home</i><br/>GARAGE</Link></li>
+              <li className={this.checkCurrentPath() == "match" ? "current-page" : ""}><Link to="/match"><i className="material-icons">videogame_asset</i><br/>GAMES</Link></li>
+              <li className={this.checkCurrentPath() == "docs" ? "current-page" : ""}><Link to="/docs"><i className="material-icons">description</i><br/>DOCS</Link></li>
             </ul>
             {/* <ul>
               <li><i className="material-icons">home</i><br/>GARAGE</li>

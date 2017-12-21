@@ -25,16 +25,6 @@ export default class Reversi extends Component {
       <div className="reversi">
         <div className="reversi-back-image"></div>
         <div className="row margin-top-25">
-          <h1 className="page-title">Match</h1>
-          <div className="page-menu">
-            <ul>
-              <li><Link to="/garage">Garage</Link></li>
-              <li><Link to="/match">Match</Link></li>
-              <li><Link to="/docs">Docs</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="row margin-top-25">
           {/* Bots一覧及びアクション群 */}
           <div className="four columns">
             <div className="panel">

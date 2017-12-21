@@ -84,7 +84,7 @@ class DB:
 
         if success:
             updates = {}
-            for k, v in item:
+            for k, v in item.items():
                 if v is not None:
                     updates[k] = { 'Action': 'PUT', 'Value': v}
 
@@ -127,6 +127,7 @@ class DB:
 
 #GET /api/v1/bots
 def scan_bots(event, context):
+    print("imhere")
     print(event)
     try:
         db = DB()
@@ -213,8 +214,11 @@ def update_bot(event, context):
 def handler(event, context):
     try:
         if event['httpMethod'] == 'GET':
-            if 'botId' in event['pathParameters'].keys():
-                return get_bot(event, context)
+            if event['pathParameters']:
+                if 'botId' in event['pathParameters'].keys():
+                    return get_bot(event, context)
+                else:
+                    pass
             else:
                 return scan_bots(event, context)
         elif event['httpMethod'] == 'POST':

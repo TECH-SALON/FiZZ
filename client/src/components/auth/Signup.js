@@ -28,9 +28,9 @@ export default class Signup extends Component {
   handleSignup(event) {
     event.preventDefault();
     let auth = {
-      signupUsername: this.state.signupUsername,
-      signupEmail: this.state.signupEmail,
-      signupPassword: this.state.signupPassword,
+      username: this.state.signupUsername,
+      email: this.state.signupEmail,
+      password: this.state.signupPassword,
     };
     this.props.onSignup(auth);
     this.setState({
@@ -51,7 +51,7 @@ export default class Signup extends Component {
         <form onSubmit={this.handleSignup}>
           <label htmlFor="signupUsername">Username</label>
           <input name="signupUsername" value={this.state.signupUsername} onChange={this.handleChange} className="u-full-width" type="text" placeholder="Your username is here" id="signupUsername"/>
-          <label htmlFor="signupEmail">Password</label>
+          <label htmlFor="signupEmail">Email</label>
           <input name="signupEmail" value={this.state.signupEmail} onChange={this.handleChange} className="u-full-width" type="email" placeholder="email" id="signupEmail"/>
           <label htmlFor="signupPassword">Password</label>
           <input name="signupPassword" value={this.state.signupPassword} onChange={this.handleChange} className="u-full-width" type="password" placeholder="password" id="signupPassword"/>

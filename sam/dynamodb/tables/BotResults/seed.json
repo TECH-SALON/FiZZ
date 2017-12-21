@@ -1,4 +1,7 @@
 {
+  "username": {"S":"2eb4e3f0-f69c-4ad6-39f2-e82166188ce2"},
+  "botName#createdAt": {"S": "sampleBot#2017-11-23"},
+  "updatedAt": {"S": "2017-11-23 07:02:10.214179+00:00"},
   "id": {"S":"2eb4e3f0-f69c-4ad6-39f2-e82166188ce2"},
   "botId": {"S": "2eb4e3f0-f69c-4ad6-99f2-e82166188ce6"},
   "accountId": {"S": "ap-northeast-1:38209be3-04b3-46f1-bedd-7ef7a72f9eef"},

@@ -235,7 +235,7 @@ export default class BotsList extends Component {
             {bots.map((i) => {
               let status = this.formatStatus(i);
               return(
-                <tr key={i.get("id")}>
+                <tr key={i.get("botCode")}>
                   <td>{i.get("name")}</td>
                   <td>{status}</td>
                   <td>{i.get("gameName")}</td>

@@ -31,14 +31,8 @@ export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
     let url = `${endPoint()}/bots`;
-    let testBot;
-    testBot = {
-      username: "username",
-      botName: "botName"
-    };
-    api(getState).post(url, testBot).then( response => {
-      console.log(response);
-      createBotSuccess(response.data);
+    api(getState).post(url, bot).then( response => {
+      dispatch(createBotSuccess(response.data));
     }).catch( error => {
       createBotFail(error)
     });
@@ -74,7 +68,7 @@ export function scanBots(refresh = false){
     if(!refresh && bots.get('loaded')){
       return
     }
-    let url = `${endPoint()}/api/v1/bots`;
+    let url = `${endPoint()}/bots`;
     api(getState).get(url).then( response => {
       console.log(response);
       let bots = response.data;
@@ -110,7 +104,7 @@ export function getBot(id){
   return (dispatch, getState) => {
     dispatch(getBotRequest(id))
 
-    let url = `/api/v1/bots/${id}`
+    let url = `${endPoint()}/bots/${id}`
     api(getState).get(url).then( response => {
       getBotSuccess(response.data);
     }).catch( error => {

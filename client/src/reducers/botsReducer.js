@@ -7,6 +7,7 @@ import {
 // } from './matchReducer';
 
 import {
+  BOTS_CREATE_BOT_REQUEST,
   BOTS_CREATE_BOT_SUCCESS,
   BOTS_SCAN_BOTS_SUCCESS,
   BOTS_SCAN_BOTS_REQUEST,
@@ -22,22 +23,27 @@ export const initialState = IMap({
   items: IList(),
   loaded: false,
   isLoading: true,
+  createCompleted: false,
   error: IMap(),
 });
 
 const botToMap = (bot) => {
+  var result = bot.botCode.split('#');
+  var username = result[0];
+  var name = result[1];
   let mappedBot = IMap({
-    id: bot.id,
-    accountId: bot.accountId,
+    botCode: bot.botCode,
+    username: username,
+    name: name,
     gameName: bot.gameName,
-    name: bot.name,
     isPrivate: bot.isPrivate,
     isQualified: bot.isQualified,
     isStandBy: bot.isStandBy,
     isValid: bot.isValid,
     isMatching: bot.isMatching,
+    description: bot.description,
     rank: bot.rank,
-    repoUrl: bot.repoUrl,
+    resourceUrl: bot.resourceUrl,
     updatedAt: bot.updatedAt,
     createdAt: bot.createdAt
     // matchSummaries: matchSummariesToList(bot.matchSummaries),
@@ -63,8 +69,6 @@ const scanBots = (state, bots) => {
   bots.Items.forEach((b, i) => {
     items = items.set(i, botToMap(b))
   });
-
-  // console.log(bots.Items[0].isValid);
   return state
     .set('items', items)
     .set('loaded', true)
@@ -73,8 +77,12 @@ const scanBots = (state, bots) => {
 
 const addBot = (state, bot) => {
   return state
-    .update('items', list => list.concat(botToMap(bot)))
-    .set('isLoading', false)
+    .set('createCompleted', true)
+}
+
+const createBotRequest = (state) => {
+  return state
+    .set('createCompleted', false)
 }
 
 const updateBot = (state, bot) => {
@@ -93,6 +101,8 @@ const updateBot = (state, bot) => {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
+  case BOTS_CREATE_BOT_REQUEST:
+    return createBotRequest(state);
   case BOTS_CREATE_BOT_SUCCESS:
     return addBot(state, action.bot);
   case BOTS_STAND_BOT_SUCCESS:

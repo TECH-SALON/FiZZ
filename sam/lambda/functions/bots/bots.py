@@ -37,11 +37,14 @@ class DB:
         error = {}
         return (True, error)
 
-    def create(self, botCode):
+    def create(self, botCode, gameName, resourceUrl, description):
         # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
         item = {
             'botCode': botCode,
+            'gameName': gameName,
+            'resourceUrl': resourceUrl,
+            'description': description,
             'updatedAt': utc,
             'createdAt': utc
         }
@@ -151,9 +154,15 @@ def create_bot(event, context):
         db = DB()
         body = json.loads(event['body'])
         username = body['username']
-        botName = body['botName']
+        botName = body['name']
+        gameName = body['gameName']
+        resourceUrl = body['resourceUrl']
+        description = body['description']
         new_bot, error = db.create(
-            botCode = username+botName
+            botCode = username+'#'+botName,
+            gameName = gameName,
+            resourceUrl = resourceUrl,
+            description = description
         )
         if error is None:
             return {

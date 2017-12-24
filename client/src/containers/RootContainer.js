@@ -21,39 +21,52 @@ class RootContainer extends Component {
     console.log(this.props);
   }
   render() {
-    const { logined } = this.props;
-    if(logined) {
-      return (
-        <div>
-          <NavBar onLogin={this.props.onLogin} onSignup={this.props.onSignup}/>
-          <Switch>
-              <Route path="/garage" component={GarageContainer}/>
-              <Route path="/match" component={MatchContainer}/>
-              <Route path="/docs" component={DocsContainer}/>
-              <Route render={() => {
-                return(
-                  <Redirect to="/garage"/>
-                );
-              }}/>
-          </Switch>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <NavBar onLogin={this.props.onLogin} onSignup={this.props.onSignup}/>
-          <Switch>
-              <Route exact path="/" component={TopPage}/>
-              <Route render={() => {
-                return(
-                  <Redirect to="/"/>
-                );
-              }}/>
-          </Switch>
-        </div>
-      )
-    }
+    return(
+      <div>
+        <NavBar onLogin={this.props.onLogin} onSignup={this.props.onSignup}/>
+        <Switch>
+            <Route exact path="/" component={TopPage}/>
+            <Route path="/garage" component={GarageContainer}/>
+            <Route path="/match" component={MatchContainer}/>
+            <Route path="/docs" component={DocsContainer}/>
+        </Switch>
+      </div>
+    )
   }
+  // render() {
+  //   const { logined } = this.props;
+  //   if(logined) {
+  //     return (
+  //       <div>
+  //         <NavBar onLogin={this.props.onLogin} onSignup={this.props.onSignup}/>
+  //         <Switch>
+  //             <Route path="/garage" component={GarageContainer}/>
+  //             <Route path="/match" component={MatchContainer}/>
+  //             <Route path="/docs" component={DocsContainer}/>
+  //             <Route render={() => {
+  //               return(
+  //                 <Redirect to="/garage"/>
+  //               );
+  //             }}/>
+  //         </Switch>
+  //       </div>
+  //     )
+  //   } else {
+  //     return (
+  //       <div>
+  //         <NavBar onLogin={this.props.onLogin} onSignup={this.props.onSignup}/>
+  //         <Switch>
+  //             <Route exact path="/" component={TopPage}/>
+  //             <Route render={() => {
+  //               return(
+  //                 <Redirect to="/"/>
+  //               );
+  //             }}/>
+  //         </Switch>
+  //       </div>
+  //     )
+  //   }
+  // }
 }
 
 function select(state) {

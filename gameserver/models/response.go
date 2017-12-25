@@ -1,12 +1,11 @@
 package models
 
 type Response struct {
+	Success bool `json:"success,string"`
 	Bots []Bot `json:"bots"`
 	Config *GameConfig `json:"config"`
 	Fights []Fight `json:"fights"`
-	StartContext *Context `json:"startContext"`
-	EndContext *Context `json:"endContext"`
-	Error string `json:"error"`
+	Error *Err `json:"error"`
 }
 
 type Fight struct {
@@ -14,8 +13,8 @@ type Fight struct {
 	Winner string `json:"winner"`
 	Summaries []FightSummary `json:"summary"`
 	Logs []ActionLog `json:"logs"`
-	Messages string `json:"messages"`
-	totalSpan int `json:"totalSpan"`
+	Message string `json:"message"`
+	TotalSpan int `json:"totalSpan"`
 }
 
 type FightSummary struct {
@@ -32,4 +31,7 @@ type ActionLog struct {
 	Span int `json:"span"`
 }
 
-type Context interface {}
+type Err struct {
+	At string `json:"at"`
+	Message string `json:message`
+}

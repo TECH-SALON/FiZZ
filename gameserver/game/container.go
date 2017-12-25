@@ -11,10 +11,10 @@ import (
 )
 
 type Container struct {
+	BotCode string
 	id string
 	name string
 	port string
-	BotCode string
 	store map[string]string
 	runtime string
 	resUrl string

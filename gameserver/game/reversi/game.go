@@ -115,7 +115,7 @@ func configureFight(fight *models.Fight, firstMover int, msg string){
       max = s.PointPercentage
     }
   }
-  fight.Messages = msg
+  fight.Message = msg
   fight.Winner = winner
 }
 

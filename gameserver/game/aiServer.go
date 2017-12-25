@@ -2,6 +2,8 @@ package game
 
 import (
 	"log"
+	"strconv"
+
 	"app/models"
 )
 
@@ -20,7 +22,7 @@ func StartAIServer(bots []models.Bot) (containers []Container, errs []error) {
 	for i:=0; i<len(bots); i++{
 		bot := bots[i]
 		c := &Container{}
-		errs = append(errs, c.up(string(port), &bot))
+		errs = append(errs, c.up(strconv.Itoa(port), &bot))
 		containers = append(containers, *c)
 		port++
 	}
@@ -35,6 +37,6 @@ func CloseAIServer(containers []Container) (errs []error) {
 
 	e := dockerManager.Deinit()
 	errs = append(errs, e...)
-	log.Println("close AI server.")
+	log.Println("Close AI server.")
 	return
 }

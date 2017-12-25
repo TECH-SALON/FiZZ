@@ -53,7 +53,7 @@ func (d *DockerManager)Deinit() []error{
 }
 
 func (d *DockerManager)Invoke(c *Container) error{
-  log.Printf("Creating Container %s(%s)\n", c.BotCode, c.runtime)
+  log.Printf("Invoke> Creating Container %s (%s)\n", c.BotCode, c.runtime)
 
 	imageName := utils.GetRuntimeImageName(c.runtime)
   config := &container.Config{
@@ -66,14 +66,25 @@ func (d *DockerManager)Invoke(c *Container) error{
     },
   }
 
+  log.Println(host)
+
   resp, err := d.client.ContainerCreate(d.context, config, host, nil, c.name)
   c.id = resp.ID
+  log.Printf("Invoke> Created %s CID: %s\n", c.BotCode, c.id)
+
+  if err != nil{
+    log.Fatal(err)
+    log.Printf("Invoke> Destroy Container %s\n", c.BotCode)
+    d.Destroy(c)
+  }
   return err
 }
 
 func (d *DockerManager)Destroy(c *Container) error{
+  log.Printf("Destroy> destorying docker container %s\n", c.BotCode)
   if c.id == "" {
-    return fmt.Errorf("Error: No ID container <%s> cannot be destoried.", c.name)
+    log.Println("Destroy> cannot destory empty container id")
+    return fmt.Errorf("Destroy> ERROR: No ID container <%s> cannot be destoried.", c.name)
   }
   options := types.ContainerRemoveOptions{Force: true}
   err := d.client.ContainerRemove(d.context, c.id, options)

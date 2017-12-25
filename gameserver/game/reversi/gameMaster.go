@@ -16,34 +16,48 @@ type Context struct {
 
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること
 func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.Response, err error)  {
-
 	log.Println("Duel! Reversi")
+	log.Println(config)
+
 	response = initialzeResponse(config, bots)
 	containers, errs := ai.StartAIServer(bots)
+
 	utils.PrintErrs(errs)
 
-	log.Println(config)
-	log.Println(bots)
+	if len(errs) != 0 {
+		log.Println("GameMaster> Exit with start ai server errors.")
+		response.Error.At = "START_AI_SERVER"
+		return
+	}
 
 	if config == nil || len(bots) == 0 {
 		log.Fatal("Invalid parameters")
+		response.Error.At = "REQUEST"
+		response.Error.Message = "INVALID_PARAMS"
 		return
 	}
 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
-		log.Println(countGame)
+		log.Printf("GameMaster> Fight! Count %s\n", countGame+1)
 
 		fight := Game(countGame+1, config, containers, countGame%2)
-		log.Println("%+v\n", fight)
+		log.Printf("%+v\n", fight)
+		log.Printf("GameMaster> Fight %s done. The winner is %s\n", countGame+1, fight.Winner)
+		log.Printf("GameMaster> Fight %s total span %s\n", countGame+1, fight.TotalSpan)
+		log.Printf("GameMaster> Fight %s message %s\n", countGame+1, fight.Message)
 		response.Fights = append(response.Fights, *fight)
 	}
 	utils.PrintErrs(ai.CloseAIServer(containers))
+
+	response.Success = true
 	return
 }
 
 func initialzeResponse(config *models.GameConfig, bots []models.Bot) (*models.Response){
 	return &models.Response{
+		Success: false,
 		Bots: bots,
 		Config: config,
+		Error: &models.Err{},
 	}
 }

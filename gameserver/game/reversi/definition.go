@@ -1,4 +1,4 @@
-package Reversi
+package reversi
 
 const EMPTY int = 0
 const WHITE int = -1

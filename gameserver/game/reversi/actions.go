@@ -1,4 +1,4 @@
-package Reversi
+package reversi
 
 func move(point Point) bool {
   if point.x < 1 || point.x > BOARD_SIZE { return false }

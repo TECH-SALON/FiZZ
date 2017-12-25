@@ -23,6 +23,6 @@ func Play(c echo.Context) (err error){
 }
 
 func play(config *models.GameConfig, bots []models.Bot) *models.Response{
-	response, _ := Reversi.GameMaster(config, bots)
+	response, _ := reversi.GameMaster(config, bots)
 	return response
 }

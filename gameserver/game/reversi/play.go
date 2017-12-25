@@ -1,4 +1,4 @@
-package Reversi
+package reversi
 
 import (
   "math/rand"

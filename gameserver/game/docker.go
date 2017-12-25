@@ -1,4 +1,4 @@
-package Game
+package game
 
 import (
   "github.com/docker/go-connections/nat"

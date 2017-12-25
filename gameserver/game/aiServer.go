@@ -26,6 +26,7 @@ func StartAIServer(bots []models.Bot) (containers []Container, errs []error) {
 		containers = append(containers, *c)
 		port++
 	}
+
 	return
 }
 

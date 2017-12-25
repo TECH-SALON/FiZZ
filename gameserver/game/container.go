@@ -29,12 +29,13 @@ func (c *Container)up(port string, bot *models.Bot) (err error){
 	c.resUrl = bot.ResourceUrl
 	c.runtime = bot.Runtime
 
+	log.Println(c.BotCode + " is starting up")
 	err = dockerManager.Invoke(c)
 	return
 }
 
 func (c *Container)down() (err error){
-	log.Println(c.BotCode, " will be closed")
+	log.Println(c.BotCode + " is being closed")
 
 	err = dockerManager.Destroy(c)
 
@@ -45,6 +46,7 @@ func (c *Container)down() (err error){
 }
 
 func (c *Container)Play(context string) (response map[string]interface{}, err error) {
+	log.Printf("Play> %s will play.\n", c.BotCode)
 	v := url.Values{}
 	v.Set("context", context)
 	v.Add("store", utils.EncodeJson(c.store))
@@ -57,5 +59,6 @@ func (c *Container)Play(context string) (response map[string]interface{}, err er
 	body, err = ioutil.ReadAll(resp.Body)
 	response = utils.DecodeJson(body)
 	c.store = response["store"].(map[string]string)
+	log.Printf("Play> %s played.\n", c.BotCode)
 	return
 }

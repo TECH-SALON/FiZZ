@@ -17,3 +17,14 @@ func PrintErrs(errs []error) {
 		PrintErr(errs[i])
 	}
 }
+
+func CheckErrs(errs []error) bool{
+  flg := false
+  for _, err := range errs {
+    if err != nil{
+		    log.Println(err)
+        flg = true
+    }
+  }
+  return flg
+}

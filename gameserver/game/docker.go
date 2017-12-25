@@ -42,7 +42,7 @@ func (d *DockerManager)Deinit() []error{
     return []error{err}
   }
 
-  options := types.ContainerRemoveOptions{Force: true}
+  options := types.ContainerRemoveOptions{}
   var errs []error
   for _, container := range cs {
     err = d.client.ContainerRemove(d.context, container.ID, options)
@@ -66,8 +66,6 @@ func (d *DockerManager)Invoke(c *Container) error{
     },
   }
 
-  log.Println(host)
-
   resp, err := d.client.ContainerCreate(d.context, config, host, nil, c.name)
   c.id = resp.ID
   log.Printf("Invoke> Created %s CID: %s\n", c.BotCode, c.id)
@@ -88,5 +86,14 @@ func (d *DockerManager)Destroy(c *Container) error{
   }
   options := types.ContainerRemoveOptions{Force: true}
   err := d.client.ContainerRemove(d.context, c.id, options)
+  if err == nil{
+    c.id = ""
+  }
   return err
 }
+
+// func (d *DockerManager)CheckStatus(c *Container) (result bool, err error){
+//   cs, err := d.client.ContainerList(d.context, types.ContainerListOptions{Filter: filters.Args{
+//       fields: {"id": }
+//     }})
+// }

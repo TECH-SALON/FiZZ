@@ -21,10 +21,9 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 
 	response = initialzeResponse(config, bots)
 	containers, errs := ai.StartAIServer(bots)
+	defer utils.PrintErrs(ai.CloseAIServer(containers))
 
-	utils.PrintErrs(errs)
-
-	if len(errs) != 0 {
+	if utils.CheckErrs(errs) {
 		log.Println("GameMaster> Exit with start ai server errors.")
 		response.Error.At = "START_AI_SERVER"
 		return
@@ -38,16 +37,15 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 	}
 
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
-		log.Printf("GameMaster> Fight! Count %s\n", countGame+1)
+		log.Printf("GameMaster> Fight! Count %d\n", countGame+1)
 
 		fight := Game(countGame+1, config, containers, countGame%2)
 		log.Printf("%+v\n", fight)
-		log.Printf("GameMaster> Fight %s done. The winner is %s\n", countGame+1, fight.Winner)
-		log.Printf("GameMaster> Fight %s total span %s\n", countGame+1, fight.TotalSpan)
-		log.Printf("GameMaster> Fight %s message %s\n", countGame+1, fight.Message)
+		log.Printf("GameMaster> Fight %d done. The winner is %s\n", countGame+1, fight.Winner)
+		log.Printf("GameMaster> Fight %d total span %d\n", countGame+1, fight.TotalSpan)
+		log.Printf("GameMaster> Fight %d message %s\n", countGame+1, fight.Message)
 		response.Fights = append(response.Fights, *fight)
 	}
-	utils.PrintErrs(ai.CloseAIServer(containers))
 
 	response.Success = true
 	return

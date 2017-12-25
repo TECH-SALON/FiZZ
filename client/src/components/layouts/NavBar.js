@@ -16,7 +16,6 @@ import Login from '../auth/Login';
 export default class NavBar extends Component {
   constructor(props) {
     super(props);
-    console.log(location);
   }
 
   isTopPage() {
@@ -30,7 +29,10 @@ export default class NavBar extends Component {
   render() {
     return(
       <div id="navbar">
-        { this.isTopPage() ? <TopPageNav onSignup={this.props.onSignup} onLogin={this.props.onLogin}/> : <MainNav /> }
+        { this.isTopPage() ?
+          <TopPageNav onSignup={this.props.onSignup} onLogin={this.props.onLogin}/>
+          : <MainNav onLogout={this.props.onLogout} tokens={this.props.tokens}/>
+        }
       </div>
     )
   }

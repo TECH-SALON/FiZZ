@@ -19,7 +19,7 @@ export const MATCHES_GET_FIGHTS_LOG_FAIL = 'MATCHES_GET_FIGHTS_LOG_FAIL';
 export function scanResults() {
   return(dispatch, getState) => {
     dispatch(scanResultsRequest());
-    let url = `${endPoint()}/api/v1/matches`;
+    let url = `${endPoint()}/matches`;
     // let params = new FormData();
     // params.append('gameName', gameName);
     api(getState).get(url).then( response => {

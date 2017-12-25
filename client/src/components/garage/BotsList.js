@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import DetailModal from '../utils/DetailModal';
 import ModalContainer from '../utils/Modal';
 import Spinner from 'react-spinkit';
 
@@ -29,15 +30,18 @@ export default class BotsList extends Component {
         createdAt: "",
         updatedAt: ""
       },
+      nameIsEditing: false,
+      privateIsEditing: false,
       itemEdited: {
-        id: "",
+        botCode: "",
         name: "",
-        isPrivate: ""
+        isPrivate: "",
       },
       isEditing: false
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.canselEdit = this.canselEdit.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.editBot = this.editBot.bind(this);
@@ -98,18 +102,11 @@ export default class BotsList extends Component {
     })
   }
 
-  toggleEdit() {
-    const {isEditing, itemModaled} = this.state;
-    if(!isEditing) {
-      this.setState({
-        itemEdited: {
-          id: itemModaled.id,
-          name: itemModaled.name,
-          isPrivate: itemModaled.isPrivate
-        },
-      })
-    };
+  toggleEdit(item) {
+    const state = this.state[item];
+    const isEditing = this.state.isEditing;
     this.setState({
+      [item]: !state,
       isEditing: !isEditing
     })
   }
@@ -157,28 +154,45 @@ export default class BotsList extends Component {
       </ModalContainer>
     )
   }
+  canselEdit() {
+    this.setState({
+      isEditing: false,
+      nameIsEditing: false,
+      privateIsEditing: false
+    })
+  }
 
   renderBotModal() {
-    const { botModal, itemModaled, itemEdited, isEditing } = this.state;
+    const { botModal, itemModaled, itemEdited, isEditing, nameIsEditing, privateIsEditing } = this.state;
     return(
-      <ModalContainer
+      <DetailModal
         isOpen={botModal}
         onRequestClose={() => this.closeModal("botModal")}
+        onCanselEdit={() => this.canselEdit()}
         title="Bot's detail"
         description="Botの情報。名前やURLを修正できます。"
+        isEditing={isEditing}
       >
         <table className="u-full-width">
           <tbody>
             <tr>
               <th>Name</th>
-              <td>{isEditing ?
+              <td>{nameIsEditing ?
                 <input name="name" type="text" value={itemEdited.name} onChange={this.handleChange}/>
                 : itemModaled.name}
               </td>
+              <td>{nameIsEditing ? <a onClick={() => this.toggleEdit('nameIsEditing')}>Cansel</a> : <i onClick={() => this.toggleEdit('nameIsEditing')} className="material-icons edit-icon">mode_edit</i> }</td>
             </tr>
             <tr>
               <th>isPrivate</th>
-              <td>{itemModaled.isPrivate ? "Private" : "Public"}</td>
+              {privateIsEditing ?
+                <td>
+                  <input type="radio" name="isPrivate" value="private"/>　Private　
+                  <input type="radio" name="isPrivate" value="public"/>　Public
+                </td>
+                : <td>{itemModaled.isPrivate ? "Private" : "Public"}</td>
+              }
+              <td>{privateIsEditing ? "" : <i onClick={() => this.toggleEdit('privateIsEditing')} className="material-icons edit-icon">mode_edit</i>}</td>
             </tr>
             <tr>
               <th>GameName</th>
@@ -203,15 +217,7 @@ export default class BotsList extends Component {
             </tr>
           </tbody>
         </table>
-        {isEditing ?
-          <div>
-            <button className="button-primary" onClick={this.editBot}>Save</button>
-            <button className="button-primary" onClick={this.toggleEdit}>Cansel</button>
-          </div>
-          : <button className="button-primary" onClick={this.toggleEdit}>Edit</button>
-        }
-
-      </ModalContainer>
+      </DetailModal>
     )
   }
 
@@ -219,6 +225,7 @@ export default class BotsList extends Component {
     const { bots, botsLoading } = this.props;
     return(
       <div className="table">
+
         {this.renderBotModal()}
         {this.renderCheckModal()}
         <table className="u-full-width">
@@ -235,7 +242,7 @@ export default class BotsList extends Component {
             {bots.map((i) => {
               let status = this.formatStatus(i);
               return(
-                <tr key={i.get("id")}>
+                <tr key={i.get("botCode")}>
                   <td>{i.get("name")}</td>
                   <td>{status}</td>
                   <td>{i.get("gameName")}</td>

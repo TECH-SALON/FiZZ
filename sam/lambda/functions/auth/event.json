@@ -47,7 +47,7 @@
       "Accept-Encoding":"gzip, deflate, sdch"
    },
    "pathParameters":{
-      "proxy":"/examplepath"
+      "proxy":"login"
    },
    "httpMethod":"POST",
    "stageVariables":{

@@ -48,7 +48,9 @@
   margin-top: 200px;
 }
 
-
+a:hover {
+  cursor: pointer;
+}
 /* Larger than mobile */
 @media (min-width: 400px) {
   #app .container {

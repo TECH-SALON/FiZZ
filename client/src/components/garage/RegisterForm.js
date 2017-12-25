@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import ModalContainer from '../utils/Modal';
+import CreateModal from '../utils/CreateModal';
+import CircularProgressbar from 'react-circular-progressbar';
+
 
 export default class RegisterForm extends Component {
 
@@ -14,13 +16,14 @@ export default class RegisterForm extends Component {
 
   constructor() {
     super();
-
     this.state = {
-      modalIsOpen: false,
+      progress: 0,
       botName: "",
       gameName: "",
-      url: "",
-      comment: ""
+      runtime: "",
+      isPrivate: false,
+      resourceUrl: "",
+      description: ""
     };
 
     this.openModal = this.openModal.bind(this);
@@ -45,45 +48,83 @@ export default class RegisterForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let bot = {
+      username: "sampleUser",
       name: this.state.botName,
       gameName: this.state.gameName,
-      url: this.state.url,
-      comment: this.state.comment
+      resourceUrl: this.state.resourceUrl,
+      description: this.state.description
     };
     this.props.onCreateBot(bot);
     this.setState({
+      progress: 20,
+      loading: true,
       botName: "",
       gameId: 0,
-      url: "",
-      comment: "",
+      resourceUrl: "",
+      description: "",
     });
+    setTimeout(() => {
+      this.setState({
+        progress: 50
+      })
+    },300)
+  }
+
+  renderForm() {
+    return(
+      <form>
+        <label htmlFor="botName">Bot name:</label>
+        <input name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
+        <label htmlFor="repositoryUrl">Repository URL:</label>
+        <input name="resourceUrl" value={this.state.resourceUrl} onChange={this.handleChange} className="u-full-width" type="text" placeholder="repository resourceUrl" id="repositoryUrl"/>
+        <label htmlFor="gameName">Game name:</label>
+        <select name="gameName" value={this.state.gameName} onChange={this.handleChange} className="u-full-width">
+          <option>Please select</option>
+          <option value="Reversi">Reversi</option>
+        </select>
+        <label htmlFor="botComment">Comment:</label>
+        <textarea name="description" value={this.state.description} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
+      </form>
+    )
+  }
+  renderProgress(createCompleted) {
+    if(createCompleted) {
+      setTimeout(() => {
+        this.setState({
+          loading: false,
+          modalIsOpen: false
+        })
+      },1500)
+    }
+    return(
+      <div className="progress-container">
+        <CircularProgressbar
+          strokeWidth={6}
+          percentage={createCompleted ? 100 : this.state.progress}
+          textForPercentage={(percentage) => {
+               return percentage === 100 ? `${percentage}%!!` : `${percentage}%`;
+             }}
+        />
+      </div>
+    )
   }
 
   render() {
+    const { loading } = this.state;
+    const { createCompleted } = this.props;
     return(
       <div>
         <button className="button-primary" onClick={this.openModal}>Add New</button>
-        <ModalContainer
+        <CreateModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
+          onSubmit={this.handleSubmit}
           title="Add your Bot"
           description="Botを登録しましょう"
+          loading={loading}
         >
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="botName">Bot name:</label>
-            <input name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
-            <label htmlFor="repositoryUrl">Repository URL:</label>
-            <input name="url" value={this.state.url} onChange={this.handleChange} className="u-full-width" type="text" placeholder="repository url" id="repositoryUrl"/>
-            <label htmlFor="gameName">Game name:</label>
-            <select name="gameName" value={this.state.gameName} onChange={this.handleChange} className="u-full-width">
-              <option>Please select</option>
-              <option value="Reversi">Reversi</option>
-            </select>
-            <label htmlFor="botComment">Comment:</label>
-            <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
-            <input className="button-primary" type="submit" value="Submit"/>
-          </form>
-        </ModalContainer>
+          {loading ? this.renderProgress(createCompleted) : this.renderForm()}
+        </CreateModal>
       </div>
     )
   }

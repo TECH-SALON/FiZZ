@@ -4,6 +4,7 @@ import bots from './botsReducer';
 import games from './gamesReducer';
 import matches from './matchesReducer';
 import accounts from './accountsReducer';
+import auth from './authReducer';
 
 const reducers = {
   router,
@@ -11,6 +12,7 @@ const reducers = {
   games,
   matches,
   accounts,
+  auth
 }
 
 export default combineReducers(reducers)

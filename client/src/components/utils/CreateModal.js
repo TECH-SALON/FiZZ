@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 
-export default class ModalContainer extends Component {
+export default class CreateModal extends Component {
   constructor(props) {
     super(props);
     this.state = {

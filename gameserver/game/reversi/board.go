@@ -1,4 +1,4 @@
-package Reversi
+package reversi
 
 //ボードに関しての関数群
 

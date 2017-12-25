@@ -8,6 +8,11 @@ import (
   "fmt"
 )
 
+type Request struct {
+  context Context `json:"context"`
+  store map[string]string `json:"store"`
+}
+
 type Response struct {
   action Action `json:"action"`
   context Context `json:"context"`
@@ -15,7 +20,8 @@ type Response struct {
 }
 
 func main(){
-	log.Println("http server is running")
+	log.Println("Server is running.")
+  defer log.Println("Server is down.")
 	http.HandleFunc("/", run)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
@@ -23,17 +29,15 @@ func main(){
 	}
 }
 
-func parseInput(input []byte) (*Action, *Context, map[string]string){
-  var action Action
+func parseInput(input []byte) (*Context, map[string]string){
   var context Context
   var store map[string]string
 
-  response := decodeJson(input)
-  action = response["action"].(Action)
-  context = response["context"].(Context)
-  store = response["store"].(map[string]string)
+  req := decodeJson(input)
+  context = req.context
+  store = req.store
 
-  return &action, &context, store
+  return &context, store
 }
 
 func encodeJson(a interface{}) string {
@@ -45,10 +49,10 @@ func encodeJson(a interface{}) string {
 	return string(ret)
 }
 
-func decodeJson(j []byte)map[string]interface{}{
-	var response map[string]interface{}
-	json.Unmarshal(j, &response)
-	return response
+func decodeJson(j []byte) *Request{
+  var req *Request = new(Request)
+	json.Unmarshal(j, req)
+	return req
 }
 
 func run(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +70,13 @@ func run(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err) //負け
       }
 
-      action, context, store := parseInput(body)
+      context, store := parseInput(body)
+
+      log.Println("Start handler.")
+      log.Println(context)
+      log.Println(store)
+
+      action := newAction()
 
       handler(action, context, store)
 

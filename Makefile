@@ -1,5 +1,5 @@
 init:
-	cp .env.dev.sample .env.dev
+	cp 	--no-clobber .env.dev.sample .env.dev
 	docker-compose build
 	docker-compose run --rm webpack yarn install
 	docker-compose up -d
@@ -31,19 +31,18 @@ gosh:
 	$(GOP) bash
 goet:
 	$(GO) go get ${ARG}
-goom:
-	docker-compose run -p 5000:5000 --rm -d go go build && /go/src/app/app
 
 go-app:
 	make gopp
 go-build:
 	make gold
 go-bash:
-	make gosh
+	docker-compose run --rm go bash
 go-get:
 	make goet ARG=${ARG}
 go-run:
-	make goom
+	@make gold
+	docker-compose restart go
 
 JS = docker-compose run --rm webpack
 

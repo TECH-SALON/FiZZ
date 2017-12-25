@@ -12,7 +12,7 @@ function clone(){
 
 function build(){
   go-wrapper download
-  go-wrapper install
+  go build
 }
 
 function run(){
@@ -71,6 +71,11 @@ function docker_clone(){
 
 function container_id(){
   cat /proc/self/cgroup | grep 'docker' | sed 's/^.*\///' | tail -n1
+}
+
+function clone_and_build_for_validate(){
+  clone https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0
+  build
 }
 
 function help(){
@@ -139,11 +144,20 @@ case "$action" in
     docker run --rm -it -p 1001:8080 --name fz fz-goruntimei ./start.sh sample
     ;;
   sample)
+    bash
+    ;;
+  validate)
+    docker_build
+    docker run --rm fz-goruntimei ./start.sh validate_cb
+    ;;
+  validate_cb)
     clone https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0
     build
-    # bash
+    echo "done"
     ;;
   *)
     ;;
   #/start.sh docker-rebuild-test ./start.sh up https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0
 esac
+
+# start.shを編集したら、imageをつくりなおさないと駄目です

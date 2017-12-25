@@ -2,26 +2,27 @@ package reversi
 
 import (
 	"net/http"
-	"encoding/json"
 	"app/game/reversi"
   "github.com/labstack/echo"
 	"app/models"
 	"log"
 )
 
-func Play(c echo.Context) error{
-	b := c.Param("bots")
-	g := c.Param("config")
-	log.Println(b)
-	log.Println(g)
-	var bots []models.Bot
-	var game *models.GameConfig
-	json.Unmarshal([]byte(b), bots)
-	json.Unmarshal([]byte(g), game)
-	return c.JSON(http.StatusOK, play(game, bots))
+type Request struct {
+	Bots []models.Bot `json:"bots" form:"bots"`
+	Config models.GameConfig `json:"config" form:"config"`
+}
+
+func Play(c echo.Context) (err error){
+	req := new(Request)
+	if err = c.Bind(req); err != nil {
+		return
+	}
+	log.Println(req)
+	return c.JSON(http.StatusOK, play(&req.Config, req.Bots))
 }
 
 func play(config *models.GameConfig, bots []models.Bot) *models.Response{
-	response, _ := Reversi.GameMaster(config, bots)
+	response, _ := reversi.GameMaster(config, bots)
 	return response
 }

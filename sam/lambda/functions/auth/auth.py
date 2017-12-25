@@ -79,9 +79,14 @@ class Cognito:
             }
         return self.identity_client.get_credentials_for_identity(**params)
 
-    def refresh(self, refresh_token, access_token):
-        u = client(refresh_token=refresh_token, access_token=access_token)
-        u.check_token()
+    def refresh(self, refresh_token):
+        u = self.client(refresh_token=refresh_token)
+        u.renew_access_token()
+        return self.return_auth(u)
+
+    def logout(self, id_token, access_token, refresh_token):
+        u = self.client(id_token=id_token, access_token=access_token, refresh_token=refresh_token)
+        u.logout()
         return self.return_auth(u)
 
 ####################### API #########################
@@ -105,7 +110,6 @@ def login(event, context):
             "statusCode": 200,
             "body": json.dumps(ret, use_decimal=True)
         }
-        return {'statusCode': 200, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 
@@ -117,20 +121,25 @@ def refresh(event, context):
         body = json.loads(event['body'])
 
         # header?
-        access_token = body['access_token']
-        refresh_token = body['refresh_token']
+        refresh_token = body['refreshToken']
 
         cognito = Cognito()
-        resp = cognito.refresh(refresh_token, access_token)
-
-        return {'statusCode': 200, 'body': json.dumps(resp)}
+        resp = cognito.refresh(refresh_token)
+        return {
+            "headers":  {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Method": "POST"
+            },
+            "statusCode": 200,
+            "body": json.dumps(resp)
+        }
     except:
         traceback.print_exc()
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 
 def sign_up(event, context):
-    print("hello")
     try:
         body = json.loads(event['body'])
         # Parameters Check
@@ -141,17 +150,40 @@ def sign_up(event, context):
         print(f'Info: User SignUp Request {username}:{email}')
         cognito = Cognito()
         resp = cognito.sign_up(username, email, password)
-        ret = {
+        return {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
-            'statusCode': 200,
+            'statusCode': 201,
             "body": json.dumps(resp['UserConfirmed'])
         }
 
-        return {'statusCode': 201, 'body': json.dumps(ret)}
     except:
         traceback.print_exc()
 
     return {'statusCode': 400, 'body': 'Request Failed'}
+
+def logout(event, context):
+    try:
+        body = json.loads(event['body'])
+        #paramete check
+        id_token = body['idToken']
+        access_token = body['accessToken']
+        refresh_token = body['refreshToken']
+        cognito = Cognito()
+        resp = cognito.logout(id_token, access_token, refresh_token)
+        return {
+            "headers":  {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Method": "POST"
+            },
+            "statusCode": 200,
+            "body": json.dumps(resp)
+        }
+    except:
+        traceback.print_exc()
+    return {'statusCode': 400, 'body': 'Request Failed'}
+
+
 
 def handler(event, context):
     print(event)
@@ -164,8 +196,10 @@ def handler(event, context):
                 return sign_up(event, context)
             elif proxy == 'login':
                 return login(event, context)
-            elif path == 'refresh':
-                pass
+            elif proxy == 'refresh':
+                return refresh(event, context)
+            elif proxy == 'logout':
+                return logout(event, context)
         elif event['httpMethod'] == 'PUT':
             pass
         return {'statusCode': 400, 'body': 'Request Failed'}

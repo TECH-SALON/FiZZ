@@ -1,5 +1,5 @@
 {
-   "body":"{\"username\": \"fizz3\", \"email\": \"sample3@test.local\",\"password\": \"Passw0rd\"}",
+   "body":"{\"username\": \"fizz6\", \"email\": \"sample3@test.local\",\"password\": \"Passw0rd\"}",
    "resource":"/{proxy+}",
    "requestContext":{
       "resourceId":"123456",

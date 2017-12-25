@@ -7,6 +7,9 @@ import logoBlue from '../../assets/utils/logo.svg';
 import logoWhite from '../../assets/utils/logo_white.svg';
 import Popover from 'material-ui/Popover';
 
+import {
+  Map as IMap
+} from 'immutable';
 
 export default class MainMenu extends Component {
   constructor(props) {
@@ -21,9 +24,7 @@ export default class MainMenu extends Component {
     this.closeProfileMenu = this.closeProfileMenu.bind(this);
     this.logout = this.logout.bind(this);
   }
-
   checkCurrentPath() {
-    console.log(location);
     switch(location.pathname){
       case "/garage":
         return "garage"
@@ -35,7 +36,6 @@ export default class MainMenu extends Component {
         return
     }
   }
-
   openProfile() {
     this.setState({
       profileMenu: false,
@@ -59,8 +59,8 @@ export default class MainMenu extends Component {
     });
   }
   logout() {
-    this.props.onLogout();
-    alert("You logout")
+    const tokens = this.props.tokens.toJS();
+    this.props.onLogout(tokens);
   }
 
   renderProfileModal() {
@@ -105,7 +105,7 @@ export default class MainMenu extends Component {
           <ul>
             <li onClick={this.openProfile}><i className="material-icons">face</i>Profile</li>
             <li><i className="material-icons">build</i>Settings</li>
-            <li><i className="material-icons">power_settings_new</i>Logout</li>
+            <li onClick={this.logout}><i className="material-icons">power_settings_new</i>Logout</li>
           </ul>
         </div>
       </Popover>

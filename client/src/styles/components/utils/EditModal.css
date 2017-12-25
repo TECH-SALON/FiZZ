@@ -1,0 +1,33 @@
+td .edit-icon {
+  color: #616161;
+  font-size: 19px;
+  vertical-align: middle;
+}
+
+.edit-icon:hover {
+  cursor: pointer;
+}
+
+.modal-edit-button {
+  width: 40%;
+  background-color: #1a237e;
+  border: 1px solid #1a237e;
+  color: #fff;
+  font-size: 28px;
+  margin: 10px;
+  padding: 30px;
+  vertical-align: middle;
+  line-height: 3px;
+}
+
+.modal-edit-button:hover {
+  background-color: #3949ab;
+  color: #fff;
+  border: 1px solid #1a237e;
+}
+
+.modal-edit-button:focus {
+  background-color: #1a237e;
+  color: #fff;
+  border: 1px solid #1a237e;
+}

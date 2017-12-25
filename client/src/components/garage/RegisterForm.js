@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import ModalContainer from '../utils/Modal';
+import CreateModal from '../utils/CreateModal';
 import CircularProgressbar from 'react-circular-progressbar';
 
 
@@ -94,7 +94,7 @@ export default class RegisterForm extends Component {
           loading: false,
           modalIsOpen: false
         })
-      },2000)
+      },1500)
     }
     return(
       <div className="progress-container">
@@ -115,7 +115,7 @@ export default class RegisterForm extends Component {
     return(
       <div>
         <button className="button-primary" onClick={this.openModal}>Add New</button>
-        <ModalContainer
+        <CreateModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           onSubmit={this.handleSubmit}
@@ -124,7 +124,7 @@ export default class RegisterForm extends Component {
           loading={loading}
         >
           {loading ? this.renderProgress(createCompleted) : this.renderForm()}
-        </ModalContainer>
+        </CreateModal>
       </div>
     )
   }

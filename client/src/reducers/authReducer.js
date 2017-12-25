@@ -10,7 +10,10 @@ import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
   AUTH_SIGHUP_REQUEST,
-  AUTH_SIGHUP_SUCCESS
+  AUTH_SIGHUP_SUCCESS,
+  AUTH_GET_CURRENT_USER_SUCCESS,
+  AUTH_LOGOUT_REQUEST,
+  AUTH_LOGOUT_SUCCESS
 } from '../actions/authAction';
 
 export const initialState = IMap({
@@ -30,6 +33,21 @@ const tokensToMap = (tokens) => {
 };
 
 const userLogin = (state, tokens) => {
+  localStorage.refreshToken = tokens.refreshToken;
+  return state
+    .set('tokens', tokensToMap(tokens))
+    .set('logined', true)
+    .set('isLoading', false)
+}
+
+const userLogout = (state) => {
+  localStorage.removeItem("refreshToken");
+  return state
+    .set('tokens', {})
+    .set('logined', false)
+}
+const refreshTokens = (state, tokens) => {
+  localStorage.refreshToken = tokens.refreshToken;
   return state
     .set('tokens', tokensToMap(tokens))
     .set('logined', true)
@@ -39,7 +57,12 @@ const userLogin = (state, tokens) => {
 export default function reduce(state = initialState, action) {
   switch (action.type) {
   case AUTH_LOGIN_SUCCESS:
+    console.log("here");
     return userLogin(state, action.tokens);
+  case AUTH_GET_CURRENT_USER_SUCCESS:
+    return refreshTokens(state, action.tokens)
+  case AUTH_LOGOUT_REQUEST:
+    return userLogout(state, action)
   default:
     return state;
   }

@@ -54,7 +54,7 @@ func (c *Container)Play(context string) (response map[string]interface{}, err er
 		}
 	}()
 
-	log.Printf("Play> %s will play.\n", c.BotCode)
+	log.Printf("Play> %s will play. context: \n", c.BotCode, context)
 	v := url.Values{}
 	v.Set("context", context)
 	v.Add("store", utils.EncodeJson(c.store))

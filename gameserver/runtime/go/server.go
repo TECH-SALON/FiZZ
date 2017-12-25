@@ -8,6 +8,11 @@ import (
   "fmt"
 )
 
+type Request struct {
+  context Context `json:"context"`
+  store map[string]string `json:"store"`
+}
+
 type Response struct {
   action Action `json:"action"`
   context Context `json:"context"`
@@ -28,9 +33,9 @@ func parseInput(input []byte) (*Context, map[string]string){
   var context Context
   var store map[string]string
 
-  response := decodeJson(input)
-  context = response["context"].(Context)
-  store = response["store"].(map[string]string)
+  req := decodeJson(input)
+  context = req.context
+  store = req.store
 
   return &context, store
 }
@@ -44,10 +49,10 @@ func encodeJson(a interface{}) string {
 	return string(ret)
 }
 
-func decodeJson(j []byte)map[string]interface{}{
-	var response map[string]interface{}
-	json.Unmarshal(j, &response)
-	return response
+func decodeJson(j []byte) *Request{
+  var req *Request = new(Request)
+	json.Unmarshal(j, req)
+	return req
 }
 
 func run(w http.ResponseWriter, r *http.Request) {

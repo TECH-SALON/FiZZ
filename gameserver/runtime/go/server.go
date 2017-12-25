@@ -15,7 +15,8 @@ type Response struct {
 }
 
 func main(){
-	log.Println("http server is running")
+	log.Println("Server is running.")
+  defer log.Println("Server is down.")
 	http.HandleFunc("/", run)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

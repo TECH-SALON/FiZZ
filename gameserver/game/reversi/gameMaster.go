@@ -21,7 +21,7 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 
 	response = initialzeResponse(config, bots)
 	containers, errs := ai.StartAIServer(bots)
-	defer utils.PrintErrs(ai.CloseAIServer(containers))
+	defer ai.CloseAIServer(containers)
 
 	if utils.CheckErrs(errs) {
 		log.Println("GameMaster> Exit with start ai server errors.")

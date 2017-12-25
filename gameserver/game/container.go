@@ -46,11 +46,19 @@ func (c *Container)down() (err error){
 }
 
 func (c *Container)Play(context string) (response map[string]interface{}, err error) {
+	defer func ()  {
+		log.Println("Play> Finished.")
+		err := recover()
+		if err != nil {
+			log.Println("Play> ERROR occurred. Recover;", err)
+		}
+	}()
+
 	log.Printf("Play> %s will play.\n", c.BotCode)
 	v := url.Values{}
 	v.Set("context", context)
 	v.Add("store", utils.EncodeJson(c.store))
-	resp, err := http.PostForm("http://localhost:"+c.port, v)
+	resp, err := http.PostForm("http://docker.for.mac.localhost:"+c.port, v)
 	if err != nil {
 		log.Fatal(err) //負け
 	}

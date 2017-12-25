@@ -10,7 +10,7 @@ import (
 var dockerManager = new(DockerManager)
 
 func StartAIServer(bots []models.Bot) (containers []Container, errs []error) {
-	log.Println("start AI server.")
+	log.Println("aiServer> Start.")
 
 	err := dockerManager.Init()
 	if err != nil{
@@ -38,6 +38,6 @@ func CloseAIServer(containers []Container) (errs []error) {
 
 	e := dockerManager.Deinit()
 	errs = append(errs, e...)
-	log.Println("Close AI server.")
+	log.Println("aiServer> Close.")
 	return
 }

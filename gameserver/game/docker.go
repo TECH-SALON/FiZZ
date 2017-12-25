@@ -62,7 +62,7 @@ func (d *DockerManager)Invoke(c *Container) error{
   }
   host := &container.HostConfig{
     PortBindings: nat.PortMap{
-      nat.Port("8080"): []nat.PortBinding{{HostPort: c.port}},
+      "8080/tcp": []nat.PortBinding{{HostPort: c.port}},
     },
   }
 
@@ -72,9 +72,14 @@ func (d *DockerManager)Invoke(c *Container) error{
 
   if err != nil{
     log.Fatal(err)
-    log.Printf("Invoke> Destroy Container %s\n", c.BotCode)
-    d.Destroy(c)
+    return err
   }
+
+  if err := d.client.ContainerStart(d.context, c.id, types.ContainerStartOptions{}); err != nil{
+    log.Fatal(err)
+    return err
+  }
+
   return err
 }
 

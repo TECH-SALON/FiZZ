@@ -24,17 +24,15 @@ func main(){
 	}
 }
 
-func parseInput(input []byte) (*Action, *Context, map[string]string){
-  var action Action
+func parseInput(input []byte) (*Context, map[string]string){
   var context Context
   var store map[string]string
 
   response := decodeJson(input)
-  action = response["action"].(Action)
   context = response["context"].(Context)
   store = response["store"].(map[string]string)
 
-  return &action, &context, store
+  return &context, store
 }
 
 func encodeJson(a interface{}) string {
@@ -67,7 +65,13 @@ func run(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err) //負け
       }
 
-      action, context, store := parseInput(body)
+      context, store := parseInput(body)
+
+      log.Println("Start handler.")
+      log.Println(context)
+      log.Println(store)
+
+      action := newAction()
 
       handler(action, context, store)
 

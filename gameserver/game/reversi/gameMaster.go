@@ -51,6 +51,8 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 		return
 	}
 
+	ai.WaitReady(containers)
+
 	for countGame := 0; countGame < config.NumOfFights; countGame++ { //num of fightsがnilだったら0にする
 		log.Printf("GameMaster> Fight! Count %d\n", countGame+1)
 

@@ -42,38 +42,37 @@ func Game(round int, config *models.GameConfig, containers []ai.Container, first
     //contextの更新
     b := adaptBoard()
     context.Board = b
-    context.Team = getTeam((turns + firstMover)%2, firstMover)
     context.History = append(context.History, b)
-    teamint, _ := strconv.Atoi(context.Team)
-    context.MayPlayLocs = getMayPlayLocs(teamint)
+    context.Team = getTeam((turns + firstMover)%2, firstMover)
+    context.MayPlayLocs = getMayPlayLocs(context.Team)
 
-    resp, err := bot.Play(utils.EncodeJson(context))
+    var response = &GameResponse{}
 
-    action := resp["action"]
-
-    if err != nil {
-      log.Fatal(err)
+    if err := bot.Play(utils.EncodeJson(context), response); err != nil {
+      log.Printf("Game> ERROR %s\n", err)
       configureFight(fight, firstMover, "ERROR occurred with "+bot.BotCode)
       fight.Winner = containers[(turns + firstMover + 1)%2].BotCode
       return fight
     }
 
+    action := response.Action
+
     actionLog := &models.ActionLog{
       BotCode: bot.BotCode,
       Team: context.Team,
-      Params: map[string]string {
-                        "turn": string(turns),
-                        "x":action["x"],
-                        "y":action["y"],
+      Params: map[string]string{
+                        "turn": strconv.Itoa(turns),
+                        "x": strconv.Itoa(action.X),
+                        "y": strconv.Itoa(action.Y),
                       },
-      ActionCode: action["code"],
+      ActionCode: action.Code,
     }
     fight.Logs = append(fight.Logs, *actionLog)
 
     var point Point
-    point.x, _ = strconv.Atoi(action["x"])
-    point.y, _ = strconv.Atoi(action["y"])
-    point.color, _ = strconv.Atoi(context.Team)
+    point.x = action.X
+    point.y = action.Y
+    point.color = context.Team
 
     //gameが1始まりっぽいのでインクリメントしてる
     point.x++
@@ -108,8 +107,7 @@ func configureFight(fight *models.Fight, firstMover int, msg string){
   var max float32 = 0.0
   for i:=0; i<len(fight.Summaries); i++{
     s := fight.Summaries[i]
-    te, _ := strconv.Atoi(s.Team)
-    s.PointPercentage = float32(countColor(te)/(BOARD_SIZE*BOARD_SIZE))
+    s.PointPercentage = float32(countColor(s.Team)/(BOARD_SIZE*BOARD_SIZE))
     if max < s.PointPercentage {
       winner = s.BotCode
       max = s.PointPercentage
@@ -119,11 +117,11 @@ func configureFight(fight *models.Fight, firstMover int, msg string){
   fight.Winner = winner
 }
 
-func getTeam(index, firstMover int) string {
+func getTeam(index, firstMover int) int{
   if index%2 == firstMover%2{
-    return string(BLACK)
+    return BLACK
   }else{
-    return string(WHITE)
+    return WHITE
   }
 }
 

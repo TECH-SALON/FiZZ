@@ -15,7 +15,6 @@ type Request struct {
 
 type Response struct {
   Action `json:"action"`
-  Context `json:"context"`
   Store map[string]interface{} `json:"store"`
 }
 
@@ -79,7 +78,6 @@ func run(w http.ResponseWriter, r *http.Request) {
 
       var response = Response{
         Action: *action,
-        Context: *context,
         Store: store,
       }
 

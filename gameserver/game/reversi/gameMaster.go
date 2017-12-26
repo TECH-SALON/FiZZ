@@ -7,11 +7,26 @@ import (
 	ai "app/game"
 )
 
+type GameResponse struct {
+	Action `json:"action"`
+	Store map[string]interface{} `json:"store"`
+}
+
+func (gr *GameResponse) GetStore() map[string]interface{} {
+	return gr.Store
+}
+
 type Context struct {
   Board [8][8]int `json:"board"`
-	Team string `json:"team"`
+	Team int `json:"team"`
   History [][8][8]int `json:"history"`
   MayPlayLocs [][2]int `json:"mayPlayLocs"`
+}
+
+type Action struct {
+	Code string `json:"code"`
+	X int `json:"x"`
+	Y int `json:"y"`
 }
 
 // errorはただ表示するだけでなく、勝敗に影響するものをhandlingすること

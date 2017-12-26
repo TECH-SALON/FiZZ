@@ -2,7 +2,7 @@ package main
 
 type Context struct {
   Board [][]int `json:"board"`
-  Team string `json:"team"`
+  Team int `json:"team"`
   History [][][]int `json:"history"`
   MayPlayLocs [][2]int `json:"mayPlayLocs"`
 }

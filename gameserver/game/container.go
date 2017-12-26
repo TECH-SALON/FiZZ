@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 	"io/ioutil"
+	"encoding/json"
 
 	"app/models"
 	"app/utils"
@@ -15,11 +16,15 @@ type Container struct {
 	id string
 	name string
 	port string
-	store map[string]string
+	store map[string]interface{}
 	runtime string
 	resUrl string
   startAt string
   endAt string
+}
+
+type GameResponse interface {
+	GetStore() map[string]interface{}
 }
 
 func (c *Container)up(port string, bot *models.Bot) (err error){
@@ -45,7 +50,7 @@ func (c *Container)down() (err error){
 	return
 }
 
-func (c *Container)Play(context string) (response map[string]interface{}, err error) {
+func (c *Container)Play(context string, response GameResponse) (err error) {
 	defer func ()  {
 		log.Println("Play> Finished.")
 		err := recover()
@@ -58,16 +63,28 @@ func (c *Container)Play(context string) (response map[string]interface{}, err er
 	v := url.Values{}
 	v.Set("context", context)
 	v.Add("store", utils.EncodeJson(c.store))
+
 	resp, err := http.PostForm("http://docker.for.mac.localhost:"+c.port, v)
 	log.Printf("Play> Response: %s\n", resp)
 	if err != nil {
 		log.Printf("Play> ERROR: %s\n", err) //負け
+		return err
 	}
 	defer resp.Body.Close()
-	var body []byte
-	body, err = ioutil.ReadAll(resp.Body)
-	response = utils.DecodeJson(body)
-	c.store = response["store"]
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("Play> ERROR: %s\n", err) //負け
+		return err
+	}
+
+	if err := json.Unmarshal(body, response); err != nil {
+		log.Printf("Play> ERROR: %s\n", err) //負け
+		return err
+	}
+
+	c.store = response.GetStore()
+
 	log.Printf("Play> %s played.\n", c.BotCode)
-	return
+	return nil
 }

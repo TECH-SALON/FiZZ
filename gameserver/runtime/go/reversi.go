@@ -1,28 +1,28 @@
 package main
 
 type Context struct {
-  board [8][8]int `json:"board"`
-  team string `json:"team"`
-  history [][8][8]int `json:"history"`
-  mayPlayLocs [][2]int `json:"mayPlayLocs"`
+  Board [][]int `json:"board"`
+  Team string `json:"team"`
+  History [][][]int `json:"history"`
+  MayPlayLocs [][2]int `json:"mayPlayLocs"`
 }
 
 type Action struct {
-  code string `json:"code"`
-  x int `json:"x"`
-  y int `json:"y"`
+  Code string `json:"code"`
+  X int `json:"x"`
+  Y int `json:"y"`
 }
 
 func newAction() *Action{
   action := new(Action)
-  action.code = "NONE"
-  action.x = -1
-  action.y = -1
+  action.Code = "NONE"
+  action.X = -1
+  action.Y = -1
   return action
 }
 
-func (action *Action) putDisk(disk [2]int) {
-  action.code = "PUT_DISK"
-  action.x = disk[0]
-  action.y = disk[1]
+func (action *Action) PutDisk(disk [2]int) {
+  action.Code = "PUT_DISK"
+  action.X = disk[0]
+  action.Y = disk[1]
 }

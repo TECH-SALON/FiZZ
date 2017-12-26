@@ -49,7 +49,7 @@ func Game(round int, config *models.GameConfig, containers []ai.Container, first
 
     resp, err := bot.Play(utils.EncodeJson(context))
 
-    action := resp["action"].(map[string]string)
+    action := resp["action"]
 
     if err != nil {
       log.Fatal(err)

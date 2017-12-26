@@ -139,7 +139,7 @@ case "$action" in
     shift 1
     docker_run_command_named 1010 fz-goruntime $@
     ;;
-  docker-interact)
+  docker-it)
     docker_build
     docker run --rm -it -p 1001:8080 --name fz fz-goruntimei ./start.sh sample
     ;;
@@ -148,9 +148,9 @@ case "$action" in
     ;;
   validate)
     docker_build
-    docker run --rm fz-goruntimei ./start.sh validate_cb
+    docker run --rm fz-goruntimei ./start.sh vcb
     ;;
-  validate_cb)
+  vcb)
     clone https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0
     build
     echo "done"

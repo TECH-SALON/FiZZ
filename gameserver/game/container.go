@@ -54,19 +54,20 @@ func (c *Container)Play(context string) (response map[string]interface{}, err er
 		}
 	}()
 
-	log.Printf("Play> %s will play. context: \n", c.BotCode, context)
+	log.Printf("Play> %s will play. context: %s\n", c.BotCode, context)
 	v := url.Values{}
 	v.Set("context", context)
 	v.Add("store", utils.EncodeJson(c.store))
 	resp, err := http.PostForm("http://docker.for.mac.localhost:"+c.port, v)
+	log.Printf("Play> Response: %s\n", resp)
 	if err != nil {
-		log.Fatal(err) //負け
+		log.Printf("Play> ERROR: %s\n", err) //負け
 	}
 	defer resp.Body.Close()
 	var body []byte
 	body, err = ioutil.ReadAll(resp.Body)
 	response = utils.DecodeJson(body)
-	c.store = response["store"].(map[string]string)
+	c.store = response["store"]
 	log.Printf("Play> %s played.\n", c.BotCode)
 	return
 }

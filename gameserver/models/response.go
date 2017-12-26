@@ -19,12 +19,12 @@ type Fight struct {
 
 type FightSummary struct {
 	BotCode string `json:"botCode"`
-	Team string `json:"team"`
+	Team int `json:"team"`
 	PointPercentage float32 `json:"pointPercentage"`
 }
 
 type ActionLog struct {
-	Team string `json:"team"`
+	Team int `json:"team"`
 	BotCode string `json:"botCode"`
 	ActionCode string `json:"actionCode"`
 	Params map[string]string `json:"params"`

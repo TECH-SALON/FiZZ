@@ -5,7 +5,7 @@ const WHITE int = -1
 const BLACK int = 1
 const WALL int = 2
 
-const BOARD_SIZE = 8
+const BOARD_SIZE int = 8
 const MAX_TURNS = 60
 const NONE = 0
 const UPPER = 1

@@ -2,9 +2,11 @@ package game
 
 import (
 	"log"
+	"bytes"
+
 	"net/http"
-	"net/url"
 	"io/ioutil"
+	"encoding/json"
 
 	"app/models"
 	"app/utils"
@@ -15,11 +17,15 @@ type Container struct {
 	id string
 	name string
 	port string
-	store map[string]string
+	store map[string]interface{}
 	runtime string
 	resUrl string
   startAt string
   endAt string
+}
+
+type GameResponse interface {
+	GetStore() map[string]interface{}
 }
 
 func (c *Container)up(port string, bot *models.Bot) (err error){
@@ -28,6 +34,7 @@ func (c *Container)up(port string, bot *models.Bot) (err error){
 	c.name = bot.Username+"."+bot.Name
 	c.resUrl = bot.ResourceUrl
 	c.runtime = bot.Runtime
+	c.store = map[string]interface{}{}
 
 	log.Println(c.BotCode + " is starting up")
 	err = dockerManager.Invoke(c)
@@ -45,7 +52,7 @@ func (c *Container)down() (err error){
 	return
 }
 
-func (c *Container)Play(context string) (response map[string]interface{}, err error) {
+func (c *Container)Play(context string, response GameResponse) (err error) {
 	defer func ()  {
 		log.Println("Play> Finished.")
 		err := recover()
@@ -54,19 +61,46 @@ func (c *Container)Play(context string) (response map[string]interface{}, err er
 		}
 	}()
 
-	log.Printf("Play> %s will play. context: \n", c.BotCode, context)
-	v := url.Values{}
-	v.Set("context", context)
-	v.Add("store", utils.EncodeJson(c.store))
-	resp, err := http.PostForm("http://docker.for.mac.localhost:"+c.port, v)
+	jsonStr := `{"context":`+context+`,"store":`+utils.EncodeJson(c.store)+`}`
+
+	log.Printf("Play> %s will play. json: %s\n", c.BotCode, jsonStr)
+
+	url := "http://docker.for.mac.localhost:"+c.port
+
+	log.Println("Http Request Do ", url)
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonStr)))
 	if err != nil {
-		log.Fatal(err) //負け
+		log.Printf("Play> ERROR: New Request %s\n", err)
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+
+	log.Printf("Play> Response: %s\n", resp)
+	if err != nil {
+		log.Printf("Play> ERROR: Response %s\n", err) //負け
+		return err
 	}
 	defer resp.Body.Close()
-	var body []byte
-	body, err = ioutil.ReadAll(resp.Body)
-	response = utils.DecodeJson(body)
-	c.store = response["store"].(map[string]string)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("Play> ERROR: %s\n", err) //負け
+		return err
+	}
+
+	if err := json.Unmarshal(body, response); err != nil {
+		log.Printf("Play> ERROR: %s\n", err) //負け
+		return err
+	}
+
+	c.store = response.GetStore()
+
 	log.Printf("Play> %s played.\n", c.BotCode)
-	return
+	return nil
 }

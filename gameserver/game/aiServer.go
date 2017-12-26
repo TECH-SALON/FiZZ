@@ -3,6 +3,7 @@ package game
 import (
 	"log"
 	"strconv"
+	"time"
 
 	"app/models"
 )
@@ -40,4 +41,8 @@ func CloseAIServer(containers []Container) (errs []error) {
 	errs = append(errs, e...)
 	log.Println("aiServer> Close.")
 	return
+}
+
+func WaitReady(containers []Container) {
+	time.Sleep(3*time.Second)
 }

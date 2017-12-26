@@ -9,14 +9,13 @@ import (
 )
 
 type Request struct {
-  context Context `json:"context"`
-  store map[string]string `json:"store"`
+  Context `json:"context"`
+  Store map[string]interface{} `json:"store"`
 }
 
 type Response struct {
-  action Action `json:"action"`
-  context Context `json:"context"`
-  store map[string]string `json:"store"`
+  Action `json:"action"`
+  Store map[string]interface{} `json:"store"`
 }
 
 func main(){
@@ -29,13 +28,10 @@ func main(){
 	}
 }
 
-func parseInput(input []byte) (*Context, map[string]string){
-  var context Context
-  var store map[string]string
-
+func parseInput(input []byte) (*Context, map[string]interface{}){
   req := decodeJson(input)
-  context = req.context
-  store = req.store
+  context := req.Context
+  store := req.Store
 
   return &context, store
 }
@@ -72,20 +68,19 @@ func run(w http.ResponseWriter, r *http.Request) {
 
       context, store := parseInput(body)
 
-      log.Println("Start handler.")
-      log.Println(context)
-      log.Println(store)
+      log.Println("Start handler exec.")
 
       action := newAction()
 
       handler(action, context, store)
 
+      log.Println("End handler exec.")
+
       var response = Response{
-        action: *action,
-        context: *context,
-        store: store,
+        Action: *action,
+        Store: store,
       }
 
-			json.NewEncoder(w).Encode(response)
+			fmt.Fprintf(w, encodeJson(response))
 	}
 }

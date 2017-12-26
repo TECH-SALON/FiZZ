@@ -51,6 +51,10 @@
 a:hover {
   cursor: pointer;
 }
+
+input[type=text]:valid {
+  color: green
+}
 /* Larger than mobile */
 @media (min-width: 400px) {
   #app .container {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import CreateModal from '../utils/CreateModal';
 import CircularProgressbar from 'react-circular-progressbar';
+import Modal from 'react-modal';
 
 
 export default class RegisterForm extends Component {
@@ -21,7 +21,7 @@ export default class RegisterForm extends Component {
       botName: "",
       gameName: "",
       runtime: "",
-      isPrivate: false,
+      isPrivate: "",
       resourceUrl: "",
       description: ""
     };
@@ -50,15 +50,19 @@ export default class RegisterForm extends Component {
     let bot = {
       username: "sampleUser",
       name: this.state.botName,
+      runtime: this.state.runtime,
       gameName: this.state.gameName,
       resourceUrl: this.state.resourceUrl,
+      isPrivate: this.state.isPrivate,
       description: this.state.description
     };
     this.props.onCreateBot(bot);
     this.setState({
       progress: 20,
       loading: true,
-      botName: "",
+      name: "",
+      runtime: "",
+      isPrivate: "",
       gameId: 0,
       resourceUrl: "",
       description: "",
@@ -72,18 +76,45 @@ export default class RegisterForm extends Component {
 
   renderForm() {
     return(
-      <form>
-        <label htmlFor="botName">Bot name:</label>
-        <input name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
-        <label htmlFor="repositoryUrl">Repository URL:</label>
-        <input name="resourceUrl" value={this.state.resourceUrl} onChange={this.handleChange} className="u-full-width" type="text" placeholder="repository resourceUrl" id="repositoryUrl"/>
-        <label htmlFor="gameName">Game name:</label>
-        <select name="gameName" value={this.state.gameName} onChange={this.handleChange} className="u-full-width">
-          <option>Please select</option>
-          <option value="Reversi">Reversi</option>
-        </select>
-        <label htmlFor="botComment">Comment:</label>
-        <textarea name="description" value={this.state.description} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
+      <form onSubmit={this.onSubmit}>
+        <div className="form-element">
+          <label htmlFor="botName">Bot name:</label>
+          <input required minlength="3" pattern="^([a-zA-Z]\w{,10}[a-zA-Z])$" title="Please check your input." name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
+        </div>
+        <div className="form-element">
+          <label htmlFor="repositoryUrl">Repository URL:</label>
+          <input required pattern="https?://.+" name="resourceUrl" value={this.state.resourceUrl} onChange={this.handleChange} className="u-full-width" type="url" placeholder="repository resourceUrl" id="repositoryUrl"/>
+        </div>
+        <div className="form-element">
+          <label htmlFor="gameName">Game name:</label>
+          <select required name="gameName" value={this.state.gameName} onChange={this.handleChange} className="u-full-width">
+            <option value="">Please select</option>
+            <option value="Reversi">Reversi</option>
+          </select>
+        </div>
+        <div className="form-element">
+          <label htmlFor="runtime">Public or Private:</label>
+            <input required name="runtime" type="radio" value="python3.6" onChange={this.handleChange} style={{'marginRight':10}}/>
+            Python3.6
+            <input required name="runtime" type="radio" value="node--" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
+            NodeJS
+            <input required name="runtime" type="radio" value="golang1.9" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
+            Go1.9
+        </div>
+        <div className="form-element">
+          <label htmlFor="isPrivate">Public or Private:</label>
+            <input required name="isPrivate" type="radio" value="public" onChange={this.handleChange} style={{'marginRight':10}}/>
+            Public
+            <input required name="isPrivate" type="radio" value="private" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
+            Private
+        </div>
+        <div className="form-element">
+          <label htmlFor="botComment">Comment:</label>
+          <textarea name="description" value={this.state.description} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>
+        </div>
+        <div className="form-element">
+          <button className="modal-submit-button" type="submit" value="Submit">SUBMIT</button>
+        </div>
       </form>
     )
   }
@@ -115,16 +146,21 @@ export default class RegisterForm extends Component {
     return(
       <div>
         <button className="button-primary" onClick={this.openModal}>Add New</button>
-        <CreateModal
+        <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          onSubmit={this.handleSubmit}
-          title="Add your Bot"
-          description="Botを登録しましょう"
-          loading={loading}
+          className="modal"
+          closeTimeoutMS={350}
+          overlayClassName="modal-overlay"
         >
-          {loading ? this.renderProgress(createCompleted) : this.renderForm()}
-        </CreateModal>
+          <div className="modal-header">
+            <h3>CREATE FORM</h3>
+            <p>Add your bot.</p>
+          </div>
+          <div className="modal-content">
+            {loading ? this.renderProgress(createCompleted) : this.renderForm()}
+          </div>
+        </Modal>
       </div>
     )
   }

@@ -13,6 +13,8 @@ from datetime import datetime
 import uuid
 
 from pytz import timezone
+import cerberus
+from botSchema import BOT_SCHEMA
 
 # TODO: Validates
 
@@ -28,14 +30,20 @@ class DB:
         else:
             self.db_client = boto3.resource('dynamodb')
 
-    def validates(self, item):
+    def validates(self, item, schema_type):
         # nameはアカウントごとにユニーク
         # それぞれのkeytypeをcheckする
         # if isPrivate is 1 then repoUrl is in FiZZ repo
         # gameId is valid
         # bot名のvalidation
-        error = {}
-        return (True, error)
+        v = cerberus.Validator(BOT_SCHEMA[schema_type])
+        error = v.validate(item)
+        if error:
+            e = v.errors()
+            return False, e
+        else:
+            e = None
+            return True, e
 
     def create(self, botCode, gameName, resourceUrl, description):
         # utc = str(datetime.now(timezone('UTC')))
@@ -48,8 +56,7 @@ class DB:
             'updatedAt': utc,
             'createdAt': utc
         }
-
-        success, attr = self.validates(item)
+        success, attr = self.validates(item, 'create')
 
         # dynamodb
         if success:
@@ -154,15 +161,17 @@ def create_bot(event, context):
         db = DB()
         body = json.loads(event['body'])
         username = body['username']
-        botName = body['name']
+        name = body['name']
         gameName = body['gameName']
         resourceUrl = body['resourceUrl']
         description = body['description']
         new_bot, error = db.create(
-            botCode = username+'#'+botName,
-            gameName = gameName,
-            resourceUrl = resourceUrl,
-            description = description
+            'botCode':username+":"+name,
+            'name': name,
+            'username': username,
+            'gameName': gameName,
+            'resourceUrl': resourceUrl,
+            'description': description
         )
         if error is None:
             return {

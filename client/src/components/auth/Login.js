@@ -47,7 +47,7 @@ export default class Login extends Component {
         <p>Sign in or sign up with one click:<br/>
         <a href="#" onClick={this.props.onToggleForm}>or manually create a new account</a>
         </p>
-        <button>Google</button><span>　</span>
+        {/* <button>Google</button><span>　</span>
         <button>Facebook</button><span>　</span>
         <button>Twitter</button>
         <GoogleLogin
@@ -56,7 +56,7 @@ export default class Login extends Component {
           redirectUri="https://fizz.auth.us-east-1.amazoncognito.com/oauth2/idpresponse"
           onSuccess={this.responseGoogle}
           onFailure={this.responseGoogle}
-        />
+        /> */}
         <hr/>
         <p>Use your FiZZ username and password</p>
         <form onSubmit={this.handleLogin}>

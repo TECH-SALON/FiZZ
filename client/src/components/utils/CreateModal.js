@@ -17,6 +17,7 @@ export default class CreateModal extends Component {
           isOpen={this.props.isOpen}
           onRequestClose={this.props.onRequestClose}
           className="modal"
+          closeTimeoutMS={350}
           overlayClassName="modal-overlay"
         >
           <div className="modal-header">
@@ -25,9 +26,6 @@ export default class CreateModal extends Component {
           </div>
           <div className="modal-content">
             {this.props.children}
-          </div>
-          <div className="modal-footer">
-            <button onClick={this.props.onSubmit} className="modal-submit-button">{loading ? "SUBMITING NOW" : "SUBMIT"}</button>
           </div>
         </Modal>
       </div>

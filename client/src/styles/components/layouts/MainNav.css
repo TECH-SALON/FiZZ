@@ -3,7 +3,7 @@
   height: 60px;
   width: 100%;
   background-color: rgba(0,0,0,0);
-  z-index: 10;
+  z-index: 2;
 }
 #main-nav .logo {
   padding-top: 15px;

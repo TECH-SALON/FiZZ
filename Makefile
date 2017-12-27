@@ -1,8 +1,13 @@
 init:
-	cp 	--no-clobber .env.dev.sample .env.dev
+	cp -n .env.dev.sample .env.dev
 	docker-compose build
 	docker-compose run --rm webpack yarn install
 	docker-compose up -d
+
+rebuild:
+	docker-compose build
+	docker-compose up -d
+
 run:
 	docker-compose run --rm ${ARG}
 restart:
@@ -30,7 +35,7 @@ gold:
 gosh:
 	$(GOP) bash
 goet:
-	$(GO) go get ${ARG}
+	$(GO) dep ensure
 
 go-app:
 	make gopp

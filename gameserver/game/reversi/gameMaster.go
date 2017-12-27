@@ -65,6 +65,7 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 	}
 
 	response.Success = true
+	log.Println("GameMaster> Response: ", response)
 	return
 }
 

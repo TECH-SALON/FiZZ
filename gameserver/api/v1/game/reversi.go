@@ -22,7 +22,10 @@ func Play(c echo.Context) (err error){
 	return c.JSON(http.StatusOK, play(&req.Config, req.Bots))
 }
 
-func play(config *models.GameConfig, bots []models.Bot) *models.Response{
+func play(config *models.GameConfig, bots []models.Bot) *models.Result{
 	response, _ := reversi.GameMaster(config, bots)
-	return response
+	if err := response.SaveAsResultToDB(); err != nil {
+		return response.GetErrorResult("SAVE_RESULT_TO_DB", fmt.Sprint(err))
+	}
+	return response.GetResult()
 }

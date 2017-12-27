@@ -63,7 +63,7 @@ func (c *Container)Play(context string, response GameResponse) (err error) {
 
 	jsonStr := `{"context":`+context+`,"store":`+utils.EncodeJson(c.store)+`}`
 
-	log.Printf("Play> %s will play. json: %s\n", c.BotCode, jsonStr)
+	log.Printf("Play> %s will play. %s\n", c.BotCode)
 
 	url := "http://docker.for.mac.localhost:"+c.port
 

@@ -55,11 +55,15 @@ go-log:
 GAME=reversi
 
 go-test:
+	echo "どのGameを行うかはGame=reversiみたいな感じでやってください"
 	curl --request POST \
 	  --url http://localhost:5000/api/v1/${GAME}\
 	  --header 'cache-control: no-cache' \
 	  --header 'content-type: application/json' \
 	  -d @${PWD}/gameserver/test/${GAME}.json
+
+go-init:
+	${PWD}/gameserver/runtime/go/v19/start.sh docker-build
 
 JS = docker-compose run --rm webpack
 

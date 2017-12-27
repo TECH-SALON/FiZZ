@@ -1,8 +1,14 @@
 init:
-	cp 	--no-clobber .env.dev.sample .env.dev
+	cp -n .env.dev.sample .env.dev
 	docker-compose build
 	docker-compose run --rm webpack yarn install
+	docker-compose run --rm go go build
 	docker-compose up -d
+
+rebuild:
+	docker-compose build
+	docker-compose up -d
+
 run:
 	docker-compose run --rm ${ARG}
 restart:
@@ -30,7 +36,7 @@ gold:
 gosh:
 	$(GOP) bash
 goet:
-	$(GO) go get ${ARG}
+	$(GO) dep ensure
 
 go-app:
 	make gopp
@@ -43,6 +49,17 @@ go-get:
 go-run:
 	@make gold
 	docker-compose restart go
+go-log:
+	docker-compose logs --tail 50 go
+
+GAME=reversi
+
+go-test:
+	curl --request POST \
+	  --url http://localhost:5000/api/v1/${GAME}\
+	  --header 'cache-control: no-cache' \
+	  --header 'content-type: application/json' \
+	  -d @${PWD}/gameserver/test/${GAME}.json
 
 JS = docker-compose run --rm webpack
 
@@ -150,7 +167,7 @@ db-init:
 	./fizz-aws list_local && \
 	./fizz-aws seed_local && \
 	cd .. && \
-	make sam-bundle
+	@make sam-bundle
 
 db-recreate:
 	cd sam && ./fizz-aws drop_local && \

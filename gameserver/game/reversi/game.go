@@ -105,8 +105,7 @@ func initFight(round int, containers []ai.Container, firstMover int) *models.Fig
 func configureFight(fight *models.Fight, firstMover int, msg string){
   var winner string
   var max float32 = 0.0
-  for i:=0; i<len(fight.Summaries); i++{
-    s := &fight.Summaries[i]
+  for _, s := range fight.Summaries { 
     s.PointPercentage = float32(countColor(s.Team))/float32(BOARD_SIZE*BOARD_SIZE)
     log.Println(s.PointPercentage)
     if max < s.PointPercentage {

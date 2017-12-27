@@ -2,6 +2,7 @@ package utils
 
 import (
   "os"
+  "fmt"
   "path/filepath"
 )
 
@@ -15,7 +16,7 @@ func GetRuntimeImageName(runtime string) (string, error) {
   case "node9.3":
     return "fz-jsruntimei", nil
   default:
-    return nil, err
+    return "", err
   }
 }
 

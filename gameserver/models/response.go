@@ -1,12 +1,17 @@
 package models
 
 import (
-	"github.com/satori/go.uuid"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/fatih/structs"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+
+	"github.com/satori/go.uuid"
+	"github.com/guregu/dynamo"
 
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -20,26 +25,26 @@ type Response struct {
 }
 
 type Fight struct {
-	Round int `json:round`
-	Winner string `json:"winner"`
-	Summaries []FightSummary `json:"summary"`
-	Logs []ActionLog `json:"logs,omitempty"`
-	Message string `json:"message"`
-	TotalSpan int `json:"totalSpan"`
+	Round int `json:"round"	dynamo:"round"`
+	Winner string `json:"winner" dynamo:"winner"`
+	Summaries []FightSummary `json:"summary" dynamo:"summaries"`
+	Logs []ActionLog `json:"logs,omitempty" dynamo:"logs,omitempty"`
+	Message string `json:"message" dynamo:"messages"`
+	TotalSpan int `json:"totalSpan" dynamo:"totalSpan"`
 }
 
 type FightSummary struct {
-	BotCode string `json:"botCode"`
-	Team int `json:"team"`
-	PointPercentage float32 `json:"pointPercentage"`
+	BotCode string `json:"botCode" dynamo:"botCode"`
+	Team int `json:"team" dynamo:"team"`
+	PointPercentage float32 `json:"pointPercentage" dynamo:"pointPercentage"`
 }
 
 type ActionLog struct {
-	Team int `json:"team"`
-	BotCode string `json:"botCode"`
-	ActionCode string `json:"actionCode"`
-	Params map[string]string `json:"params"`
-	Span int `json:"span"`
+	Team int `json:"team" dynamo:"team"`
+	BotCode string `json:"botCode" dynamo:"botCode"`
+	ActionCode string `json:"actionCode" dynamo:"actionCode"`
+	Params map[string]string `json:"params" dynamo:"params"`
+	Span int `json:"span" dynamo:"span"`
 }
 
 type Err struct {
@@ -53,82 +58,56 @@ type Result struct {
 	Error *Err `json:"error,omitempty"`
 }
 
-func (*r Response)SaveAsResultToDB() error {
-	svc := dynamodb.New(session.New())
-	id := fmt.Sprint(uuid.NewV4())
+type Dynamo struct {
+	Id string `dynamo:"id"`
+	GameName string `dynamo:"gameName"`
+	Rule string `dynamo:"rule"`
+	Filter string `dynamo:"filter"`
+	NumOfFights int `dynamo:"numOfFights"`
+	Bots []map[string]string `dynamo:"bots"`
+	Fights []Fight `dynamo:"fights,omitempty"`
+	UpdatedAt time.Time `dynamo:"updatedAt"`
+	CreatedAt time.Time `dynamo:"createdAt"`
+}
 
-	r.resultId = id
+func (r *Response)SaveAsResultToDB() error {
 
-	t, err := time.Now()
-	if err != nil{
-		log.Fatal(err)
-		return err
-	}
-	input := &dynamodb.PutItemInput{
-	    Item: map[string]*dynamodb.AttributeValue{
-	        "id": {
-	            S: aws.String(id),
-	        },
-	        "gameName": {
-	            S: aws.String(r.Config.GameName),
-	        },
-	        "rule": {
-	            S: aws.String(r.Config.Rule),
-	        },
-	        "filter": {
-	            S: aws.String(r.Config.Filter),
-	        },
-	        "status": {
-	            S: aws.String("Finished"),
-	        },
-	        "numOfFights": {
-	            N: aws.Int(len(r.Fights)),
-	        },
-	        "Fights": {
-	            M: r.ConvertFights(),
-	        },
-	        "bots": {
-	            M: r.BotSummaries(),
-	        },
-	        "createdAt": {
-	            S: aws.String(fmt.Sprint(t)),
-	        },
-	        "updatedAt": {
-	            S: aws.String(fmt.Sprint(t)),
-	        },
-	    },
-	    ReturnConsumedCapacity: aws.String("TOTAL"),
-	    TableName:              aws.String("Results"),
-	}
+	db := dynamo.New(session.New(), &aws.Config{
+		Credentials: credentials.NewEnvCredentials(),
+		Region: aws.String("us-east-1"),
+	})
+	table := db.Table("Results")
+	r.resultId = fmt.Sprint(uuid.NewV4())
+	data := r.getDynamo()
 
-	result, err := svc.PutItem(input)
+	err := table.Put(data).Run()
+
 	if err != nil {
 	    if aerr, ok := err.(awserr.Error); ok {
 	        switch aerr.Code() {
 	        case dynamodb.ErrCodeConditionalCheckFailedException:
-	            fmt.Println(dynamodb.ErrCodeConditionalCheckFailedException, aerr.Error())
+	            log.Println(dynamodb.ErrCodeConditionalCheckFailedException, aerr.Error())
 	        case dynamodb.ErrCodeProvisionedThroughputExceededException:
-	            fmt.Println(dynamodb.ErrCodeProvisionedThroughputExceededException, aerr.Error())
+	            log.Println(dynamodb.ErrCodeProvisionedThroughputExceededException, aerr.Error())
 	        case dynamodb.ErrCodeResourceNotFoundException:
-	            fmt.Println(dynamodb.ErrCodeResourceNotFoundException, aerr.Error())
+	            log.Println(dynamodb.ErrCodeResourceNotFoundException, aerr.Error())
 	        case dynamodb.ErrCodeItemCollectionSizeLimitExceededException:
-	            fmt.Println(dynamodb.ErrCodeItemCollectionSizeLimitExceededException, aerr.Error())
+	            log.Println(dynamodb.ErrCodeItemCollectionSizeLimitExceededException, aerr.Error())
 	        case dynamodb.ErrCodeInternalServerError:
-	            fmt.Println(dynamodb.ErrCodeInternalServerError, aerr.Error())
+	            log.Println(dynamodb.ErrCodeInternalServerError, aerr.Error())
 	        default:
-	            fmt.Println(aerr.Error())
+	            log.Println(aerr.Error())
 	        }
 	    } else {
 	        // Print the error, cast err to awserr.Error to get the Code and
 	        // Message from an error.
-	        fmt.Println(err.Error())
+	        log.Println(err.Error())
 	    }
 	    return err
 	}
-
-	fmt.Println(result)
 	return nil
 }
+
 
 func (r *Response)GetResult() *Result {
 	var err *Err
@@ -150,13 +129,38 @@ func (r *Response)GetErrorResult(at, msg string) *Result {
 		Error: &Err{
 			At: at,
 			Message: msg,
-		}
+		},
 	}
 }
 
-func (r *Response)BotSummaries() []map[string]string {
+func (r *Response)ClearLogs() {
+	for _, f := range r.Fights {
+		f.Logs = nil
+	}
+}
+
+func (r *Response) ClearFights() {
+		r.Fights = nil
+}
+
+func (r *Response)getDynamo() *Dynamo {
+	t := time.Now()
+	return &Dynamo{
+		Id: r.resultId,
+		GameName: r.Config.GameName,
+		Rule: r.Config.Rule,
+		Filter: r.Config.Filter,
+		NumOfFights: r.Config.NumOfFights,
+		Bots: r.getBotSummaries(),
+		Fights: r.Fights,
+		UpdatedAt: t,
+		CreatedAt: t,
+	}
+}
+
+func (r *Response)getBotSummaries() []map[string]string {
 	ret := []map[string]string{}
-	for b := range r.Bots {
+	for _, b := range r.Bots {
 		bot := map[string]string{
 			"name": b.Name,
 			"username": b.Username,
@@ -164,22 +168,4 @@ func (r *Response)BotSummaries() []map[string]string {
 		ret = append(ret, bot)
 	}
 	return ret
-}
-
-func (r *Response)ConvertFights() []map[string]interface{} {
-	resp := []map[string]interface{}
-	for f := range r.Fights {
-		resp = append(resp, structs.New(f).Map())
-	}
-	return resp
-}
-
-func (r *Response)ClearLogs() {
-	for f := range r.Fights {
-		f.Logs = nil
-	}
-}
-
-func (r *Response) ClearFights() {
-		r.Fights = nil
 }

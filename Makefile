@@ -2,6 +2,7 @@ init:
 	cp -n .env.dev.sample .env.dev
 	docker-compose build
 	docker-compose run --rm webpack yarn install
+	docker-compose run --rm go go build
 	docker-compose up -d
 
 rebuild:
@@ -48,6 +49,8 @@ go-get:
 go-run:
 	@make gold
 	docker-compose restart go
+go-log:
+	docker-compose logs --tail 50 go
 
 JS = docker-compose run --rm webpack
 
@@ -155,7 +158,7 @@ db-init:
 	./fizz-aws list_local && \
 	./fizz-aws seed_local && \
 	cd .. && \
-	make sam-bundle
+	@make sam-bundle
 
 db-recreate:
 	cd sam && ./fizz-aws drop_local && \

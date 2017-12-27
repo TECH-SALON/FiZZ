@@ -15,19 +15,38 @@
     "aws/awsutil",
     "aws/client",
     "aws/client/metadata",
+    "aws/corehandlers",
     "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/stscreds",
+    "aws/defaults",
+    "aws/ec2metadata",
     "aws/endpoints",
     "aws/request",
+    "aws/session",
     "aws/signer/v4",
     "internal/shareddefaults",
     "private/protocol",
     "private/protocol/json/jsonutil",
     "private/protocol/jsonrpc",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
     "private/protocol/rest",
-    "service/dynamodb"
+    "private/protocol/xml/xmlutil",
+    "service/dynamodb",
+    "service/dynamodb/dynamodbattribute",
+    "service/dynamodb/dynamodbiface",
+    "service/sts"
   ]
   revision = "82ad808f2307df0776c038bfd7ea85440a35c02e"
   version = "v1.12.53"
+
+[[projects]]
+  name = "github.com/cenkalti/backoff"
+  packages = ["."]
+  revision = "61153c768f31ee5f130071d08fc82b85208528de"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/dgrijalva/jwt-go"
@@ -84,16 +103,19 @@
   version = "v0.3.2"
 
 [[projects]]
-  name = "github.com/fatih/structs"
-  packages = ["."]
-  revision = "a720dfa8df582c51dee1b36feabb906bde1588bd"
-  version = "v1.0"
-
-[[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
   revision = "32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a"
   version = "v1.32.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/guregu/dynamo"
+  packages = [
+    ".",
+    "internal/exprs"
+  ]
+  revision = "78f36f7876767b1899b4bac7381d109fe5a58539"
 
 [[projects]]
   name = "github.com/jmespath/go-jmespath"
@@ -187,6 +209,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f273f4477698e283f9567d8004473747676c7789a685d7fc00df070a20987de5"
+  inputs-digest = "42d418d55e4de788ddbd43b3c44a599960c820b1253adfc47c736d9b455d4aca"
   solver-name = "gps-cdcl"
   solver-version = 1

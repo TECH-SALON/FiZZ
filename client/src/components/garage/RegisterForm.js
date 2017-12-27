@@ -76,7 +76,7 @@ export default class RegisterForm extends Component {
 
   renderForm() {
     return(
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <div className="form-element">
           <label htmlFor="botName">Bot name:</label>
           <input required minlength="3" pattern="^([a-zA-Z]\w{,10}[a-zA-Z])$" title="Please check your input." name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>

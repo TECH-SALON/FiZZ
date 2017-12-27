@@ -1,14 +1,19 @@
 BOT_SCHEMA = {
     "CREATE": {
+        'botCode': {
+            'required': True,
+            'type': 'string',
+            'regx': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]:[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+        }
         'name': {
             'required': True,
             'type': 'string',
-            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z]$'
+            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
         },
         'username': {
             'required': True,
             'type': 'string',
-            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z]$'
+            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
         },
         'gameName': {
             'required': True,

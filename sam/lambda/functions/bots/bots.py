@@ -14,13 +14,52 @@ import uuid
 
 from pytz import timezone
 import cerberus
-from botSchema import BOT_SCHEMA
 
 # TODO: Validates
 
 class DB:
     main_table = "Bots"
-
+    BOT_SCHEMA = {
+        'botCode': {
+            'required': True,
+            'type': 'string',
+            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]:[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+        },
+        'name': {
+            'required': True,
+            'type': 'string',
+            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+        },
+        'username': {
+            'required': True,
+            'type': 'string',
+            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+        },
+        'gameName': {
+            'required': True,
+            'type': 'string',
+            'allowed': ['reversi']
+        },
+        'resourceUrl': {
+            'required': True,
+            'type': 'string',
+            'regex': 'https?://.+'
+        },
+        'runtime': {
+            'required': True,
+            'type': 'string',
+            'allowed': ['python3.6', 'node--', 'golang1.9']
+        },
+        'isPrivate': {
+            'required': True,
+            'type': 'integer',
+            'allowed': [0,1]
+        },
+        'description': {
+            'type': 'string',
+            'maxlength': 200
+        }
+    }
     def __init__(self):
         if os.getenv("AWS_SAM_LOCAL"):
             self.db_client = boto3.resource(
@@ -31,38 +70,24 @@ class DB:
             self.db_client = boto3.resource('dynamodb')
 
     def validates(self, item, schema_type):
-        # nameはアカウントごとにユニーク
-        # それぞれのkeytypeをcheckする
-        # if isPrivate is 1 then repoUrl is in FiZZ repo
-        # gameId is valid
-        # bot名のvalidation
-        v = cerberus.Validator(BOT_SCHEMA[schema_type])
-        error = v.validate(item)
-        if error:
-            e = v.errors()
-            return False, e
+        v = cerberus.Validator(self.BOT_SCHEMA)
+        valid = v.validate(item)
+        if valid:
+            error = None
+            return True, error
         else:
-            e = None
-            return True, e
+            error = v.errors
+            print(error)
+            return False, error
 
-    def create(self, botCode, gameName, resourceUrl, description):
+    def create(self, item):
         # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
-        item = {
-            'botCode': botCode,
-            'gameName': gameName,
-            'resourceUrl': resourceUrl,
-            'description': description,
-            'updatedAt': utc,
-            'createdAt': utc
-        }
-        success, attr = self.validates(item, 'create')
-
+        success, attr = self.validates(item, 'CREATE')
         # dynamodb
         if success:
             self.db_client.Table(DB.main_table).put_item(Item=item)
             return (item, None)
-
         return (None, attr)
 
     def update(self, id, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
@@ -163,16 +188,22 @@ def create_bot(event, context):
         username = body['username']
         name = body['name']
         gameName = body['gameName']
+        runtime = body['runtime']
+        isPrivate = body['isPrivate']
         resourceUrl = body['resourceUrl']
         description = body['description']
-        new_bot, error = db.create(
-            'botCode':username+":"+name,
+        item = {
+            'botCode': username+":"+name,
             'name': name,
             'username': username,
             'gameName': gameName,
+            'runtime': runtime,
+            'isPrivate': isPrivate,
             'resourceUrl': resourceUrl,
             'description': description
-        )
+        }
+        new_bot, error = db.create(item)
+        print(error)
         if error is None:
             return {
                 "headers":  {

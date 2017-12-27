@@ -1,5 +1,5 @@
 {
-   "body":"{\"gameName\": \"Reversi\", \"accountId\": \"ap-northeast-1:38209be3-04b3-46f1-bedd-7ef7a72f9eef\", \"isPrivate\": true, \"name\": \"ThisisBot\", \"repoUrl\":\"https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0\"}",
+   "body":"{\"gameName\": \"reversi\", \"username\": \"jjjkkk\", \"name\": \"ThisisBot\", \"resourceUrl\":\"https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0\",\"isPrivate\":0,\"runtime\": \"python3.6\",\"description\": \"Hello world\"}",
    "resource":"/{proxy+}",
    "requestContext":{
       "resourceId":"123456",

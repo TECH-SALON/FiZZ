@@ -55,7 +55,11 @@ func (d *DockerManager)Deinit() []error{
 func (d *DockerManager)Invoke(c *Container) error{
   log.Printf("Invoke> Creating Container %s (%s)\n", c.BotCode, c.runtime)
 
-	imageName := utils.GetRuntimeImageName(c.runtime)
+	imageName, err := utils.GetRuntimeImageName(c.runtime)
+  if err != nil {
+    log.Println("Invoke> ", err)
+    return err
+  }
   config := &container.Config{
     Image: imageName,
     Cmd: []string{"./start.sh", "up", c.resUrl},

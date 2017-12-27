@@ -31,9 +31,11 @@ export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
     let url = `${endPoint()}/bots`;
+    console.log("hello");
     api(getState).post(url, bot).then( response => {
       dispatch(createBotSuccess(response.data));
     }).catch( error => {
+      console.log(error)
       createBotFail(error)
     });
   }

@@ -14,50 +14,50 @@ import uuid
 
 from pytz import timezone
 import cerberus
-
 # TODO: Validates
 
 class DB:
     main_table = "Bots"
     BOT_SCHEMA = {
-        'botCode': {
-            'required': True,
-            'type': 'string',
-            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]:[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
-        },
-        'name': {
-            'required': True,
-            'type': 'string',
-            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
-        },
-        'username': {
-            'required': True,
-            'type': 'string',
-            'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
-        },
-        'gameName': {
-            'required': True,
-            'type': 'string',
-            'allowed': ['reversi']
-        },
-        'resourceUrl': {
-            'required': True,
-            'type': 'string',
-            'regex': 'https?://.+'
-        },
-        'runtime': {
-            'required': True,
-            'type': 'string',
-            'allowed': ['python3.6', 'node--', 'golang1.9']
-        },
-        'isPrivate': {
-            'required': True,
-            'type': 'integer',
-            'allowed': [0,1]
-        },
-        'description': {
-            'type': 'string',
-            'maxlength': 200
+        'CREATE': {
+            'botCode': {
+                'required': True,
+                'type': 'string',
+                'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]:[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+            },
+            'name': {
+                'required': True,
+                'type': 'string',
+                'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+            },
+            'username': {
+                'required': True,
+                'type': 'string',
+                'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+            },
+            'gameName': {
+                'required': True,
+                'type': 'string',
+                'allowed': ['reversi']
+            },
+            'resourceUrl': {
+                'required': True,
+                'type': 'string',
+                'regex': 'https?://.+'
+            },
+            'runtime': {
+                'required': True,
+                'type': 'string',
+                'allowed': ['python3.6', 'node--', 'golang1.9']
+            },
+            # 'isPrivate': {
+            #     'required': True,
+            #     'type': 'boolean',
+            # },
+            'description': {
+                'type': 'string',
+                'maxlength': 200
+            }
         }
     }
     def __init__(self):
@@ -70,7 +70,7 @@ class DB:
             self.db_client = boto3.resource('dynamodb')
 
     def validates(self, item, schema_type):
-        v = cerberus.Validator(self.BOT_SCHEMA)
+        v = cerberus.Validator(self.BOT_SCHEMA[schema_type])
         valid = v.validate(item)
         if valid:
             error = None

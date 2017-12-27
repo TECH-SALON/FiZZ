@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-RUN apk --update add git bash vim
+RUN apk --update add git bash
 
 WORKDIR /go/src/app
 

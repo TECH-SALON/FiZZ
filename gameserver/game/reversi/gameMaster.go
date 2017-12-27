@@ -57,7 +57,6 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 		log.Printf("GameMaster> Fight! Count %d\n", countGame+1)
 
 		fight := Game(countGame+1, config, containers, countGame%2)
-		log.Printf("%+v\n", fight)
 		log.Printf("GameMaster> Fight %d done. The winner is %s\n", countGame+1, fight.Winner)
 		log.Printf("GameMaster> Fight %d total span %d\n", countGame+1, fight.TotalSpan)
 		log.Printf("GameMaster> Fight %d message %s\n", countGame+1, fight.Message)
@@ -65,7 +64,7 @@ func GameMaster(config *models.GameConfig, bots []models.Bot) (response *models.
 	}
 
 	response.Success = true
-	log.Println("GameMaster> Response: ", response)
+	log.Printf("GameMaster> Response: %s, Error: %s\n", response.Success, response.Error)
 	return
 }
 

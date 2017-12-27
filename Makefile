@@ -52,6 +52,15 @@ go-run:
 go-log:
 	docker-compose logs --tail 50 go
 
+GAME=reversi
+
+go-test:
+	curl --request POST \
+	  --url http://localhost:5000/api/v1/${GAME}\
+	  --header 'cache-control: no-cache' \
+	  --header 'content-type: application/json' \
+	  -d @${PWD}/gameserver/test/${GAME}.json
+
 JS = docker-compose run --rm webpack
 
 jsrn:

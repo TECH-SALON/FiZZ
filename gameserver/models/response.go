@@ -25,11 +25,11 @@ type Response struct {
 }
 
 type Fight struct {
-	Round int `json:"round"	dynamo:"round"`
 	Winner string `json:"winner" dynamo:"winner"`
+	Round int `json:"round"	dynamo:"round"`
 	Summaries []FightSummary `json:"summary" dynamo:"summaries"`
 	Logs []ActionLog `json:"logs,omitempty" dynamo:"logs,omitempty"`
-	Message string `json:"message" dynamo:"messages"`
+	Message string `json:"message" dynamo:"message"`
 	TotalSpan int `json:"totalSpan" dynamo:"totalSpan"`
 }
 

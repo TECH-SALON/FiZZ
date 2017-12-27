@@ -21,7 +21,7 @@ export default class RegisterForm extends Component {
       botName: "",
       gameName: "",
       runtime: "",
-      isPrivate: "",
+      // isPrivate: "",
       resourceUrl: "",
       description: ""
     };
@@ -53,7 +53,7 @@ export default class RegisterForm extends Component {
       runtime: this.state.runtime,
       gameName: this.state.gameName,
       resourceUrl: this.state.resourceUrl,
-      isPrivate: this.state.isPrivate,
+      // isPrivate: this.state.isPrivate,
       description: this.state.description
     };
     this.props.onCreateBot(bot);
@@ -62,7 +62,7 @@ export default class RegisterForm extends Component {
       loading: true,
       name: "",
       runtime: "",
-      isPrivate: "",
+      // isPrivate: "",
       gameId: 0,
       resourceUrl: "",
       description: "",
@@ -76,7 +76,7 @@ export default class RegisterForm extends Component {
 
   renderForm() {
     return(
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <div className="form-element">
           <label htmlFor="botName">Bot name:</label>
           <input required minlength="3" pattern="^([a-zA-Z]\w{,10}[a-zA-Z])$" title="Please check your input." name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
@@ -92,7 +92,7 @@ export default class RegisterForm extends Component {
             <option value="Reversi">Reversi</option>
           </select>
         </div>
-        <div className="form-element">
+        {/* <div className="form-element">
           <label htmlFor="runtime">Public or Private:</label>
             <input required name="runtime" type="radio" value="python3.6" onChange={this.handleChange} style={{'marginRight':10}}/>
             Python3.6
@@ -100,7 +100,7 @@ export default class RegisterForm extends Component {
             NodeJS
             <input required name="runtime" type="radio" value="golang1.9" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
             Go1.9
-        </div>
+        </div> */}
         <div className="form-element">
           <label htmlFor="isPrivate">Public or Private:</label>
             <input required name="isPrivate" type="radio" value="public" onChange={this.handleChange} style={{'marginRight':10}}/>

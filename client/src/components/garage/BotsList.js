@@ -139,7 +139,7 @@ export default class BotsList extends Component {
     return(
       <ModalContainer
         isOpen={checkModal}
-        onRequestClose={() => this.closeModal("practiceModal")}
+        onRequestClose={() => this.closeModal("checkModal")}
         title="Check this bot's code status."
         description=""
       >

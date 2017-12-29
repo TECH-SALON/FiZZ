@@ -11,7 +11,7 @@ import {
 } from '../actions/botsAction';
 
 import {
-  runPractice
+  runCodeCheck
 } from '../actions/gamesAction';
 
 import {
@@ -49,8 +49,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onGetResult: (resultId, gameName, botId) => {
       dispatch(getResult(resultId, gameName, botId))
+    },
+    onRequestCodeCheck: (bot) => {
+      dispatch(runCodeCheck(bot))
     }
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Garage)

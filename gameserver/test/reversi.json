@@ -5,7 +5,7 @@
       "description": "randam ai",
       "username": "Yukits",
       "gameName": "Reversi",
-	  "isPrivate": true,
+	    "isPrivate": true,
       "isQualified": true,
       "isStandBy": true,
       "isValid": true,

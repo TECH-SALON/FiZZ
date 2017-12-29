@@ -5,7 +5,7 @@ import CircularProgressbar from 'react-circular-progressbar';
 import Modal from 'react-modal';
 
 
-export default class RegisterForm extends Component {
+export default class RegisterModal extends Component {
 
   // static propTypes = {
   //   bots: PropTypes.object.isRequired,
@@ -79,7 +79,7 @@ export default class RegisterForm extends Component {
       <form onSubmit={this.handleSubmit}>
         <div className="form-element">
           <label htmlFor="botName">Bot name:</label>
-          <input required minlength="3" pattern="^([a-zA-Z]\w{,10}[a-zA-Z])$" title="Please check your input." name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
+          <input required minLength="3" pattern="^([a-zA-Z]\w{3,10}[a-zA-Z0-9])$" title="Please check your input." name="botName" value={this.state.botName} onChange={this.handleChange} className="u-full-width" type="text" placeholder="bot name" id="botName"/>
         </div>
         <div className="form-element">
           <label htmlFor="repositoryUrl">Repository URL:</label>
@@ -89,10 +89,10 @@ export default class RegisterForm extends Component {
           <label htmlFor="gameName">Game name:</label>
           <select required name="gameName" value={this.state.gameName} onChange={this.handleChange} className="u-full-width">
             <option value="">Please select</option>
-            <option value="Reversi">Reversi</option>
+            <option value="reversi">Reversi</option>
           </select>
         </div>
-        {/* <div className="form-element">
+        <div className="form-element">
           <label htmlFor="runtime">Public or Private:</label>
             <input required name="runtime" type="radio" value="python3.6" onChange={this.handleChange} style={{'marginRight':10}}/>
             Python3.6
@@ -100,14 +100,14 @@ export default class RegisterForm extends Component {
             NodeJS
             <input required name="runtime" type="radio" value="golang1.9" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
             Go1.9
-        </div> */}
-        <div className="form-element">
+        </div>
+        {/* <div className="form-element">
           <label htmlFor="isPrivate">Public or Private:</label>
             <input required name="isPrivate" type="radio" value="public" onChange={this.handleChange} style={{'marginRight':10}}/>
             Public
             <input required name="isPrivate" type="radio" value="private" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
             Private
-        </div>
+        </div> */}
         <div className="form-element">
           <label htmlFor="botComment">Comment:</label>
           <textarea name="description" value={this.state.description} onChange={this.handleChange} className="u-full-width" placeholder="このBotの説明" id="botComment"></textarea>

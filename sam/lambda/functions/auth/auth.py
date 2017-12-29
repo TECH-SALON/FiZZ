@@ -46,7 +46,8 @@ class Cognito:
             'tokenType': auth.token_type,
             'idToken': auth.id_token,
             'accessToken': auth.access_token,
-            'refreshToken': auth.refresh_token
+            'refreshToken': auth.refresh_token,
+            'username': auth.username
         }
         return ret
 
@@ -56,8 +57,8 @@ class Cognito:
         u.add_base_attributes(email=email)
         return u.register(username, password)
 
-    def login(self, username_or_alias, password):
-        u = self.client(username=username_or_alias)
+    def login(self, username, password):
+        u = self.client(username=username)
         u.authenticate(password=password)
         return self.return_auth(u)
 
@@ -96,11 +97,11 @@ def login(event, context):
     try:
         body = json.loads(event['body'])
         # Parameters Check
-        username_or_alias = body['username']
+        username = body['username']
         password = body['password']
         print(f'Info: User Login Request {username_or_alias}')
         cognito = Cognito()
-        ret = cognito.login(username_or_alias, password)
+        ret = cognito.login(username, password)
         return {
             "headers":  {
                 "Access-Control-Allow-Origin" : "*",
@@ -122,7 +123,6 @@ def refresh(event, context):
 
         # header?
         refresh_token = body['refreshToken']
-
         cognito = Cognito()
         resp = cognito.refresh(refresh_token)
         return {

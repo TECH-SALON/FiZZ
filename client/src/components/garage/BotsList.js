@@ -8,7 +8,6 @@ import {
   Map as IMap, List as IList
 } from 'immutable';
 
-
 export default class BotsList extends Component {
   static propTypes = {
     bots: PropTypes.object.isRequired,
@@ -67,6 +66,7 @@ export default class BotsList extends Component {
         isOpen={this.state.codeCheckModal}
         onRequestClose={() => this.closeModal("codeCheckModal")}
         onRequestCodeCheck={this.props.onRequestCodeCheck}
+        username={this.props.username}
       />
     )
   }

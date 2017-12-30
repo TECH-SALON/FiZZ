@@ -43,10 +43,12 @@ class Cognito:
 
     def return_auth(self, auth):
         ret = {
-            'tokenType': auth.token_type,
-            'idToken': auth.id_token,
-            'accessToken': auth.access_token,
-            'refreshToken': auth.refresh_token,
+            'tokens': {
+                'tokenType': auth.token_type,
+                'idToken': auth.id_token,
+                'accessToken': auth.access_token,
+                'refreshToken': auth.refresh_token
+            },
             'username': auth.username
         }
         return ret
@@ -99,7 +101,7 @@ def login(event, context):
         # Parameters Check
         username = body['username']
         password = body['password']
-        print(f'Info: User Login Request {username_or_alias}')
+        print(f'Info: User Login Request {username}')
         cognito = Cognito()
         ret = cognito.login(username, password)
         return {
@@ -120,7 +122,6 @@ def login(event, context):
 def refresh(event, context):
     try:
         body = json.loads(event['body'])
-
         # header?
         refresh_token = body['refreshToken']
         cognito = Cognito()

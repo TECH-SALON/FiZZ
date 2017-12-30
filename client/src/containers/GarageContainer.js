@@ -26,7 +26,8 @@ const mapStateToProps = (state) => {
     createCompleted: state.getIn(['bots', 'createCompleted']),
     results: state.getIn(['matches', 'results']),
     resultsLoading: state.getIn(['matches', 'isLoading']),
-    participants: state.getIn(['matches', 'participants'])
+    participants: state.getIn(['matches', 'participants']),
+    username: state.getIn(['auth', 'username'])
   }
 }
 

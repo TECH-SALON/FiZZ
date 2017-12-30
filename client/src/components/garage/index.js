@@ -58,13 +58,15 @@ export default class Garage extends Component {
                     </div>
                   </div>
                   <div className="margin-top-15">
-                    <RegisterModal onCreateBot={this.props.onCreateBot} createCompleted={this.props.createCompleted}/>
+                    <RegisterModal onCreateBot={this.props.onCreateBot} createCompleted={this.props.createCompleted} username={this.props.username}/>
                   </div>
                   <BotsList
                     bots={bots}
                     botsLoading={botsLoading}
                     onBotEdited={this.props.onBotEdited}
-                    onRequestCodeCheck={this.props.onRequestCodeCheck}/>
+                    onRequestCodeCheck={this.props.onRequestCodeCheck}
+                    username={this.props.username}
+                  />
                 </div>
               </div>
               <div className="twelve columns">

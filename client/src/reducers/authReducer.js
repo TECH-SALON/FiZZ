@@ -18,6 +18,7 @@ import {
 
 export const initialState = IMap({
   tokens: IMap(),
+  username: "",
   logined: false,
   isLoading: true,
   error: IMap(),
@@ -32,10 +33,12 @@ const tokensToMap = (tokens) => {
   return mappedTokens;
 };
 
-const userLogin = (state, tokens) => {
-  localStorage.refreshToken = tokens.refreshToken;
+
+const userLogin = (state, auth) => {
+  localStorage.refreshToken = auth.tokens.refreshToken;
   return state
-    .set('tokens', tokensToMap(tokens))
+    .set('tokens', tokensToMap(auth.tokens))
+    .set(IMap({'username': auth.username}))
     .set('logined', true)
     .set('isLoading', false)
 }
@@ -45,11 +48,13 @@ const userLogout = (state) => {
   return state
     .set('tokens', {})
     .set('logined', false)
+    .set('username', "")
 }
-const refreshTokens = (state, tokens) => {
-  localStorage.refreshToken = tokens.refreshToken;
+const refreshTokens = (state, auth) => {
+  localStorage.refreshToken = auth.refreshToken;
   return state
-    .set('tokens', tokensToMap(tokens))
+    .set('tokens', tokensToMap(auth.tokens))
+    .set(IMap({'username': auth.username}))
     .set('logined', true)
     .set('isLoading', false)
 }
@@ -57,10 +62,9 @@ const refreshTokens = (state, tokens) => {
 export default function reduce(state = initialState, action) {
   switch (action.type) {
   case AUTH_LOGIN_SUCCESS:
-    console.log("here");
-    return userLogin(state, action.tokens);
+    return userLogin(state, action.auth);
   case AUTH_GET_CURRENT_USER_SUCCESS:
-    return refreshTokens(state, action.tokens)
+    return refreshTokens(state, action.auth)
   case AUTH_LOGOUT_REQUEST:
     return userLogout(state, action)
   default:

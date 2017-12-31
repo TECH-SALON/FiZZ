@@ -96,6 +96,7 @@ export function getCurrentUser() {
     };
     const url = `${endPoint()}/auth/refresh`;
     api(getState).post(url, tokens).then( response => {
+      console.log(response.data);
       const auth = response.data;
       dispatch(getCurrentUserSuccess(auth))
     }).catch( error => {

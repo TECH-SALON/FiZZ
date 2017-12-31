@@ -8,7 +8,9 @@ export default class CodeCheckModal extends Component {
   }
 
   handleClick() {
-    this.props.onRequestCodeCheck(this.props.bot);
+    const bot = this.props.bot;
+    bot.username = this.props.username;
+    this.props.onRequestCodeCheck(bot);
   }
 
   render() {

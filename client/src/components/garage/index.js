@@ -82,6 +82,7 @@ export default class Garage extends Component {
                     onGetResult={this.props.onGetResult}
                     resultsLoading={resultsLoading}
                     participants={participants}
+                    username={this.props.username}
                   />
                 </div>
               </div>

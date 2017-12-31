@@ -82,6 +82,7 @@ export default class BotsList extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { bots, botsLoading } = this.props;
     return(
       <div className="table">

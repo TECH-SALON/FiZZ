@@ -60,6 +60,7 @@ export function runCodeCheck(bot) {
   return(dispatch, getState) => {
     dispatch(runCodeCheckRequest(bot));
     let url = `${endPoint()}/games/reversi/codecheck`;
+    console.log(bot)
     api(getState).post(url, bot).then( response => {
       runCodeCheckSuccess(response.data);
     }).catch( error => {

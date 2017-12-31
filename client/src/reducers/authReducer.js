@@ -36,6 +36,7 @@ const tokensToMap = (tokens) => {
 
 const userLogin = (state, auth) => {
   localStorage.refreshToken = auth.tokens.refreshToken;
+  localStorage.username = auth.username;
   return state
     .set('tokens', tokensToMap(auth.tokens))
     .set(IMap({'username': auth.username}))
@@ -51,7 +52,7 @@ const userLogout = (state) => {
     .set('username', "")
 }
 const refreshTokens = (state, auth) => {
-  localStorage.refreshToken = auth.refreshToken;
+  localStorage.refreshToken = auth.tokens.refreshToken;
   return state
     .set('tokens', tokensToMap(auth.tokens))
     .set(IMap({'username': auth.username}))

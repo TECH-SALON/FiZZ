@@ -28,7 +28,7 @@ export const initialState = IMap({
 });
 
 const botToMap = (bot) => {
-  var result = bot.botCode.split('#');
+  var result = bot.botCode.split(':');
   var username = result[0];
   var name = result[1];
   let mappedBot = IMap({
@@ -44,6 +44,7 @@ const botToMap = (bot) => {
     description: bot.description,
     rank: bot.rank,
     resourceUrl: bot.resourceUrl,
+    runtime: bot.runtime,
     updatedAt: bot.updatedAt,
     createdAt: bot.createdAt
     // matchSummaries: matchSummariesToList(bot.matchSummaries),

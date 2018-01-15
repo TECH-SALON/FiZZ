@@ -10,7 +10,7 @@ import Spinner from 'react-spinkit';
 
 import BotsList from './BotsList';
 import ResultsList from './ResultsList';
-import RegisterForm from './RegisterForm';
+import RegisterModal from './RegisterModal';
 
 import {
   Map as IMap, List as IList
@@ -58,13 +58,15 @@ export default class Garage extends Component {
                     </div>
                   </div>
                   <div className="margin-top-15">
-                    <RegisterForm onCreateBot={this.props.onCreateBot} createCompleted={this.props.createCompleted}/>
+                    <RegisterModal onCreateBot={this.props.onCreateBot} createCompleted={this.props.createCompleted} username={this.props.username}/>
                   </div>
                   <BotsList
                     bots={bots}
                     botsLoading={botsLoading}
                     onBotEdited={this.props.onBotEdited}
-                    onPracticeBot={this.props.onPracticeBot}/>
+                    onRequestCodeCheck={this.props.onRequestCodeCheck}
+                    username={this.props.username}
+                  />
                 </div>
               </div>
               <div className="twelve columns">
@@ -80,6 +82,7 @@ export default class Garage extends Component {
                     onGetResult={this.props.onGetResult}
                     resultsLoading={resultsLoading}
                     participants={participants}
+                    username={this.props.username}
                   />
                 </div>
               </div>

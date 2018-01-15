@@ -1,4 +1,9 @@
-import os
+import sys, os
+
+if os.getenv('AWS_SAM_LOCAL'):
+    moduledir = os.getcwd() + '/.venv/lib/python3.6/site-packages'
+    sys.path.append(moduledir)
+
 import json
 import boto3
 
@@ -45,7 +50,7 @@ class DB:
             'updatedAt': utc
         }
 
-        success, attr = self.validates(item):
+        success, attr = self.validates(item)
 
         if success:
             updates = {}
@@ -122,12 +127,21 @@ def get_ranking(event, context):
     # Return Response
     return {'statusCode': 400, 'body': 'Request Failed'}
 
+def code_check(event, context):
+    print(event)
+    print("will code check")
+
 def handler(event, context):
+    print(event)
+    proxy = event['pathParameters']['proxy']
     try:
         if event['httpMethod'] == 'GET':
             pass
         elif event['httpMethod'] == 'POST':
-            pass
+            if proxy == 'reversi/codecheck':
+                return code_check(event, context)
+            else:
+                pass
         elif event['httpMethod'] == 'PUT':
             pass
         return {'statusCode': 400, 'body': 'Request Failed'}

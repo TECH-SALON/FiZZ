@@ -11,7 +11,7 @@ import {
 } from '../actions/botsAction';
 
 import {
-  runPractice
+  runCodeCheck
 } from '../actions/gamesAction';
 
 import {
@@ -26,7 +26,8 @@ const mapStateToProps = (state) => {
     createCompleted: state.getIn(['bots', 'createCompleted']),
     results: state.getIn(['matches', 'results']),
     resultsLoading: state.getIn(['matches', 'isLoading']),
-    participants: state.getIn(['matches', 'participants'])
+    participants: state.getIn(['matches', 'participants']),
+    username: state.getIn(['auth', 'username'])
   }
 }
 
@@ -49,8 +50,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onGetResult: (resultId, gameName, botId) => {
       dispatch(getResult(resultId, gameName, botId))
+    },
+    onRequestCodeCheck: (bot) => {
+      dispatch(runCodeCheck(bot))
     }
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Garage)

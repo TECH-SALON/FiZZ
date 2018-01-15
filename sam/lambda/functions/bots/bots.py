@@ -189,7 +189,7 @@ def create_bot(event, context):
         name = body['name']
         gameName = body['gameName']
         runtime = body['runtime']
-        isPrivate = body['isPrivate']
+        # isPrivate = body['isPrivate']
         resourceUrl = body['resourceUrl']
         description = body['description']
         item = {
@@ -198,7 +198,7 @@ def create_bot(event, context):
             'username': username,
             'gameName': gameName,
             'runtime': runtime,
-            'isPrivate': isPrivate,
+            # 'isPrivate': isPrivate,
             'resourceUrl': resourceUrl,
             'description': description
         }

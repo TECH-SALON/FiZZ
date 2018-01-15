@@ -6,10 +6,10 @@ export const GAMES_RUN_MATCH_REQUEST = 'GAMES_RUN_MATCH_REQUEST';
 export const GAMES_RUN_MATCH_SUCCESS = 'GAMES_RUN_MATCH_SUCCESS';
 export const GAMES_RUN_MATCH_FAIL = 'GAMES_RUN_MATCH_FAIL';
 
-export const GAMES_RUN_PRACTICE = 'GAMES_RUN_PRACTICE';
-export const GAMES_RUN_PRACTICE_REQUEST = 'GAMES_RUN_PRACTICE_REQUEST';
-export const GAMES_RUN_PRACTICE_SUCCESS = 'GAMES_RUN_PRACTICE_SUCCESS';
-export const GAMES_RUN_PRACTICE_FAIL = 'GAMES_RUN_PRACTICE_FAIL';
+export const GAMES_RUN_CODE_CHECK = 'GAMES_RUN_CODE_CHECK';
+export const GAMES_RUN_CODE_CHECK_REQUEST = 'GAMES_RUN_CODE_CHECK_REQUEST';
+export const GAMES_RUN_CODE_CHECK_SUCCESS = 'GAMES_RUN_CODE_CHECK_SUCCESS';
+export const GAMES_RUN_CODE_CHECK_FAIL = 'GAMES_RUN_CODE_CHECK_FAIL';
 
 export const GAMES_GET_RANKING = 'GAMES_GET_RANKING';
 export const GAMES_GET_RANKING_REQUEST = 'GAMES_GET_RANKING_REQUEST';
@@ -56,37 +56,36 @@ function runMatchFail(error){
 
 // run practice
 
-export function runPractice(botId) {
+export function runCodeCheck(bot) {
   return(dispatch, getState) => {
-    dispatch(runPracticeRequest(botId));
-    let params = new FormData();
-    params.append("botId", botId);
-    let url = `${endPoint()}/api/v1/games/reversi/practice`;
-    api(getState).post(url, params).then( response => {
-      runPracticeSuccess(response.data);
+    dispatch(runCodeCheckRequest(bot));
+    let url = `${endPoint()}/games/reversi/codecheck`;
+    console.log(bot)
+    api(getState).post(url, bot).then( response => {
+      runCodeCheckSuccess(response.data);
     }).catch( error => {
-      runPracticeFail(error);
+      runCodeCheckFail(error);
     })
   }
 }
 
-function runPracticeRequest(bot){
+function runCodeCheckRequest(bot){
   return {
-    type: GAMES_RUN_PRACTICE_REQUEST,
+    type: GAMES_RUN_CODE_CHECK_REQUEST,
     bot,
   }
 }
 
-function runPracticeSuccess(bot){
+function runCodeCheckSuccess(bot){
   return {
-    type: GAMES_RUN_PRACTICE_SUCCESS,
+    type: GAMES_RUN_CODE_CHECK_SUCCESS,
     bot,
   }
 }
 
-function runPracticeFail(error){
+function runCodeCheckFail(error){
   return {
-    type: GAMES_RUN_PRACTICE_FAIL,
+    type: GAMES_RUN_CODE_CHECK_FAIL,
     error,
   }
 }

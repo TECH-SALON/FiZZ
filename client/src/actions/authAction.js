@@ -37,10 +37,10 @@ function loginRequest(){
   }
 }
 
-function loginSuccess(tokens){
+function loginSuccess(auth){
   return {
     type: AUTH_LOGIN_SUCCESS,
-    tokens
+    auth
   }
 }
 
@@ -96,19 +96,19 @@ export function getCurrentUser() {
     };
     const url = `${endPoint()}/auth/refresh`;
     api(getState).post(url, tokens).then( response => {
-      const tokens = response.data;
-      console.log(tokens);
-      dispatch(getCurrentUserSuccess(tokens))
+      console.log(response.data);
+      const auth = response.data;
+      dispatch(getCurrentUserSuccess(auth))
     }).catch( error => {
       console.log("error");
     })
   }
 }
 
-function getCurrentUserSuccess(tokens) {
+function getCurrentUserSuccess(auth) {
   return {
     type: AUTH_GET_CURRENT_USER_SUCCESS,
-    tokens
+    auth
   }
 }
 

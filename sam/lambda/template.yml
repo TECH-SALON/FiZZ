@@ -24,6 +24,7 @@ Resources:
         Auth: !Ref Auth
         Accounts: !Ref Accounts
         Matches: !Ref Results
+        UserPoolId: !Ref AwsUserPoolId
 
   Accounts:
     Type: AWS::Serverless::Function

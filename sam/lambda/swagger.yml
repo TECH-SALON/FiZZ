@@ -22,6 +22,8 @@ paths:
           description: 201 created
           schema:
             $ref: "#/definitions/Empty"
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         responses:
           default:
@@ -75,6 +77,8 @@ paths:
           required: true
           type: string
       responses: {}
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         uri: >-
           arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Games}/invocations
@@ -123,6 +127,8 @@ paths:
           description: 201 created
           schema:
             $ref: "#/definitions/Empty"
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         responses:
           default:
@@ -176,6 +182,8 @@ paths:
           required: true
           type: string
       responses: {}
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         uri: >-
           arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Matches}/invocations
@@ -224,6 +232,8 @@ paths:
           description: 201 created
           schema:
             $ref: "#/definitions/Empty"
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         responses:
           default:
@@ -277,6 +287,8 @@ paths:
           required: true
           type: string
       responses: {}
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         uri: >-
           arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Bots}/invocations
@@ -322,6 +334,8 @@ paths:
           required: true
           type: string
       responses: {}
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         uri: >-
           arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Accounts}/invocations
@@ -367,6 +381,8 @@ paths:
           required: true
           type: string
       responses: {}
+      security:
+        - FiZZUserPool: []
       x-amazon-apigateway-integration:
         uri: >-
           arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:720955889916:function:${stageVariables.Auth}/invocations
@@ -406,3 +422,14 @@ definitions:
   Empty:
     type: object
     title: Empty Schema
+components:
+  securitySchemes:
+    FiZZUserPool:
+      type: apiKey
+      name: Authorization
+      in: header
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        type: cognito_user_pools
+        providerARNs:
+          - arn:aws:cognito-idp:us-east-1:720955889916:userpool/{stageVariables.AwsUserPoolId}

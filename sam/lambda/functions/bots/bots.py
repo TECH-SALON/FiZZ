@@ -228,7 +228,6 @@ def update_bot(event, context):
         db = DB()
         body = json.loads(event['body'])
         id = event['pathParameters']['botId']
-
         resp, error = db.update(
             id,
             name=body['name'],

@@ -32,8 +32,10 @@ export const apiWithToken = getState => axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Authorization': `Bearer ${getState().getIn(['accounts', 'accessToken'], '')}`,
+    'Authorization': `${getState().getIn(['auth', 'tokens', 'idToken'])}`,
   },
+
+  baseURL: `${endPoint()}`,
 
   transformResponse: [function (data) {
     try {
@@ -49,7 +51,7 @@ export const client =  axios.create({
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   },
-
+  baseURL: `${endPoint()}`,
   transformResponse: [function (data) {
     try {
       return JSON.parse(data);

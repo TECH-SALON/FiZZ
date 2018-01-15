@@ -5,7 +5,9 @@ if os.getenv('AWS_SAM_LOCAL'):
     sys.path.append(moduledir)
 
 import json
+import requests
 import boto3
+import traceback
 
 from pytz import timezone
 from datetime import datetime
@@ -128,8 +130,62 @@ def get_ranking(event, context):
     return {'statusCode': 400, 'body': 'Request Failed'}
 
 def code_check(event, context):
-    print(event)
-    print("will code check")
+    try:
+        print("will code check")
+        body = json.loads(event['body'])
+        botCode = body['botCode']
+        data = {
+            'bots': [
+              {
+                'name': botCode.split(':')[1],
+                'description': body['description'],
+                'username': botCode.split(':')[0],
+                'gameName': body['gameName'],
+          	    'isPrivate': body['isPrivate'],
+                'isQualified': body['isQualified'],
+                'isStandBy': body['isStandBy'],
+                'isValid': body['isValid'],
+                'runtime': body['runtime'],
+                'resourceUrl':body['resourceUrl']
+              },
+              {
+                'name': 'RandamBot',
+                'description': 'randam ai',
+                'username': 'Yukits2',
+                'gameName': 'Reversi',
+                'isPrivate': True,
+                'isQualified': True,
+                'isStandBy': True,
+                'isValid': True,
+                'runtime': 'golang1.9',
+                'resourceUrl': 'https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0'
+              }
+            ],
+            'config': {
+              'name': 'Reversi',
+              'rule': 'codecheck',
+              'filter': 'none',
+              'numOfFights': 3
+            }
+        }
+        headers = {
+            'cache-control': 'no-cache',
+            'content-type': 'application/json'
+        }
+        response = requests.post('http://docker.for.mac.localhost:5000/api/v1/reversi', data=json.dumps(data), headers=headers, timeout=10).json()
+        return {
+            "headers":  {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Method": "POST"
+            },
+            "statusCode": 200,
+            "body": response
+        }
+    except:
+        traceback.print_exc()
+
+    return {'statusCode': 400, 'body': 'Request Failed'}
 
 def handler(event, context):
     print(event)

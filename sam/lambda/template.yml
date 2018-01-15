@@ -53,6 +53,7 @@ Resources:
       Handler: functions.games.games.handler
       Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
+      Timeout: 10
       Events:
         GamesRoot:
           Type: Api

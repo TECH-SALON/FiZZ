@@ -1,4 +1,4 @@
-import api, {endPoint} from '../api';
+import api, {apiWithToken} from '../api';
 import {mapGameIdToName} from '../utils';
 
 export const BOTS_CREATE_BOT = 'BOTS_CREATE_BOT';
@@ -30,9 +30,7 @@ export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
 export function createBot(bot){
   return (dispatch, getState) => {
     dispatch(createBotRequest(bot));
-    let url = `${endPoint()}/bots`;
-    console.log("hello");
-    api(getState).post(url, bot).then( response => {
+    apiWithToken(getState).post('/bots', bot).then( response => {
       dispatch(createBotSuccess(response.data));
     }).catch( error => {
       console.log(error)
@@ -70,8 +68,7 @@ export function scanBots(refresh = false){
     if(!refresh && bots.get('loaded')){
       return
     }
-    let url = `${endPoint()}/bots`;
-    api(getState).get(url).then( response => {
+    apiWithToken(getState).get('/bots').then( response => {
       console.log(response);
       let bots = response.data;
       dispatch(scanBotsSuccess(bots));

@@ -66,7 +66,6 @@ export default class BotsList extends Component {
         isOpen={this.state.codeCheckModal}
         onRequestClose={() => this.closeModal("codeCheckModal")}
         onRequestCodeCheck={this.props.onRequestCodeCheck}
-        username={this.props.username}
       />
     )
   }

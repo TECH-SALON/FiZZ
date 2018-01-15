@@ -53,9 +53,11 @@ const userLogout = (state) => {
 }
 const refreshTokens = (state, auth) => {
   localStorage.refreshToken = auth.tokens.refreshToken;
+  console.log(auth);
+  const username = auth.username;
   return state
     .set('tokens', tokensToMap(auth.tokens))
-    .set(IMap({'username': auth.username}))
+    .set('username', auth.username)
     .set('logined', true)
     .set('isLoading', false)
 }

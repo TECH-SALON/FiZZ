@@ -1,4 +1,4 @@
-import api, {endPoint} from '../api';
+import api, {endPoint, apiWithToken} from '../api';
 import {mapGameIdToName} from '../utils';
 
 export const GAMES_RUN_MATCH = 'GAMES_RUN_MATCH';
@@ -55,13 +55,14 @@ function runMatchFail(error){
 }
 
 // run practice
-
 export function runCodeCheck(bot) {
   return(dispatch, getState) => {
     dispatch(runCodeCheckRequest(bot));
-    let url = `${endPoint()}/games/reversi/codecheck`;
-    console.log(bot)
-    api(getState).post(url, bot).then( response => {
+    // let url = `${endPoint()}/games/reversi/codecheck`;
+    // let url = 'http://localhost:3000/api/v1/games';
+    console.log(bot);
+    apiWithToken(getState).post('/games/reversi/codecheck', bot).then( response => {
+      console.log(response)
       runCodeCheckSuccess(response.data);
     }).catch( error => {
       runCodeCheckFail(error);

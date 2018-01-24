@@ -48,7 +48,7 @@ func Game(round int, config *models.GameConfig, containers []ai.Container, first
 
     var response = &GameResponse{}
 
-    if err := bot.Play(utils.EncodeJson(context), response); err != nil {
+    if err := bot.Play(config.GameName, utils.EncodeJson(context), response); err != nil {
       log.Printf("Game> ERROR %s\n", err)
       configureFight(fight, firstMover, "ERROR occurred with "+bot.BotCode)
       fight.Winner = containers[(turns + firstMover + 1)%2].BotCode
@@ -105,7 +105,7 @@ func initFight(round int, containers []ai.Container, firstMover int) *models.Fig
 func configureFight(fight *models.Fight, firstMover int, msg string){
   var winner string
   var max float32 = 0.0
-  for _, s := range fight.Summaries { 
+  for _, s := range fight.Summaries {
     s.PointPercentage = float32(countColor(s.Team))/float32(BOARD_SIZE*BOARD_SIZE)
     log.Println(s.PointPercentage)
     if max < s.PointPercentage {

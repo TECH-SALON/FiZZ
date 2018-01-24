@@ -1,12 +1,13 @@
-var Action = function(){
-  this.code = 'NONE';
-  this.x = -1;
-  this.y = -1;
-}//ecmascript 6で書き直して
+export class Action {
+  constructor(){
+    this.code = 'NONE';
+    this.x = -1;
+    this.y = -1;
+  }
 
-var Context = function(){
-
+  putDisk(x, y) {
+    this.code = "PUT_DISK"
+    this.x = x
+    this.y = y
+  }
 }
-
-module.exports = Action;
-module.exports = Context;

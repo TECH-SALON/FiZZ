@@ -52,18 +52,18 @@ func (c *Container)down() (err error){
 	return
 }
 
-func (c *Container)Play(context string, response GameResponse) (err error) {
+func (c *Container)Play(gameName, context string, response GameResponse) (err error) {
 	defer func ()  {
-		log.Println("Play> Finished.")
+		log.Println("Container> Finished.")
 		err := recover()
 		if err != nil {
-			log.Println("Play> ERROR occurred. Recover;", err)
+			log.Println("Container> ERROR occurred. Recover;", err)
 		}
 	}()
 
-	jsonStr := `{"context":`+context+`,"store":`+utils.EncodeJson(c.store)+`}`
+	jsonStr := `{"gameName": `+gameName+`,"context":`+context+`,"store":`+utils.EncodeJson(c.store)+`}`
 
-	log.Printf("Play> %s will play. %s\n", c.BotCode)
+	log.Printf("Container> %s will play. %s\n", c.BotCode)
 
 	url := "http://docker.for.mac.localhost:"+c.port
 
@@ -71,7 +71,7 @@ func (c *Container)Play(context string, response GameResponse) (err error) {
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonStr)))
 	if err != nil {
-		log.Printf("Play> ERROR: New Request %s\n", err)
+		log.Printf("Container> ERROR: New Request %s\n", err)
 		return err
 	}
 
@@ -81,26 +81,26 @@ func (c *Container)Play(context string, response GameResponse) (err error) {
 
 	resp, err := client.Do(req)
 
-	log.Printf("Play> Response: %s\n", resp)
+	log.Printf("Container> Response: %s\n", resp)
 	if err != nil {
-		log.Printf("Play> ERROR: Response %s\n", err) //負け
+		log.Printf("Container> ERROR: Response %s\n", err) //負け
 		return err
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Printf("Play> ERROR: %s\n", err) //負け
+		log.Printf("Container> ERROR: %s\n", err) //負け
 		return err
 	}
 
 	if err := json.Unmarshal(body, response); err != nil {
-		log.Printf("Play> ERROR: %s\n", err) //負け
+		log.Printf("Container> ERROR: %s\n", err) //負け
 		return err
 	}
 
 	c.store = response.GetStore()
 
-	log.Printf("Play> %s played.\n", c.BotCode)
+	log.Printf("Container> %s played.\n", c.BotCode)
 	return nil
 }

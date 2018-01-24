@@ -27,7 +27,7 @@ app.post('/', function(req, res){
   var context = body.context
   var store = body.store
 
-  var bot = require("bot.js")
+  var bot = require("./bot.js")
   bot.handler(action, context, store)
 
   //make response

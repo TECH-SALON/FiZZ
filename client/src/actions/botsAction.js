@@ -65,7 +65,6 @@ function createBotFail(error){
 export function scanBots(refresh = false){
   return (dispatch, getState) => {
     dispatch(scanBotsRequest());
-    console.log("here");
     const bots = getState().get('bots');
     if(!refresh && bots.get('loaded')){
       return

@@ -14,7 +14,6 @@ import uuid
 
 from pytz import timezone
 import cerberus
-# TODO: Validates
 
 class DB:
     main_table = "Bots"
@@ -87,6 +86,22 @@ class DB:
         # dynamodb
         if success:
             self.db_client.Table(DB.main_table).put_item(Item=item)
+            self.db_client.Table('Accounts').update_item(
+                Key={
+                    'username': item['username']
+                },
+                UpdateExpression='set bots = list_append(if_not_exists(bots, :empty), :b)',
+                ExpressionAttributeValues={
+                    ':b': [
+                        {
+                            'name': item['name'],
+                            'username': item['username']
+                        }
+                    ],
+                    ':empty': []
+                },
+                ReturnValues="ALL_NEW"
+            )
             return (item, None)
         return (None, attr)
 

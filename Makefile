@@ -57,7 +57,7 @@ GAME=reversi
 go-test:
 	echo "どのGameを行うかはGame=reversiみたいな感じでやってください"
 	curl --request POST \
-	  --url http://localhost:5000/api/v1/${GAME}\
+	  --url http://ec2-52-23-196-28.compute-1.amazonaws.com:5000/api/v1/${GAME}\
 	  --header 'cache-control: no-cache' \
 	  --header 'content-type: application/json' \
 	  -d @${PWD}/gameserver/test/${GAME}.json

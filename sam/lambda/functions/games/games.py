@@ -46,7 +46,7 @@ class DB:
 
         return (None, attr)
 
-    def update(self, id):
+    def update(self, resultId):
         utc = datetime.now(timezone('UTC'))
         item = {
             'updatedAt': utc
@@ -55,14 +55,10 @@ class DB:
         success, attr = self.validates(item)
 
         if success:
-            updates = {}
-            for k, v in item:
-                if v is not None:
-                    updates[k] = { 'Action': 'PUT', 'Value': v}
-
             resp = self.db_client.Table(DB.main_table).update_item(
-                Key={'id': id },
-                AttributeUpdates=updates,
+                Key={'name': 'reversi' },
+                UpdateExpression='add results :id',
+                ExpressionAttributeValues={':id': resultId},
                 ReturnValues="ALL_NEW"
             )
             return (resp, None)
@@ -131,7 +127,7 @@ def get_ranking(event, context):
 
 def code_check(event, context):
     try:
-        print("will code check")
+        db = DB()
         body = json.loads(event['body'])
         botCode = body['botCode']
         data = {
@@ -173,6 +169,8 @@ def code_check(event, context):
             'content-type': 'application/json'
         }
         response = requests.post('http://docker.for.mac.localhost:5000/api/v1/reversi', data=json.dumps(data), headers=headers, timeout=10).json()
+        resultId = response['resultId']
+        r, error = db.update(resultId)
         return {
             "headers":  {
                 "Access-Control-Allow-Origin" : "*",
@@ -180,7 +178,7 @@ def code_check(event, context):
                 "Access-Control-Allow-Method": "POST"
             },
             "statusCode": 200,
-            "body": response
+            "body": r
         }
     except:
         traceback.print_exc()

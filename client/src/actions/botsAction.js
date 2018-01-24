@@ -32,6 +32,7 @@ export function createBot(bot){
     dispatch(createBotRequest(bot));
     apiWithToken(getState).post('/bots', bot).then( response => {
       dispatch(createBotSuccess(response.data));
+      dispatch(scanBots(true));
     }).catch( error => {
       console.log(error)
       createBotFail(error)

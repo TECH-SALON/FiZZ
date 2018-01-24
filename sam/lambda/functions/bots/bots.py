@@ -90,12 +90,15 @@ class DB:
                 Key={
                     'username': item['username']
                 },
-                UpdateExpression='set bots = :b',
+                UpdateExpression='set bots = list_append(if_not_exists(bots, :empty), :b)',
                 ExpressionAttributeValues={
-                    ':b': {
-                        'name': item['name'],
-                        'username': item['username']
-                    }
+                    ':b': [
+                        {
+                            'name': item['name'],
+                            'username': item['username']
+                        }
+                    ],
+                    ':empty': []
                 },
                 ReturnValues="ALL_NEW"
             )

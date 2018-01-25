@@ -96,6 +96,26 @@ class DB:
             #     'required': True,
             #     'type': 'boolean',
             # },
+            'isQualified': {
+                'required': True,
+                'type': 'boolean'
+            },
+            'isValid': {
+                'required': True,
+                'type': 'boolean'
+            },
+            'isStandBy': {
+                'required': True,
+                'type': 'boolean'
+            },
+            'rank': {
+                'required': True,
+                'type': 'number'
+            },
+            'isMatching': {
+                'required': True,
+                'type': 'boolean'
+            },
             'description': {
                 'type': 'string',
                 'maxlength': 200
@@ -256,7 +276,12 @@ def create_bot(event, context):
             'username': username,
             'gameName': gameName,
             'runtime': runtime,
-            # 'isPrivate': isPrivate,
+            # 'isPrivate': False,
+            'isQualified': False,
+            'isValid': False,
+            'isStandBy': False,
+            'isMatching': False,
+            'rank': 0,
             'resourceUrl': resourceUrl,
             'description': description
         }

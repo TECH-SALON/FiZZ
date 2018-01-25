@@ -97,6 +97,11 @@ function create_botresult(){
   create_remote_dynamo_db $botresults $1
 }
 
+function create_bots(){
+  local bots="${PWD}/dynamodb/tables/Bots"
+  create_remote_dynamo_db $bots $1
+}
+
 function create_local_db() {
   local bots="${PWD}/dynamodb/tables/Bots"
   local acc="${PWD}/dynamodb/tables/Accounts"

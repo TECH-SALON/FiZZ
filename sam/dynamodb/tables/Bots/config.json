@@ -3,6 +3,10 @@
     {
       "AttributeName": "botCode",
       "AttributeType": "S"
+    },
+    {
+      "AttributeName": "username",
+      "AttributeType": "S"
     }
   ],
   "KeySchema": [
@@ -14,5 +18,23 @@
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 5,
     "WriteCapacityUnits": 5
-  }
+  },
+  "GlobalSecondaryIndexes":[
+    {
+      "IndexName": "BotUsernameIndex",
+      "KeySchema": [
+        {
+          "KeyType": "HASH",
+          "AttributeName": "username"
+        }
+      ],
+      "Projection":{
+          "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    }
+  ]
 }

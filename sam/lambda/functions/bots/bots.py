@@ -7,6 +7,7 @@ if os.getenv('AWS_SAM_LOCAL'):
 import simplejson
 import json
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
 
 import traceback
 from datetime import datetime
@@ -178,13 +179,11 @@ class DB:
             return (resp, None)
         return (None, attr)
 
-    def query(self, table_name, key, value):
-        table = self.db_client.Table(table_name)
+    def query(self, username):
+        table = self.db_client.Table(DB.main_table)
         res = table.query(
-            KeyConditionExpression = f"{key} = :val",
-            ExpressionAttributeValues = {
-                ":val": value
-            }
+            IndexName = 'BotUsernameIndex',
+            KeyConditionExpression = Key('username').eq(username),
         )
         return res
 
@@ -192,8 +191,9 @@ class DB:
         resp = self.query(DB.main_table, "id", id)
         return resp
 
-    def scan(self, username):
+    def scan(self):
         resp = self.db_client.Table(DB.main_table).scan()
+        print(resp)
         return resp
 
     def transform_game_name2id(self, name):
@@ -213,7 +213,7 @@ def scan_bots(event, context):
     username = event['requestContext']['authorizer']['claims']['cognito:username']
     try:
         db = DB()
-        bots = db.scan(username)
+        bots = db.query(username)
         resp = {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
             'statusCode': 200,
@@ -238,6 +238,7 @@ def get_bot(event, context):
 
 #POST /api/v1/bots/:gameName
 def create_bot(event, context):
+
     print(event)
     try:
         db = DB()
@@ -302,8 +303,10 @@ def update_bot(event, context):
 
 
 def handler(event, context):
+    print(event)
     try:
         if event['httpMethod'] == 'GET':
+            print("hello")
             if event['pathParameters']:
                 if 'botId' in event['pathParameters'].keys():
                     return get_bot(event, context)

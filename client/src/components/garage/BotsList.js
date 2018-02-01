@@ -61,11 +61,11 @@ export default class BotsList extends Component {
 
   formatStatus(bot) {
     if(bot.get('isQualified')) {
-      return 'isQualified'
+      return 'is Qualified'
     } else if(bot.get('isValid')) {
-      return 'isValid'
+      return 'is Valid'
     } else {
-      return 'in not valid'
+      return 'is not valid'
     }
   }
 

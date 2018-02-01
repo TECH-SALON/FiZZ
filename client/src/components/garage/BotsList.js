@@ -59,6 +59,16 @@ export default class BotsList extends Component {
     this.setState({[modalName]: false});
   }
 
+  formatStatus(bot) {
+    if(bot.get('isQualified')) {
+      return 'is Qualified'
+    } else if(bot.get('isValid')) {
+      return 'is Valid'
+    } else {
+      return 'is not valid'
+    }
+  }
+
   renderCodeCheckModal() {
     return(
       <CodeCheckModal
@@ -99,7 +109,7 @@ export default class BotsList extends Component {
           <tbody>
             {botsLoading ? <tr><td>Data is loading now....</td></tr> : null}
             {bots.map((i) => {
-              // let status = this.formatStatus(i);
+              let status = this.formatStatus(i);
               return(
                 <tr key={i.get("botCode")}>
                   <td>{i.get("name")}</td>

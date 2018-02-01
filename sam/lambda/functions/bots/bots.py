@@ -7,6 +7,7 @@ if os.getenv('AWS_SAM_LOCAL'):
 import simplejson
 import json
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
 
 import traceback
 from datetime import datetime
@@ -14,6 +15,48 @@ import uuid
 
 from pytz import timezone
 import cerberus
+
+class Cognito:
+
+    def __init__(self):
+        self.identity_pool_id = os.getenv("AWS_IDENTITY_POOL_ID")
+        self.user_pool_id = os.getenv("AWS_USER_POOL_ID")
+        self.client_id = os.getenv("AWS_CLIENT_ID")
+        self.region = os.getenv("AWS_REGION")
+
+        print(repr(f"Info: Env >> User Pool :****{self.user_pool_id[10:15]}****, Client: {self.client_id[:5]}****"))
+
+        if self.identity_pool_id is None or self.user_pool_id is None or self.client_id is None or self.region is None:
+            raise TypeError(f"'NoneType' object is not acceptable. you must set variables idp: {self.identity_pool_id}, up:{self.user_pool_id}, cl:{self.client_id}, rg:{self.region}")
+
+        self.identity_client = boto3.client('cognito-identity')
+        return
+
+    def client(self, username=None, id_token=None, refresh_token=None, access_token=None):
+        u = warrant.Cognito(
+            self.user_pool_id,
+            self.client_id,
+            user_pool_region=self.region,
+            username=username,
+            id_token=id_token,
+            refresh_token=refresh_token,
+            access_token=access_token
+        )
+        return u
+
+    def return_auth(self, auth):
+        ret = {
+            'tokens': {
+                'tokenType': auth.token_type,
+                'idToken': auth.id_token,
+                'accessToken': auth.access_token,
+                'refreshToken': auth.refresh_token
+            },
+            'username': auth.username
+        }
+        print(auth)
+        return ret
+
 
 class DB:
     main_table = "Bots"
@@ -53,6 +96,26 @@ class DB:
             #     'required': True,
             #     'type': 'boolean',
             # },
+            'isQualified': {
+                'required': True,
+                'type': 'boolean'
+            },
+            'isValid': {
+                'required': True,
+                'type': 'boolean'
+            },
+            'isStandBy': {
+                'required': True,
+                'type': 'boolean'
+            },
+            'rank': {
+                'required': True,
+                'type': 'number'
+            },
+            'isMatching': {
+                'required': True,
+                'type': 'boolean'
+            },
             'description': {
                 'type': 'string',
                 'maxlength': 200
@@ -136,13 +199,11 @@ class DB:
             return (resp, None)
         return (None, attr)
 
-    def query(self, table_name, key, value):
-        table = self.db_client.Table(table_name)
+    def query(self, username):
+        table = self.db_client.Table(DB.main_table)
         res = table.query(
-            KeyConditionExpression = f"{key} = :val",
-            ExpressionAttributeValues = {
-                ":val": value
-            }
+            IndexName = 'BotUsernameIndex',
+            KeyConditionExpression = Key('username').eq(username),
         )
         return res
 
@@ -150,8 +211,9 @@ class DB:
         resp = self.query(DB.main_table, "id", id)
         return resp
 
-    def scan(self, accountId):
+    def scan(self):
         resp = self.db_client.Table(DB.main_table).scan()
+        print(resp)
         return resp
 
     def transform_game_name2id(self, name):
@@ -167,11 +229,11 @@ class DB:
 
 #GET /api/v1/bots
 def scan_bots(event, context):
-    print("imhere")
     print(event)
+    username = event['requestContext']['authorizer']['claims']['cognito:username']
     try:
         db = DB()
-        bots = db.scan('accountId')
+        bots = db.query(username)
         resp = {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
             'statusCode': 200,
@@ -196,6 +258,7 @@ def get_bot(event, context):
 
 #POST /api/v1/bots/:gameName
 def create_bot(event, context):
+
     print(event)
     try:
         db = DB()
@@ -213,7 +276,12 @@ def create_bot(event, context):
             'username': username,
             'gameName': gameName,
             'runtime': runtime,
-            # 'isPrivate': isPrivate,
+            # 'isPrivate': False,
+            'isQualified': False,
+            'isValid': False,
+            'isStandBy': False,
+            'isMatching': False,
+            'rank': 0,
             'resourceUrl': resourceUrl,
             'description': description
         }
@@ -260,8 +328,10 @@ def update_bot(event, context):
 
 
 def handler(event, context):
+    print(event)
     try:
         if event['httpMethod'] == 'GET':
+            print("hello")
             if event['pathParameters']:
                 if 'botId' in event['pathParameters'].keys():
                     return get_bot(event, context)

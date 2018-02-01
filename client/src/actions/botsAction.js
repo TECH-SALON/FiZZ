@@ -29,6 +29,7 @@ export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
 //create bot
 export function createBot(bot){
   return (dispatch, getState) => {
+    console.log(bot);
     dispatch(createBotRequest(bot));
     apiWithToken(getState).post('/bots', bot).then( response => {
       dispatch(createBotSuccess(response.data));

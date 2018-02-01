@@ -65,7 +65,6 @@ export default class Garage extends Component {
                     botsLoading={botsLoading}
                     onBotEdited={this.props.onBotEdited}
                     onRequestCodeCheck={this.props.onRequestCodeCheck}
-                    username={this.props.username}
                   />
                 </div>
               </div>
@@ -82,7 +81,6 @@ export default class Garage extends Component {
                     onGetResult={this.props.onGetResult}
                     resultsLoading={resultsLoading}
                     participants={participants}
-                    username={this.props.username}
                   />
                 </div>
               </div>

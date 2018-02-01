@@ -1,18 +1,18 @@
 {
   "AttributeDefinitions": [
     {
-      "AttributeName": "botCode",
+      "AttributeName": "botId",
       "AttributeType": "S"
     },
     {
-      "AttributeName": "username",
+      "AttributeName": "userId",
       "AttributeType": "S"
     }
   ],
   "KeySchema": [
     {
       "KeyType": "HASH",
-      "AttributeName": "botCode"
+      "AttributeName": "botId"
     }
   ],
   "ProvisionedThroughput": {
@@ -25,7 +25,11 @@
       "KeySchema": [
         {
           "KeyType": "HASH",
-          "AttributeName": "username"
+          "AttributeName": "userId"
+        },
+        {
+          "KeyType": "RANGE",
+          "AttributeName": "botId"
         }
       ],
       "Projection":{

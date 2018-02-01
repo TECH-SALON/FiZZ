@@ -18,7 +18,7 @@ import {
 
 export const initialState = IMap({
   tokens: IMap(),
-  username: "",
+  userId: "",
   logined: false,
   isLoading: true,
   error: IMap(),
@@ -36,10 +36,9 @@ const tokensToMap = (tokens) => {
 
 const userLogin = (state, auth) => {
   localStorage.refreshToken = auth.tokens.refreshToken;
-  localStorage.username = auth.username;
   return state
     .set('tokens', tokensToMap(auth.tokens))
-    .set(IMap({'username': auth.username}))
+    .set(IMap({'userId': auth.userId}))
     .set('logined', true)
     .set('isLoading', false)
 }
@@ -54,10 +53,10 @@ const userLogout = (state) => {
 const refreshTokens = (state, auth) => {
   localStorage.refreshToken = auth.tokens.refreshToken;
   console.log(auth);
-  const username = auth.username;
+  const userId = auth.userId;
   return state
     .set('tokens', tokensToMap(auth.tokens))
-    .set('username', auth.username)
+    .set('userId', auth.userId)
     .set('logined', true)
     .set('isLoading', false)
 }

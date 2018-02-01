@@ -115,9 +115,8 @@ class Cognito:
                 'accessToken': auth.access_token,
                 'refreshToken': auth.refresh_token
             },
-            'username': auth.username
+            'userId': auth.username
         }
-        print(auth)
         return ret
 
 
@@ -129,6 +128,8 @@ class Cognito:
     def login(self, email, password):
         u = self.client(username=email)
         u.authenticate(password=password)
+        user = u.client.get_user(AccessToken=u.access_token)
+        u.username = user.get("Username")
         return self.return_auth(u)
 
     def get_session(self, id_token):

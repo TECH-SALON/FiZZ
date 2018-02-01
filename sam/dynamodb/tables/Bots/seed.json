@@ -1,6 +1,6 @@
 {
-  "botCode": {"S":"2eb4e3f0-f69c-4ad6-99f2-e82166188ce6"},
-  "accountId": {"S": "ap-northeast-1:38209be3-04b3-46f1-bedd-7ef7a72f9eef"},
+  "botId": {"S":"2eb4e3f0-f69c-4ad6-99f2-e82166188ce6"},
+  "userId": {"S": "ap-northeast-1:38209be3-04b3-46f1-bedd-7ef7a72f9eef"},
   "gameName": {"S": "reversi"},
   "name": {"S": "ReversiRandomAI"},
   "isPrivate": {"N": "1"},

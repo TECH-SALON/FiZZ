@@ -48,7 +48,6 @@ export default class RegisterModal extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let bot = {
-      username: this.props.username,
       name: this.state.botName,
       runtime: this.state.runtime,
       gameName: this.state.gameName,

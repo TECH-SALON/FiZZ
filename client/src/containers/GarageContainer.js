@@ -27,7 +27,6 @@ const mapStateToProps = (state) => {
     results: state.getIn(['matches', 'results']),
     resultsLoading: state.getIn(['matches', 'isLoading']),
     participants: state.getIn(['matches', 'participants']),
-    username: state.getIn(['auth', 'username'])
   }
 }
 

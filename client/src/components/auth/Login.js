@@ -26,7 +26,7 @@ export default class Login extends Component {
   handleLogin(event) {
     event.preventDefault();
     let auth = {
-      username: this.state.loginUsername,
+      email: this.state.loginUsername,
       password: this.state.loginPassword,
     };
     this.props.onLogin(auth);

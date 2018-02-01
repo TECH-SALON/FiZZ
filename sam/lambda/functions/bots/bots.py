@@ -62,10 +62,18 @@ class DB:
     main_table = "Bots"
     BOT_SCHEMA = {
         'CREATE': {
-            'botCode': {
+            # 'botCode': {
+            #     'required': True,
+            #     'type': 'string',
+            #     'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]:[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+            # },
+            'botId': {
                 'required': True,
                 'type': 'string',
-                'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]:[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+            },
+            'userId': {
+                'required': True,
+                'type': 'string',
             },
             'name': {
                 'required': True,
@@ -143,7 +151,6 @@ class DB:
             return False, error
 
     def create(self, item):
-        # utc = str(datetime.now(timezone('UTC')))
         utc = str(datetime.now())
         success, attr = self.validates(item, 'CREATE')
         # dynamodb
@@ -263,7 +270,8 @@ def create_bot(event, context):
     try:
         db = DB()
         body = json.loads(event['body'])
-        username = body['username']
+        botId = str(uuid.uuid4())
+        userId = body['userId']
         name = body['name']
         gameName = body['gameName']
         runtime = body['runtime']
@@ -271,7 +279,8 @@ def create_bot(event, context):
         resourceUrl = body['resourceUrl']
         description = body['description']
         item = {
-            'botCode': username+":"+name,
+            'botId': botId,
+            'userId': userId,
             'name': name,
             'username': username,
             'gameName': gameName,

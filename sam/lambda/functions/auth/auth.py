@@ -28,9 +28,10 @@ class DB:
         else:
             self.db_client = boto3.resource('dynamodb')
 
-    def create(self, username, email):
+    def create(self, userId, username, email):
         utc = str(datetime.now())
         item = {
+            'userId': userId,
             'username': username,
             'email': email,
             'provider': 'cognito',
@@ -120,11 +121,10 @@ class Cognito:
         return ret
 
 
-    def sign_up(self, email, password):
+    def sign_up(self, userId, email, password):
         u = self.client()
         u.add_base_attributes(email=email)
-        username = str(uuid.uuid4())
-        return u.register(username, password)
+        return u.register(userId, password)
 
     def login(self, email, password):
         u = self.client(username=email)
@@ -212,14 +212,14 @@ def sign_up(event, context):
     try:
         db = DB()
         body = json.loads(event['body'])
+        userId = str(uuid.uuid4())
         username = body['username']
         email = body['email']
         password = body['password']
-
         print(f'Info: User SignUp Request {username}:{email}')
         cognito = Cognito()
-        resp = cognito.sign_up(email, password)
-        response, error = db.create(username, email)
+        resp = cognito.sign_up(userId, email, password)
+        response, error = db.create(userId, username, email)
         print(response)
         return {
             "headers":  { "Access-Control-Allow-Origin" : "*" },

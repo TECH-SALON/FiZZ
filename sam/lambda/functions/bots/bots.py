@@ -206,11 +206,11 @@ class DB:
             return (resp, None)
         return (None, attr)
 
-    def query(self, username):
+    def query(self, userId):
         table = self.db_client.Table(DB.main_table)
         res = table.query(
-            IndexName = 'BotUsernameIndex',
-            KeyConditionExpression = Key('username').eq(username),
+            IndexName = 'userId-botId-index',
+            KeyConditionExpression = Key('userId').eq(userId),
         )
         return res
 
@@ -237,10 +237,10 @@ class DB:
 #GET /api/v1/bots
 def scan_bots(event, context):
     print(event)
-    username = event['requestContext']['authorizer']['claims']['cognito:username']
+    userId = event['requestContext']['authorizer']['claims']['cognito:username']
     try:
         db = DB()
-        bots = db.query(username)
+        bots = db.query(userId)
         resp = {
             "headers":  { "Access-Control-Allow-Origin" : "*" },
             'statusCode': 200,
@@ -339,7 +339,6 @@ def handler(event, context):
     print(event)
     try:
         if event['httpMethod'] == 'GET':
-            print("hello")
             if event['pathParameters']:
                 if 'botId' in event['pathParameters'].keys():
                     return get_bot(event, context)

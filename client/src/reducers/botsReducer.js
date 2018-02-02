@@ -28,13 +28,9 @@ export const initialState = IMap({
 });
 
 const botToMap = (bot) => {
-  var result = bot.botCode.split(':');
-  var username = result[0];
-  var name = result[1];
   let mappedBot = IMap({
-    botCode: bot.botCode,
-    username: username,
-    name: name,
+    botId: bot.botId,
+    name: bot.name,
     gameName: bot.gameName,
     isPrivate: bot.isPrivate,
     isQualified: bot.isQualified,

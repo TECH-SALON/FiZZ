@@ -7,7 +7,8 @@ import {
   scanBots,
   createBot,
   standBot,
-  editBot
+  editBot,
+  deleteBot,
 } from '../actions/botsAction';
 
 import {
@@ -52,6 +53,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onRequestCodeCheck: (bot) => {
       dispatch(runCodeCheck(bot))
+    },
+    onRequestDeleteBot: (botId) => {
+      dispatch(deleteBot(botId))
     }
 });
 

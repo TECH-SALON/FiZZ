@@ -12,12 +12,20 @@ export default class DetailModal extends Component {
       }
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
+  }
+
+  handleDelete(botId) {
+    if(window.confirm("Are you sure?")) {
+      alert("This bot is deleted");
+      this.props.onRequestDeleteBot(botId);
+    }
   }
 
   render() {
@@ -97,6 +105,7 @@ export default class DetailModal extends Component {
               </tr>
             </tbody>
           </table>
+          <button onClick={() => this.handleDelete(bot.botId)} className="button-primary">Delete</button>
         </div>
       </Modal>
     )

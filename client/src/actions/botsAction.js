@@ -26,6 +26,11 @@ export const BOTS_EDIT_BOT_REQUEST = 'BOTS_EDIT_BOT_REQUEST';
 export const BOTS_EDIT_BOT_SUCCESS = 'BOTS_EDIT_BOT_SUCCESS';
 export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
 
+export const BOTS_DELETE_BOT = 'BOTS_DELETE_BOT';
+export const BOTS_DELETE_BOT_REQUEST = 'BOTS_DELETE_BOT_REQUEST';
+export const BOTS_DELETE_BOT_SUCCESS = 'BOTS_DELETE_BOT_SUCCESS';
+export const BOTS_DELETE_BOT_FAIL = 'BOTS_DELETE_BOT_FAIL';
+
 //create bot
 export function createBot(bot){
   return (dispatch, getState) => {
@@ -212,6 +217,26 @@ function editBotSuccess(bot){
 function editBotFail(error){
   return {
     type: BOTS_EDIT_BOT_FAIL,
+    error,
+  }
+}
+
+
+//delete bot
+export function deleteBot(botId){
+  return (dispatch, getState) => {
+    apiWithToken(getState).post('/bots', botId).then( response => {
+      dispatch(scanBots(true));
+    }).catch( error => {
+      console.log(error)
+      deleteBotFail(error)
+    });
+  }
+}
+
+function deleteBotFail(error){
+  return {
+    type: BOTS_DLETE_BOT_FAIL,
     error,
   }
 }

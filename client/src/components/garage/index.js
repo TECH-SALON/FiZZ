@@ -65,6 +65,7 @@ export default class Garage extends Component {
                     botsLoading={botsLoading}
                     onBotEdited={this.props.onBotEdited}
                     onRequestCodeCheck={this.props.onRequestCodeCheck}
+                    onRequestDeleteBot={this.props.onRequestDeleteBot}
                   />
                 </div>
               </div>

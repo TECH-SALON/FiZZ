@@ -92,7 +92,7 @@ export default class RegisterModal extends Component {
           </select>
         </div>
         <div className="form-element">
-          <label htmlFor="runtime">Public or Private:</label>
+          <label htmlFor="runtime">Runtime:</label>
             <input required name="runtime" type="radio" value="python3.6" onChange={this.handleChange} style={{'marginRight':10}}/>
             Python3.6
             <input required name="runtime" type="radio" value="node--" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>

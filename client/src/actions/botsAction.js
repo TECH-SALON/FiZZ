@@ -21,10 +21,10 @@ export const BOTS_STAND_BOT_REQUEST = 'BOTS_STAND_BOT_REQUEST';
 export const BOTS_STAND_BOT_SUCCESS = 'BOTS_STAND_BOT_SUCCESS';
 export const BOTS_STAND_BOT_FAIL = 'BOTS_STAND_BOT_FAIL';
 
-export const BOTS_EDIT_BOT = 'BOTS_EDIT_BOT';
-export const BOTS_EDIT_BOT_REQUEST = 'BOTS_EDIT_BOT_REQUEST';
-export const BOTS_EDIT_BOT_SUCCESS = 'BOTS_EDIT_BOT_SUCCESS';
-export const BOTS_EDIT_BOT_FAIL = 'BOTS_EDIT_BOT_FAIL';
+export const BOTS_UPDATE_BOT = 'BOTS_UPDATE_BOT';
+export const BOTS_UPDATE_BOT_REQUEST = 'BOTS_UPDATE_BOT_REQUEST';
+export const BOTS_UPDATE_BOT_SUCCESS = 'BOTS_UPDATE_BOT_SUCCESS';
+export const BOTS_UPDATE_BOT_FAIL = 'BOTS_UPDATE_BOT_FAIL';
 
 export const BOTS_DELETE_BOT = 'BOTS_DELETE_BOT';
 export const BOTS_DELETE_BOT_REQUEST = 'BOTS_DELETE_BOT_REQUEST';
@@ -185,38 +185,36 @@ function standBotFail(error){
 
 //Edit bot
 
-export function editBot(bot){
+export function updateBot(bot){
   return (dispatch, getState) => {
-    dispatch(editBotRequest(bot));
-    console.log(bot);
-    let url = `${endPoint()}/api/v1/bots/${bot.id}`;
-    let params = new FormData();
+    dispatch(updateBotRequest(bot));
+    apiWithToken(getState).get('/bots').
     params.append("bot", bot);
-
-    api(getState).put(url, bot).then( response => {
-      editBotSuccess(response.data);
+    apiWithToken(getState).put('/bots', bot).then( response => {
+      console.log(response);
+      updateBotSuccess(response.data);
     }).catch( error => {
-      editBotFail(error)
+      updateBotFail(error)
     });
   }
 }
 
-function editBotRequest(){
+function updateBotRequest(){
   return {
-    type: BOTS_EDIT_BOT_REQUEST,
+    type: BOTS_UPDATE_BOT_REQUEST,
   }
 }
 
-function editBotSuccess(bot){
+function updateBotSuccess(bot){
   return {
-    type: BOTS_EDIT_BOT_SUCCESS,
+    type: BOTS_UPDATE_BOT_SUCCESS,
     bot,
   }
 }
 
-function editBotFail(error){
+function updateBotFail(error){
   return {
-    type: BOTS_EDIT_BOT_FAIL,
+    type: BOTS_UPDATE_BOT_FAIL,
     error,
   }
 }

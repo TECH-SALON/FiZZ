@@ -89,6 +89,7 @@ export default class BotsList extends Component {
         bot={this.state.botModaled}
         isOpen={this.state.botDetailModal}
         onRequestClose={() => this.closeModal("botDetailModal")}
+        onRequestUpdateBot={this.props.onRequestUpdateBot}
         onRequestDeleteBot={this.props.onRequestDeleteBot}
       />
     )

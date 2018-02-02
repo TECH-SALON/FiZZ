@@ -183,36 +183,41 @@ class DB:
             return (item, None)
         return (None, attr)
 
-    def update(self, id, name=None, isPrivate=None, isQualified=None, isStandBy=None, repoUrl=None, rank=None, isMatching=None, isValid=None):
-        # utc = str(datetime.now(timezone('UTC')))
+    def update(self, botId, name, resourceUrl, runtime, description):
         utc = str(datetime.now())
-        item = {
-            'name': name,
-            'isPrivate': isPrivate,
-            'isQualified': isQualified,
-            'isStandBy': isStandBy,
-            'repoUrl': repoUrl,
-            'rank': rank,
-            'isMatching': isMatching,
-            'isValid': isValid,
-            'updatedAt': utc
-        }
-        # dynamodb
-        success, attr = self.validates(item)
-
-        if success:
-            updates = {}
-            for k, v in item.items():
-                if v is not None:
-                    updates[k] = { 'Action': 'PUT', 'Value': v}
-
-            resp = self.db_client.Table(DB.main_table).update_item(
-                Key={'id': id },
-                AttributeUpdates=updates,
-                ReturnValues="ALL_NEW"
-            )
-            return (resp, None)
-        return (None, attr)
+        # success, attr = self.validates(item)
+        response = self.db_client.Table(DB.main_table).update_item(
+            Key={
+                'botId': botId
+            },
+            UpdateExpression='set #n = :n, resourceUrl = :u, \
+                                runtime = :r, description = :d, updatedAt = :t',
+            ExpressionAttributeNames={
+                '#n': "name",
+            },
+            ExpressionAttributeValues={
+                ':n': name,
+                ':u': resourceUrl,
+                ':r': runtime,
+                ':d': description,
+                ':t': utc,
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+        return (response, None)
+        # if success:
+        #     updates = {}
+        #     for k, v in item.items():
+        #         if v is not None:
+        #             updates[k] = { 'Action': 'PUT', 'Value': v}
+        #
+        #     resp = self.db_client.Table(DB.main_table).update_item(
+        #         Key={'id': id },
+        #         AttributeUpdates=updates,
+        #         ReturnValues="ALL_NEW"
+        #     )
+        #     return (resp, None)
+        # return (None, attr)
 
     def query(self, userId):
         table = self.db_client.Table(DB.main_table)
@@ -336,17 +341,23 @@ def update_bot(event, context):
     try:
         db = DB()
         body = json.loads(event['body'])
-        id = event['pathParameters']['botId']
-        resp, error = db.update(
-            id,
+        response, error = db.update(
+            botId=body['botId'],
             name=body['name'],
-            isPrivate=body['isPrivate'],
-            isStandBy=body['isStandBy'],
-            repoUrl=body['repoUrl']
+            resourceUrl=body['resourceUrl'],
+            runtime=body['runtime'],
+            description=body['description']
         )
-
         if error is None:
-            return {'statusCode': 200, 'body': str(resp)}
+            return {
+                "headers":  {
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Method": "POST"
+                },
+                "statusCode": 200,
+                "body": json.dumps(response)
+            }
     except:
         traceback.print_exc()
 

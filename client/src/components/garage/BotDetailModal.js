@@ -7,12 +7,10 @@ export default class DetailModal extends Component {
     const bot = this.props.bot;
     this.state = {
       editMode: false,
-      editingBot: {
-        name: '',
-        resourceUrl: '',
-        runtime: '',
-        description: '',
-      }
+      name: '',
+      resourceUrl: '',
+      runtime: '',
+      description: '',
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -22,9 +20,7 @@ export default class DetailModal extends Component {
 
   handleChange(event) {
     this.setState({
-      editingBot: {
-        [event.target.name]: event.target.value
-      }
+      [event.target.name]: event.target.value
     })
   }
 
@@ -33,18 +29,22 @@ export default class DetailModal extends Component {
     const bot = this.props.bot;
     this.setState({
       editMode: !bool,
-      editingBot: {
-        botId: bot.botId
-        name: bot.name,
-        resourceUrl: bot.resourceUrl,
-        runtime: bot.runtime,
-        description: bot.description,
-      }
+      botId: bot.botId,
+      name: bot.name,
+      resourceUrl: bot.resourceUrl,
+      runtime: bot.runtime,
+      description: bot.description,
     });
   }
 
   handleUpdate() {
-    const bot = this.state.editingBot;
+    const bot = {
+      botId: this.state.botId,
+      name: this.state.name,
+      resourceUrl: this.state.resourceUrl,
+      runtime: this.state.runtime,
+      description: this.state.description
+    }
     this.props.onRequestUpdateBot(bot);
   }
 
@@ -58,7 +58,7 @@ export default class DetailModal extends Component {
 
   render() {
     const { bot } = this.props;
-    const { editingBot, editMode, nameIsEditing } = this.state;
+    const { editMode, nameIsEditing } = this.state;
     return(
       <Modal
         isOpen={this.props.isOpen}
@@ -77,78 +77,76 @@ export default class DetailModal extends Component {
           {
             editMode ?
             <div>
-              <form style={{'margin':0}}>
-                <table className="u-full-width">
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
+              <table className="u-full-width">
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+                    <td>
+                      <input name="name" type="text" value={this.state.name}  onChange={this.handleChange}/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>GameName</th>
+                    <td>{bot.gameName}</td>
+                  </tr>
+                  {/* <tr>
+                    <th>isPrivate</th>
+                    {privateIsEditing ?
                       <td>
-                        <input name="name" type="text" value={editingBot.name}  onChange={this.handleChange}/>
+                        <input type="radio" name="isPrivate" value="private"/>　Private　
+                        <input type="radio" name="isPrivate" value="public"/>　Public
                       </td>
-                    </tr>
-                    <tr>
-                      <th>GameName</th>
-                      <td>{bot.gameName}</td>
-                    </tr>
-                    {/* <tr>
-                      <th>isPrivate</th>
-                      {privateIsEditing ?
-                        <td>
-                          <input type="radio" name="isPrivate" value="private"/>　Private　
-                          <input type="radio" name="isPrivate" value="public"/>　Public
-                        </td>
-                        : <td>{bot.isPrivate ? "Private" : "Public"}</td>
-                      }
-                      <td>{privateIsEditing ? "" : <i onClick={() => this.toggleEdit('privateIsEditing')} className="material-icons edit-icon">mode_edit</i>}</td>
-                    </tr> */}
-                    <tr>
-                      <th>URL</th>
-                      <td>
-                        <input name="resourceUrl" type="url" value={editingBot.resourceUrl} onChange={this.handleChange}/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Runtime</th>
-                      <td>
-                        <input required name="runtime" type="radio" value="python3.6" onChange={this.handleChange} style={{'marginRight':10}}/>
-                        Python3.6
-                        <input required name="runtime" type="radio" value="node--" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
-                        NodeJS
-                        <input required name="runtime" type="radio" value="golang1.9" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
-                        Go1.9
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>GameName</th>
-                      <td>{bot.gameName}</td>
-                    </tr>
-                    {/* <tr>
-                      <th>Status</th>
-                      <td>{this.formatStatus(bot)}</td>
-                    </tr> */}
-                    <tr>
-                      <th>Rank</th>
-                      <td>{bot.rank}</td>
-                    </tr>
-                    <tr>
-                      <th>createdAt</th>
-                      <td>{bot.createdAt}</td>
-                    </tr>
-                    <tr>
-                      <th>updatedAt</th>
-                      <td>{bot.updatedAt}</td>
-                    </tr>
-                    <tr>
-                      <th>description</th>
-                      <td>
-                        <textarea name="description" value={editingBot.description} onChange={this.handleChange} className="u-full-width" id="botComment"></textarea>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <button onClick={() => this.handleUpdate()} className="button-primary">Save</button>
-                <button onClick={() => this.handleEdit()} className="button-primary">Cansel</button>
-              </form>
+                      : <td>{bot.isPrivate ? "Private" : "Public"}</td>
+                    }
+                    <td>{privateIsEditing ? "" : <i onClick={() => this.toggleEdit('privateIsEditing')} className="material-icons edit-icon">mode_edit</i>}</td>
+                  </tr> */}
+                  <tr>
+                    <th>URL</th>
+                    <td>
+                      <input name="resourceUrl" type="url" value={this.state.resourceUrl} onChange={this.handleChange}/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Runtime</th>
+                    <td>
+                      <input required name="runtime" type="radio" value="python3.6" onChange={this.handleChange} style={{'marginRight':10}}/>
+                      Python3.6
+                      <input required name="runtime" type="radio" value="node--" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
+                      NodeJS
+                      <input required name="runtime" type="radio" value="golang1.9" onChange={this.handleChange} style={{'marginLeft':10, 'marginRight':10}}/>
+                      Go1.9
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>GameName</th>
+                    <td>{bot.gameName}</td>
+                  </tr>
+                  {/* <tr>
+                    <th>Status</th>
+                    <td>{this.formatStatus(bot)}</td>
+                  </tr> */}
+                  <tr>
+                    <th>Rank</th>
+                    <td>{bot.rank}</td>
+                  </tr>
+                  <tr>
+                    <th>createdAt</th>
+                    <td>{bot.createdAt}</td>
+                  </tr>
+                  <tr>
+                    <th>updatedAt</th>
+                    <td>{bot.updatedAt}</td>
+                  </tr>
+                  <tr>
+                    <th>description</th>
+                    <td>
+                      <textarea name="description" value={this.state.description} onChange={this.handleChange} className="u-full-width" id="botComment"></textarea>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button onClick={() => this.handleUpdate()} className="button-primary">Save</button>
+              <button onClick={() => this.handleEdit()} className="button-primary">Cansel</button>
             </div>
             :
             <div>

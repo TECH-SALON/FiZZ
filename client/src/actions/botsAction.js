@@ -188,10 +188,10 @@ function standBotFail(error){
 export function updateBot(bot){
   return (dispatch, getState) => {
     dispatch(updateBotRequest(bot));
-    apiWithToken(getState).get('/bots').
-    params.append("bot", bot);
+    console.log(bot);
     apiWithToken(getState).put('/bots', bot).then( response => {
       console.log(response);
+      dispatch(scanBots(true));
       updateBotSuccess(response.data);
     }).catch( error => {
       updateBotFail(error)

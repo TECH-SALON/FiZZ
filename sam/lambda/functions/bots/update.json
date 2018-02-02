@@ -1,5 +1,5 @@
 {
-   "body": "{\"bot\":{\"name\": \"newName\",\"isPrivate\": true,\"isStandBy\": true,\"repoUrl\": true}}",
+  "body":"{\"botId\": \"2eb4e3f0-f69c-4ad6-99f2-e82166188ce6\", \"name\": \"ThisisBot\", \"resourceUrl\":\"https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0\",\"runtime\": \"python3.6\",\"description\": \"Hello world\"}",
    "resource":"/{proxy+}",
    "requestContext":{
       "resourceId":"123456",

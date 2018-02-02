@@ -21,7 +21,7 @@
   },
   "GlobalSecondaryIndexes":[
     {
-      "IndexName": "BotUsernameIndex",
+      "IndexName": "userId-botId-index",
       "KeySchema": [
         {
           "KeyType": "HASH",

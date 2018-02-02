@@ -80,11 +80,11 @@ class DB:
                 'type': 'string',
                 'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
             },
-            'username': {
-                'required': True,
-                'type': 'string',
-                'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
-            },
+            # 'username': {
+            #     'required': True,
+            #     'type': 'string',
+            #     'regex': '^[a-zA-Z]\w{3,9}[a-zA-Z0-9]$'
+            # },
             'gameName': {
                 'required': True,
                 'type': 'string',
@@ -156,22 +156,22 @@ class DB:
         # dynamodb
         if success:
             self.db_client.Table(DB.main_table).put_item(Item=item)
-            self.db_client.Table('Accounts').update_item(
-                Key={
-                    'username': item['username']
-                },
-                UpdateExpression='set bots = list_append(if_not_exists(bots, :empty), :b)',
-                ExpressionAttributeValues={
-                    ':b': [
-                        {
-                            'name': item['name'],
-                            'username': item['username']
-                        }
-                    ],
-                    ':empty': []
-                },
-                ReturnValues="ALL_NEW"
-            )
+            # self.db_client.Table('Accounts').update_item(
+            #     Key={
+            #         'usernam': item['username']
+            #     },
+            #     UpdateExpression='set bots = list_append(if_not_exists(bots, :empty), :b)',
+            #     ExpressionAttributeValues={
+            #         ':b': [
+            #             {
+            #                 'name': item['name'],
+            #                 'username': item['username']
+            #             }
+            #         ],
+            #         ':empty': []
+            #     },
+            #     ReturnValues="ALL_NEW"
+            # )
             return (item, None)
         return (None, attr)
 
@@ -282,7 +282,6 @@ def create_bot(event, context):
             'botId': botId,
             'userId': userId,
             'name': name,
-            'username': username,
             'gameName': gameName,
             'runtime': runtime,
             # 'isPrivate': False,

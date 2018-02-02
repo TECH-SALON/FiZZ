@@ -56,7 +56,7 @@ GAME=reversi
 
 go-test:
 	curl --request POST \
-	  --url http://ec2-52-23-196-28.compute-1.amazonaws.com:5000/api/v1/${GAME}\
+	  --url http://ec2-54-163-159-252.compute-1.amazonaws.com:5000/api/v1/${GAME}\
 	  --header 'cache-control: no-cache' \
 	  --header 'content-type: application/json' \
 	  -d @${PWD}/gameserver/test/${GAME}.json

@@ -30,6 +30,7 @@ export const initialState = IMap({
 const botToMap = (bot) => {
   let mappedBot = IMap({
     botId: bot.botId,
+    userId: bot.userId,
     name: bot.name,
     gameName: bot.gameName,
     isPrivate: bot.isPrivate,

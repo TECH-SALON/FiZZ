@@ -127,7 +127,15 @@ class DB:
             'description': {
                 'type': 'string',
                 'maxlength': 200
-            }
+            },
+            'createdAt': {
+                'required': True,
+                'type': 'string'
+            },
+            'updatedAt': {
+                'required': True,
+                'type': 'string'
+            },
         }
     }
     def __init__(self):
@@ -269,6 +277,7 @@ def create_bot(event, context):
     print(event)
     try:
         db = DB()
+        utc = str(datetime.now())
         body = json.loads(event['body'])
         botId = str(uuid.uuid4())
         userId = body['userId']
@@ -291,7 +300,9 @@ def create_bot(event, context):
             'isMatching': False,
             'rank': 0,
             'resourceUrl': resourceUrl,
-            'description': description
+            'description': description,
+            'createdAt': utc,
+            'updatedAt': utc
         }
         new_bot, error = db.create(item)
         print(error)

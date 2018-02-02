@@ -129,20 +129,32 @@ def code_check(event, context):
     try:
         db = DB()
         body = json.loads(event['body'])
-        botCode = body['botCode']
         data = {
             'bots': [
+              # {
+              #   'botId': body['botId'],
+              #   'userId': body['userId'],
+              #   'name': body['name'],
+              #   'description': body['description'],
+              #   'gameName': body['gameName'],
+          	  #   'isPrivate': body['isPrivate'],
+              #   'isQualified': body['isQualified'],
+              #   'isStandBy': body['isStandBy'],
+              #   'isValid': body['isValid'],
+              #   'runtime': body['runtime'],
+              #   'resourceUrl':body['resourceUrl']
+              # },
               {
-                'name': botCode.split(':')[1],
-                'description': body['description'],
-                'username': botCode.split(':')[0],
-                'gameName': body['gameName'],
-          	    'isPrivate': body['isPrivate'],
-                'isQualified': body['isQualified'],
-                'isStandBy': body['isStandBy'],
-                'isValid': body['isValid'],
-                'runtime': body['runtime'],
-                'resourceUrl':body['resourceUrl']
+                'name': 'RandamBot',
+                'description': 'randam ai',
+                'username': 'Yukits2',
+                'gameName': 'Reversi',
+                'isPrivate': True,
+                'isQualified': True,
+                'isStandBy': True,
+                'isValid': True,
+                'runtime': 'golang1.9',
+                'resourceUrl': 'https://gist.github.com/Yukits/38e44ab5ffe2ab040e963c7f1e9ab0c0'
               },
               {
                 'name': 'RandamBot',
@@ -168,7 +180,8 @@ def code_check(event, context):
             'cache-control': 'no-cache',
             'content-type': 'application/json'
         }
-        response = requests.post('http://docker.for.mac.localhost:5000/api/v1/reversi', data=json.dumps(data), headers=headers, timeout=10).json()
+        # response = requests.post('http://docker.for.mac.localhost:5000/api/v1/reversi', data=json.dumps(data), headers=headers, timeout=10).json()
+        response = requests.post('http://ec2-52-23-196-28.compute-1.amazonaws.com:5000/api/v1/reversi', data=json.dumps(data), headers=headers, timeout=10).json()
         resultId = response['resultId']
         r, error = db.update(resultId)
         return {

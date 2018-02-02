@@ -18,7 +18,8 @@ export default class BotsList extends Component {
       botDetailModal: false,
       codeCheckModal: false,
       botModaled: {
-        botCode: "",
+        botId: "",
+        userId: "",
         name: "",
         isQualified: "",
         isValid: "",
@@ -39,7 +40,8 @@ export default class BotsList extends Component {
     this.setState({
       [modalName]: true,
       botModaled: {
-        botCode: item.get("botCode"),
+        botId: item.get("botId"),
+        userId: item.get("userId"),
         name: item.get("name"),
         isStandBy: item.get("isValid"),
         isQualified: item.get("isQualified"),
@@ -49,6 +51,7 @@ export default class BotsList extends Component {
         resourceUrl: item.get("resourceUrl"),
         isPrivate: item.get("isPrivate"),
         gameName: item.get("gameName"),
+        description: item.get("description"),
         createdAt: item.get("createdAt"),
         updatedAt: item.get("updatedAt")
       }
@@ -111,7 +114,7 @@ export default class BotsList extends Component {
             {bots.map((i) => {
               let status = this.formatStatus(i);
               return(
-                <tr key={i.get("botCode")}>
+                <tr key={i.get("botId")}>
                   <td>{i.get("name")}</td>
                   <td>{status}</td>
                   <td>{i.get("gameName")}</td>

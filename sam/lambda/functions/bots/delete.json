@@ -1,5 +1,5 @@
 {
-   "body":"{\"test\": \"body\"}",
+   "body":"",
    "resource":"/{proxy+}",
    "requestContext":{
       "resourceId":"123456",
@@ -24,7 +24,7 @@
       "stage":"prod"
    },
    "queryStringParameters":{
-      "foo":"bar"
+      "botId":"2eb4e3f0-f69c-4ad6-99f2-e82166188ce6"
    },
    "headers":{
       "Via":"1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
@@ -48,7 +48,7 @@
    },
    "pathParameters":{
    },
-   "httpMethod":"GET",
+   "httpMethod":"DELETE",
    "stageVariables":{
       "baz":"qux"
    },

@@ -235,6 +235,14 @@ class DB:
         res = self.query("Games", "gameName", name)
         return res
 
+    def delete(self, botId):
+        print(botId)
+        resp = self.db_client.Table(DB.main_table).delete_item(
+            Key={
+                'botId': botId
+            }
+        )
+        return resp
 
 ####################### API #########################
 
@@ -305,7 +313,6 @@ def create_bot(event, context):
             'updatedAt': utc
         }
         new_bot, error = db.create(item)
-        print(error)
         if error is None:
             return {
                 "headers":  {
@@ -345,6 +352,26 @@ def update_bot(event, context):
 
     return {'statusCode': 400, 'body': 'Request Failed'}
 
+def delete_bot(event, context):
+    # 他人のbotも削除できてしまう疑惑
+    print(event)
+    try:
+        db = DB()
+        params = event['queryStringParameters']
+        botId = params['botId']
+        resp = db.delete(botId)
+        return {
+            "headers":  {
+                "Access-Control-Allow-Origin" : "*",
+            },
+            "statusCode": 200,
+            "body": str(resp)
+        }
+
+    except:
+        traceback.print_exc()
+
+    return {'statusCode': 400, 'body': 'Request Failed'}
 
 def handler(event, context):
     print(event)
@@ -361,6 +388,8 @@ def handler(event, context):
             return create_bot(event, context)
         elif event['httpMethod'] == 'PUT':
             return update_bot(event, context)
+        elif event['httpMethod'] == 'DELETE':
+            return delete_bot(event, context)
         return {'statusCode': 400, 'body': 'Request Failed'}
     except:
         traceback.print_exc()

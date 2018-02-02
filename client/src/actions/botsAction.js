@@ -225,7 +225,12 @@ function editBotFail(error){
 //delete bot
 export function deleteBot(botId){
   return (dispatch, getState) => {
-    apiWithToken(getState).post('/bots', botId).then( response => {
+    console.log(botId);
+    const params = {
+      'botId': botId
+    };
+    apiWithToken(getState).delete('/bots',{'params': params}).then( response => {
+      console.log(response);
       dispatch(scanBots(true));
     }).catch( error => {
       console.log(error)
